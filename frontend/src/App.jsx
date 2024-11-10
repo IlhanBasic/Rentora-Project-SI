@@ -1,0 +1,62 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./pages/Home.jsx";
+import Error from "./pages/Error.jsx";
+import RootLayout from "./pages/Root.jsx";
+import Conditions from "./pages/Conditions.jsx";
+import About from "./pages/About.jsx";
+import Vehicles from "./pages/Vehicles.jsx";
+import VehicleDetails from "./pages/VehicleDetails.jsx";
+import AuthenticationPage from "./pages/Authentication";
+import VehicleLayout from "./pages/VehicleLayout.jsx";
+import AdminLayout from "./pages/AdminLayout.jsx";
+import Admin from "./pages/Admin.jsx";
+import MyRentals from "./pages/MyRentals.jsx";
+import AdminItemDetails from "./pages/AdminItemDetails.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
+
+function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <RootLayout />,
+      errorElement: <Error />,
+      children: [
+        { index: true, element: <Home /> },
+        { path: "auth", element: <AuthenticationPage /> },
+        { path: "conditions", element: <Conditions /> },
+        { path: "about", element: <About /> },
+        { path: "my-rentals", element: <MyRentals /> },
+        {
+          path: "vehicles",
+          element: <VehicleLayout />,
+          children: [
+            { index: true, element: <Vehicles /> },
+            { path: ":vehicleId", element: <VehicleDetails /> },
+          ],
+        },
+      ],
+    },
+    {
+      path: "Admin",
+      element: <AdminLayout />,
+      errorElement: <Error />,
+      children: [
+        { index: true, element: <Admin /> },
+        {
+          path: ":section/:id", 
+          element: <AdminItemDetails />,
+        }
+      ],
+    },
+  ]);
+  
+  return (
+    <>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </>
+  );
+}
+
+export default App;

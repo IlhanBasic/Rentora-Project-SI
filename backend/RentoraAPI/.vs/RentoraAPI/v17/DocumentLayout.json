@@ -1,40 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Migrations\\20241110155658_changed_ApplicationUser_class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:RentoraAPI\\Migrations\\20241110155658_changed_ApplicationUser_class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\models\\dto\\registerrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\models\\dto\\registerrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\models\\dto\\reservationrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\models\\dto\\reservationrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\models\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\models\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\models\\dto\\loginrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\models\\dto\\loginrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\models\\location.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\models\\location.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -42,118 +9,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20241110155658_changed_ApplicationUser_class.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Migrations\\20241110155658_changed_ApplicationUser_class.cs",
-              "RelativeDocumentMoniker": "RentoraAPI\\Migrations\\20241110155658_changed_ApplicationUser_class.cs",
-              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Migrations\\20241110155658_changed_ApplicationUser_class.cs",
-              "RelativeToolTip": "RentoraAPI\\Migrations\\20241110155658_changed_ApplicationUser_class.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-10T15:56:59.275Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ReservationRequestDto.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\ReservationRequestDto.cs",
-              "RelativeDocumentMoniker": "RentoraAPI\\Models\\DTO\\ReservationRequestDto.cs",
-              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\ReservationRequestDto.cs",
-              "RelativeToolTip": "RentoraAPI\\Models\\DTO\\ReservationRequestDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-10T15:54:14.515Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UserDto.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\UserDto.cs",
-              "RelativeDocumentMoniker": "RentoraAPI\\Models\\DTO\\UserDto.cs",
-              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\UserDto.cs",
-              "RelativeToolTip": "RentoraAPI\\Models\\DTO\\UserDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-10T15:53:01.279Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RegisterRequestDto.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\RegisterRequestDto.cs",
-              "RelativeDocumentMoniker": "RentoraAPI\\Models\\DTO\\RegisterRequestDto.cs",
-              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\RegisterRequestDto.cs",
-              "RelativeToolTip": "RentoraAPI\\Models\\DTO\\RegisterRequestDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-10T15:52:49.724Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ApplicationUser.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\ApplicationUser.cs",
-              "RelativeDocumentMoniker": "RentoraAPI\\Models\\ApplicationUser.cs",
-              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\ApplicationUser.cs",
-              "RelativeToolTip": "RentoraAPI\\Models\\ApplicationUser.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-10T15:50:46.661Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "RentoraAPI\\Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "RentoraAPI\\Controllers\\AuthController.cs",
-              "ViewState": "AQIAAI0AAAAAAAAAAAAIwKkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T14:21:10.885Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "LoginRequestDto.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\LoginRequestDto.cs",
-              "RelativeDocumentMoniker": "RentoraAPI\\Models\\DTO\\LoginRequestDto.cs",
-              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\LoginRequestDto.cs",
-              "RelativeToolTip": "RentoraAPI\\Models\\DTO\\LoginRequestDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-10T15:52:45.827Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Location.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\Location.cs",
-              "RelativeDocumentMoniker": "RentoraAPI\\Models\\Location.cs",
-              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\Location.cs",
-              "RelativeToolTip": "RentoraAPI\\Models\\Location.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAQwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T17:25:36.893Z"
             },
             {
               "$type": "Bookmark",

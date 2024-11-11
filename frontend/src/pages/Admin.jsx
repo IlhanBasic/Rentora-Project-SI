@@ -11,8 +11,8 @@ function Section({ title, data, onEdit, onDelete, isEditable }) {
         <button onClick={() => onEdit(null)}>Dodaj novi</button>
       )}
       <div>
-        {data.map((item) => {
-          return (
+        {data && data.length > 0 ? (
+          data.map((item) => (
             <div key={item.id} className="table-row">
               {Object.entries(item)
                 .filter(
@@ -27,18 +27,21 @@ function Section({ title, data, onEdit, onDelete, isEditable }) {
               <div className="edit-buttons">
                 {isEditable && (
                   <>
-                    <button onClick={() => onEdit(item)}>Izmeni</button>
+                    {title !== 'Korisnici' && <button onClick={() => onEdit(item)}>Izmeni</button>}
                     <button onClick={() => onDelete(item.id)}>Obriši</button>
                   </>
                 )}
               </div>
             </div>
-          );
-        })}
+          ))
+        ) : (
+          <p>Nema podataka</p>
+        )}
       </div>
     </div>
   );
 }
+
 
 export default function AdminPage() {
   const { token, isAdmin } = useContext(AuthContext);
@@ -98,19 +101,14 @@ export default function AdminPage() {
   };
 
   const handleDelete = async (id) => {
-    const endpoint = activeSection === "Users" ? "Auth/Users" : activeSection;
-    const url = `https://localhost:7247/api/${endpoint}`;
+    const endpoint = activeSection === "users" ? "Auth/Users" : activeSection;
+    const url = `https://localhost:7247/api/${endpoint}/${id}`;
     if (window.confirm("Da li ste sigurni da želite da obrišete?")) {
       try {
-        await fetch(
-          `https://localhost:7247/api/${
-            activeSection.charAt(0).toUpperCase() + activeSection.slice(1)
-          }/${id}`,
-          {
-            method: "DELETE",
-          }
-        );
-        fetchData(activeSection, getSetter(activeSection));
+        await fetch(url, {
+          method: "DELETE",
+        });
+        fetchData(endpoint, getSetter(activeSection));
       } catch (error) {
         setModalInfo({
           modalTitle: "Došlo je do greške prilikom brisanja 🙁!",
@@ -120,6 +118,9 @@ export default function AdminPage() {
       }
     }
   };
+  
+  
+  
 
   const getSetter = (section) => {
     switch (section) {

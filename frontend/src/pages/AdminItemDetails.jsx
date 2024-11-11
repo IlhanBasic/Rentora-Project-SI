@@ -90,7 +90,10 @@ export default function AdminItemDetails() {
         setItem({
           username: "",
           password: "",
-          roles: ["Admin", "User"],
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          roles: [""],
         });
         break;
       case "vehicles":
@@ -154,7 +157,11 @@ export default function AdminItemDetails() {
   const createItem = async () => {
     const endpoint = section === "users" ? "Auth/Register" : apiPoint;
     const url = `https://localhost:7247/api/${endpoint}`;
-
+    
+    if (section === "users" && typeof item.roles === "string") {
+      item.roles = [item.roles]; 
+    }
+  
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -164,7 +171,7 @@ export default function AdminItemDetails() {
         },
         body: JSON.stringify(item),
       });
-
+  
       if (!response.ok) {
         setModalInfo({
           modalTitle:
@@ -185,14 +192,13 @@ export default function AdminItemDetails() {
       }
     } catch (error) {
       setModalInfo({
-        modalTitle:
-          "Došlo je do greške sa serverom prilikom čuvanja podataka 🙁!",
+        modalTitle: "Došlo je do greške sa serverom prilikom čuvanja podataka 🙁!",
         modalText: `Error: ${error.message}. Probajte ponovo kasnije.`,
         isOpen: true,
       });
     }
   };
-
+  
   const updateItem = async () => {
     const endpoint = section === "users" ? "Auth/Users" : apiPoint;
     const url = `https://localhost:7247/api/${endpoint}/${id}`;
@@ -291,9 +297,6 @@ export default function AdminItemDetails() {
                     required={typeof item[key]==="object" || key==="creditCardNumber" ? false:true}
                     className="admin-form-input"
                   />
-                  {key === "password" && (
-                    <input type="password" name="password" />
-                  )}
                 </label>
               </div>
             );

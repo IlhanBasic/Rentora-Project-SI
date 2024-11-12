@@ -405,7 +405,7 @@ select {
   margin-top: 20px;
 }
 
-.form-auth .btn-group button {
+.form-auth  button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -414,7 +414,7 @@ select {
   transition: background-color 0.3s ease;
 }
 
-.form-auth .btn-group button[type="submit"] {
+.form-auth button[type="submit"],.admin-nav-list button {
   background: linear-gradient(45deg, #007bff, #00d4ff);
   color: white;
   border: none;
@@ -1649,4 +1649,35 @@ select {
   100% {
     transform: rotate(360deg);
   }
+}
+/* change password  */
+.profile-control {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.profile-control p {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.profile-control button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profile-control button:hover {
+  background-color: #0056b3;
 }

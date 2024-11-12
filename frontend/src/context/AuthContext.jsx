@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext({
+  email:"",
   isLoggedIn: false,
   isAdmin: false,
   userId: null,
@@ -12,6 +13,7 @@ export const AuthContext = createContext({
 
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [userId, setUserId] = useState(null);
   const [userRole, setUserRole] = useState(null);
@@ -22,18 +24,19 @@ export function AuthProvider({ children }) {
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
       const role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
       const id = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+      const name = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
       const exp = decodedToken.exp;
-
       if (exp * 1000 < Date.now()) {
         logout();
         return;
       }
-
+      setEmail(name);
       setIsLoggedIn(true);
       setUserId(id);
       setUserRole(role);
       setIsAdmin(role === 'Admin');
     } else {
+      setEmail("");
       setIsLoggedIn(false);
       setIsAdmin(false);
       setUserId(null);
@@ -74,7 +77,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, isAdmin, userId, userRole, token, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, isAdmin, userId, userRole, token,email, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

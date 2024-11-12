@@ -679,3 +679,4 @@ C:\Users\PC\Documents\Rentora\Rentora-projekat\backend - Copy\RentoraAPI\Rentora
 C:\Users\PC\Documents\Rentora\Rentora-projekat\backend - Copy\RentoraAPI\RentoraAPI\obj\Debug\net8.0\RentoraAPI.csproj.Up2Date
 C:\Users\PC\Documents\Rentora\Rentora-projekat\backend - Copy\RentoraAPI\RentoraAPI\obj\Debug\net8.0\RentoraAPI.genruntimeconfig.cache
 C:\Users\PC\Documents\Rentora\Rentora-projekat\backend - Copy\RentoraAPI\RentoraAPI\obj\Debug\net8.0\ref\RentoraAPI.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\obj\Debug\net8.0\RentoraAPI.sourcelink.json

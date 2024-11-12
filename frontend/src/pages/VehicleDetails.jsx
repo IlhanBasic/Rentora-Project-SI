@@ -159,10 +159,10 @@ export default function VehicleDetails() {
           .split("T")[0]}
       />
       {deposit > 0 && (
-        <h1 className="important">DEPOZIT: {deposit} RSD</h1>
+        <h1 className="important">DEPOZIT: {deposit.toFixed(2)} RSD</h1>
       )}
       {durationDays > 0 && (
-        <h1 className="important">UKUPAN IZNOS: {totalPrice} RSD</h1>
+        <h1 className="important">UKUPAN IZNOS: {totalPrice.toFixed(2)} RSD</h1>
       )}
     </>
   );

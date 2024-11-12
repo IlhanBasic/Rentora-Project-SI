@@ -1,5 +1,5 @@
 import InputGroup from "./InputGroup";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "./Loader.jsx";
@@ -31,7 +31,11 @@ export default function FormAuth({ type }) {
       const result = await response.json();
       if (endpoint === "Login") {
         ctx.login(result.jwtToken);
+        window.scrollTo(0,0);
         navigate("/");
+      }
+      if(endpoint==='Register'){
+        authenticate(data,'Login')
       }
     } catch {
       setIsError("Greška servera");
@@ -53,7 +57,6 @@ export default function FormAuth({ type }) {
     setIsError("");
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-
     const validations = {
       Email: [
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -62,6 +65,10 @@ export default function FormAuth({ type }) {
       PasswordHash: [
         /^(?=.*[A-Z])(?=.*\d).{2,}$/,
         "Lozinka mora sadržati jedno veliko slovo i jedan broj",
+      ],
+      Username: [
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Neispravan e-mail",
       ],
       PhoneNumber: [
         /^(?:\+381\s?6[34]|0[67]4)\s?\d{3}(?:\s|-)?\d{3,4}(?:\s|-)?\d{1,2}$/,
@@ -116,7 +123,7 @@ export default function FormAuth({ type }) {
   };
 
   return (
-    <div>
+    <>
       <form method="POST" className="form-auth" onSubmit={handleSubmit}>
         {inputGroups[type].map(({ inputId, inputName, inputType }) => (
           <InputGroup
@@ -129,7 +136,11 @@ export default function FormAuth({ type }) {
         {isError && <p className="error-message">{isError}</p>}
         <div className="btn-group">
           <button type="submit" disabled={isLoading}>
-            {isLoading ? "Loading..." : type === "Register" ? "Sign In" : "Login"}
+            {isLoading
+              ? "Loading..."
+              : type === "Register"
+              ? "Sign In"
+              : "Login"}
           </button>
           <button type="button" onClick={handleNavigate}>
             {type === "Register"
@@ -138,6 +149,6 @@ export default function FormAuth({ type }) {
           </button>
         </div>
       </form>
-    </div>
+    </>
   );
 }

@@ -5,8 +5,9 @@
     "\\RentoraAPI\\RentoraAPI",
     "\\RentoraAPI\\RentoraAPI\\Controllers",
     "\\RentoraAPI\\RentoraAPI\\Data",
-    "\\RentoraAPI\\RentoraAPI\\Models"
+    "\\RentoraAPI\\RentoraAPI\\Models",
+    "\\RentoraAPI\\RentoraAPI\\Models\\DTO"
   ],
-  "SelectedNode": "\\RentoraAPI\\RentoraAPI.sln",
+  "SelectedNode": "\\RentoraAPI\\RentoraAPI\\Models\\DTO\\RegisterRequestDto.cs",
   "PreviewInSolutionExplorer": false
 }

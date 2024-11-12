@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Header from "../components/Header.jsx";
 import MyRentalCard from "../components/MyRentalCard.jsx";
-import Loader from "../components/Loader.jsx"; 
+import Loader from "../components/Loader.jsx";
 
 export default function MyRentals() {
-  const { token, userId,isAdmin } = useContext(AuthContext);
+  const { token, userId, isAdmin, email } = useContext(AuthContext);
   const [reservations, setReservations] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,7 @@ export default function MyRentals() {
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${token}`,
+              "Authorization": `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
@@ -56,6 +56,10 @@ export default function MyRentals() {
 
   return (
     <>
+      <div className="profile-control">
+        <p>Profil:{email}</p>
+        <button onClick={()=>navigate('/change-password')}>Promeni lozinku</button>
+      </div>
       <Header title="Moja Rentiranja" />
       <div className="rentals-container">
         {isLoading ? (

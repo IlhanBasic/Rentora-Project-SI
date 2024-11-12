@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\models\\dto\\registerrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\models\\dto\\registerrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\models\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\models\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,14 +23,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RegisterRequestDto.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\RegisterRequestDto.cs",
-              "RelativeDocumentMoniker": "RentoraAPI\\Models\\DTO\\RegisterRequestDto.cs",
-              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\RegisterRequestDto.cs",
-              "RelativeToolTip": "RentoraAPI\\Models\\DTO\\RegisterRequestDto.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAcwBQAAAAMAAAA",
+              "Title": "UserDto.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\UserDto.cs",
+              "RelativeDocumentMoniker": "RentoraAPI\\Models\\DTO\\UserDto.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\DTO\\UserDto.cs",
+              "RelativeToolTip": "RentoraAPI\\Models\\DTO\\UserDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T10:20:31.286Z",
+              "WhenOpened": "2024-11-12T10:21:40.667Z",
               "EditorCaption": ""
             },
             {

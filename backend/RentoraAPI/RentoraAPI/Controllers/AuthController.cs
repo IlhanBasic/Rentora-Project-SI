@@ -52,55 +52,29 @@ namespace RentoraAPI.Controllers
 			return Ok(userDtos);
 		}
 
-		[HttpPut("Users/{id}")]
-		// [Authorize(Roles = "Admin")]
-		public async Task<IActionResult> ChangeUserInfo(string id, [FromBody] UserDto userDto)
+		[HttpPatch]
+		[Route("Users/{id}/ChangePassword")]
+		public async Task<IActionResult> ChangeUserPassword(string id, [FromBody] ChangePasswordRequestDto changePasswordRequest)
 		{
-			// Pronađi korisnika po ID-u
 			var user = await userManager.FindByIdAsync(id);
 			if (user == null)
 			{
 				return NotFound(new { Message = "Korisnik nije pronađen." });
 			}
 
-			// Ažuriraj email (username) korisnika
-			if (!string.IsNullOrEmpty(userDto.Email) && userDto.Email != user.Email)
+			var checkPasswordResult = await userManager.CheckPasswordAsync(user, changePasswordRequest.OldPassword);
+			if (!checkPasswordResult)
 			{
-				var existingUser = await userManager.FindByEmailAsync(userDto.Email);
-				if (existingUser != null)
-				{
-					return BadRequest(new { Message = $"Email '{userDto.Email}' je već zauzet." });
-				}
-
-				user.Email = userDto.Email;
-				user.UserName = userDto.Email;
+				return BadRequest(new { Message = "Stare šifre se ne poklapaju." });
 			}
 
-			// Ažuriraj uloge
-			if (userDto.Roles != null && userDto.Roles.Any())
+			var result = await userManager.ChangePasswordAsync(user, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
+			if (!result.Succeeded)
 			{
-				var currentRoles = await userManager.GetRolesAsync(user);
-				var roleResult = await userManager.RemoveFromRolesAsync(user, currentRoles); // Ukloni trenutne uloge
-				if (!roleResult.Succeeded)
-				{
-					return BadRequest(new { Message = "Neuspešno uklanjanje trenutnih uloga.", Errors = roleResult.Errors });
-				}
-
-				roleResult = await userManager.AddToRolesAsync(user, userDto.Roles); // Dodaj nove uloge
-				if (!roleResult.Succeeded)
-				{
-					return BadRequest(new { Message = "Neuspešno dodeljivanje novih uloga.", Errors = roleResult.Errors });
-				}
+				return BadRequest(new { Message = "Greška prilikom promene lozinke.", Errors = result.Errors });
 			}
 
-			// Sačuvaj promene
-			var identityResult = await userManager.UpdateAsync(user);
-			if (!identityResult.Succeeded)
-			{
-				return BadRequest(new { Message = "Greška prilikom ažuriranja korisnika.", Errors = identityResult.Errors });
-			}
-
-			return Ok(new { Message = "Informacije o korisniku su uspešno ažurirane." });
+			return Ok(new { Message = "Lozinka je uspešno promenjena." });
 		}
 
 		[HttpGet]
@@ -196,92 +170,5 @@ namespace RentoraAPI.Controllers
 			return BadRequest(new { Message = "Uneta email adresa ne postoji." });
 		}
 
-		[HttpDelete("Users/{id}")]
-		// [Authorize(Roles = "Admin")]
-		public async Task<IActionResult> DeleteUser(string id)
-		{
-			// Pronađi korisnika po ID-u
-			var user = await userManager.FindByIdAsync(id);
-			if (user == null)
-			{
-				return NotFound(new { Message = "Korisnik nije pronađen." });
-			}
-
-			// Obriši korisnika
-			var result = await userManager.DeleteAsync(user);
-			if (!result.Succeeded)
-			{
-				return BadRequest(new { Message = "Greška prilikom brisanja korisnika.", Errors = result.Errors });
-			}
-
-			return Ok(new { Message = "Korisnik je uspešno obrisan." });
-		}
-
-		// DELETE api/auth/DeleteReaders
-		[HttpDelete]
-		[Route("DeleteReaders")]
-		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> DeleteReaders()
-		{
-			var users = userManager.Users.ToList();
-			var readers = new List<ApplicationUser>(); 
-			var failedDeletions = new List<string>();
-
-			foreach (var user in users)
-			{
-				var roles = await userManager.GetRolesAsync(user);
-				if (roles.Contains("User"))
-				{
-					readers.Add((ApplicationUser)user); 
-				}
-			}
-
-			if (readers.Count == 0)
-			{
-				return NotFound(new { Message = "Nema korisnika sa ulogom 'User'." });
-			}
-
-			foreach (var user in readers)
-			{
-				var identityResult = await userManager.DeleteAsync(user);
-				if (!identityResult.Succeeded)
-				{
-					failedDeletions.Add(user.Email);
-				}
-			}
-
-			if (failedDeletions.Count > 0)
-			{
-				return BadRequest(new { Message = "Greška prilikom brisanja sledećih korisnika:", FailedUsers = failedDeletions });
-			}
-
-			return Ok(new { Message = "Svi korisnici sa ulogom 'User' su uspešno obrisani." });
-		}
-
-		// DELETE api/auth/DeleteUser
-		[HttpDelete]
-		[Route("DeleteUser")]
-		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> DeleteUser([FromBody] CheckEmailRequest request)
-		{
-			if (string.IsNullOrEmpty(request.Email))
-			{
-				return BadRequest(new { Message = "Email je obavezan." });
-			}
-
-			var user = await userManager.FindByEmailAsync(request.Email);
-			if (user == null)
-			{
-				return NotFound(new { Message = "Korisnik sa datim emailom ne postoji." });
-			}
-
-			var identityResult = await userManager.DeleteAsync(user);
-			if (!identityResult.Succeeded)
-			{
-				return BadRequest(new { Message = "Greška prilikom brisanja korisnika.", Errors = identityResult.Errors });
-			}
-
-			return Ok(new { Message = "Korisnik je uspešno obrisan." });
-		}
 	}
 }

@@ -233,6 +233,7 @@ export default function AdminPage() {
                   </li>
                 )
               )}
+              <button onClick={()=>navigate('../change-password')}>Promena lozinke</button>
             </ul>
           </div>
         </nav>

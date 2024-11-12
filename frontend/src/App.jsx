@@ -13,7 +13,7 @@ import Admin from "./pages/Admin.jsx";
 import MyRentals from "./pages/MyRentals.jsx";
 import AdminItemDetails from "./pages/AdminItemDetails.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
-
+import ChangePassword from "./pages/ChangePassword.jsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -48,6 +48,9 @@ function App() {
         }
       ],
     },
+    {
+      path:"change-password",element:<ChangePassword/>,errorElement:<Error/>
+    }
   ]);
   
   return (

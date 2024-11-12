@@ -5,6 +5,7 @@ import RentForm from "../components/RentForm";
 import RowOfCards from "../components/RowofCards";
 import { useState, useEffect } from "react";
 import Loader from '../components/Loader.jsx';
+import { motion, useScroll } from "framer-motion";
 export default function HomePage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);

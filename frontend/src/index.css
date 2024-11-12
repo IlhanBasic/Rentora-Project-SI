@@ -89,6 +89,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 3em;
+  transition: all 0.3s ease;
 }
 .main-navbar ul li a:hover {
   color: #007bff;
@@ -203,6 +204,50 @@ body {
     transform: rotate(360deg);
   }
 }
+@keyframes fadeInStaggered {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-navbar ul li {
+  opacity: 0;
+  animation: fadeInStaggered 0.3s ease forwards;
+}
+
+.main-navbar.active ul li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.main-navbar.active ul li:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.main-navbar.active ul li:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.main-navbar.active ul li:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.main-navbar.active .navbar-btn-group button {
+  opacity: 0;
+  animation: fadeInStaggered 0.3s ease forwards;
+}
+
+.main-navbar.active .navbar-btn-group button:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.main-navbar.active .navbar-btn-group button:nth-child(2) {
+  animation-delay: 0.6s;
+}
+
 /* banner u home page  */
 
 .hero-banner {
@@ -638,6 +683,7 @@ footer .fa-whatsapp {
 .conditions-items {
   list-style-type: none;
   padding: 0;
+  overflow: hidden;
 }
 
 .conditions-item {
@@ -662,6 +708,7 @@ footer .fa-whatsapp {
   gap: 2rem;
   align-items: center;
   margin: auto;
+  animation: fromBottomToUp 1s ease-in-out;
 }
 .about-main {
   display: flex;
@@ -787,10 +834,10 @@ footer .fa-whatsapp {
   padding: 3em;
   align-self: start;
   margin: auto;
-  animation: vehicleAnime 3s ease-in-out;
+  animation: fromBottomToUp 3s ease-in-out;
   transition: all 0.5s ease-out;
 }
-@keyframes vehicleAnime {
+@keyframes fromBottomToUp {
   0% {
     transform: translateY(300px);
     opacity: 0;
@@ -1071,6 +1118,17 @@ select {
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 10px;
+  animation: rentalAnime 1s ease-in-out;
+}
+@keyframes rentalAnime {
+  0%{
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100%{
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 .rental-card.cancel {
   background-color: #f29098;

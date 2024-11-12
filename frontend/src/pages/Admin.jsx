@@ -7,9 +7,7 @@ function Section({ title, data, onEdit, onDelete, isEditable }) {
   return (
     <div>
       <h1>{title}</h1>
-      {isEditable && (
-        <button onClick={() => onEdit(null)}>Dodaj novi</button>
-      )}
+      {isEditable && <button onClick={() => onEdit(null)}>Dodaj novi</button>}
       <div>
         {data && data.length > 0 ? (
           data.map((item) => (
@@ -21,13 +19,15 @@ function Section({ title, data, onEdit, onDelete, isEditable }) {
                 .map(([key, value], index) => (
                   <div key={index} className="vertical-table-row">
                     <strong>{key}:</strong>
-                    {value}
+                    <span>{value}</span>
                   </div>
                 ))}
               <div className="edit-buttons">
                 {isEditable && (
                   <>
-                    {title !== 'Korisnici' && <button onClick={() => onEdit(item)}>Izmeni</button>}
+                    {title !== "Korisnici" && (
+                      <button onClick={() => onEdit(item)}>Izmeni</button>
+                    )}
                     <button onClick={() => onDelete(item.id)}>Obriši</button>
                   </>
                 )}
@@ -41,7 +41,6 @@ function Section({ title, data, onEdit, onDelete, isEditable }) {
     </div>
   );
 }
-
 
 export default function AdminPage() {
   const { token, isAdmin } = useContext(AuthContext);
@@ -85,7 +84,8 @@ export default function AdminPage() {
       setter(data);
     } catch (error) {
       setModalInfo({
-        modalTitle: "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
+        modalTitle:
+          "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
         modalText: `Error: ${error.message}. Probajte ponovo kasnije.`,
         isOpen: true,
       });
@@ -108,6 +108,11 @@ export default function AdminPage() {
         await fetch(url, {
           method: "DELETE",
         });
+        setModalInfo({
+          modalTitle: "Uspešno obrisano ✅!",
+          modalText: `Prikaz će biti uskoro osvežen.`,
+          isOpen: true,
+        });
         fetchData(endpoint, getSetter(activeSection));
       } catch (error) {
         setModalInfo({
@@ -118,9 +123,6 @@ export default function AdminPage() {
       }
     }
   };
-  
-  
-  
 
   const getSetter = (section) => {
     switch (section) {
@@ -138,7 +140,9 @@ export default function AdminPage() {
   };
 
   const renderSection = () => {
-    const isEditable = ["vehicles", "locations", "users"].includes(activeSection);
+    const isEditable = ["vehicles", "locations", "users"].includes(
+      activeSection
+    );
     switch (activeSection) {
       case "vehicles":
         return (

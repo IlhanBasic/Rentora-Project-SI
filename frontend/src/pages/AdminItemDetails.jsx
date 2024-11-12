@@ -294,7 +294,7 @@ export default function AdminItemDetails() {
                     name={key}
                     value={item[key]}
                     onChange={handleChange}
-                    required={typeof item[key]==="object" || key==="creditCardNumber" ? false:true}
+                    required={key==="creditCardNumber" ? false:true}
                     className="admin-form-input"
                   />
                 </label>

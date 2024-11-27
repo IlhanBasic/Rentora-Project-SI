@@ -27,6 +27,8 @@ namespace RentoraAPI.Controllers
 		// GET api/auth/Users
 		[HttpGet]
 		[Route("Users")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles ="Admin")]
 		public async Task<IActionResult> GetAllUsers()
 		{
 			var users = await userManager.Users.ToListAsync();
@@ -79,6 +81,8 @@ namespace RentoraAPI.Controllers
 
 		[HttpGet]
 		[Route("Users/{id}")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles ="Admin,User")]
 		public async Task<IActionResult> GetUserById(string id)
 		{
 			var user = await userManager.FindByIdAsync(id);
@@ -87,7 +91,7 @@ namespace RentoraAPI.Controllers
 				return NotFound(new { Message = "Korisnik nije pronađen." });
 			}
 
-			var roles = await userManager.GetRolesAsync(user); // Dobijanje uloga korisnika
+			var roles = await userManager.GetRolesAsync(user); 
 			var userDto = new UserDto
 			{
 				Id = user.Id,

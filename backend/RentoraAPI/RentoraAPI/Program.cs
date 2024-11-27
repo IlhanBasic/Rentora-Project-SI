@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using RentoraAPI.Data;
 using RentoraAPI.Models;
 using RentoraAPI.Respositories;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,11 +22,11 @@ builder.Services.AddControllers()
 // Configure CORS
 builder.Services.AddCors(options =>
 {
-	options.AddPolicy("AllowAllOrigins", builder =>
+	options.AddPolicy("AllowAllOrigins", policyBuilder =>
 	{
-		builder.AllowAnyOrigin()
-			   .AllowAnyMethod()
-			   .AllowAnyHeader();
+		policyBuilder.AllowAnyOrigin()
+					 .AllowAnyMethod()
+					 .AllowAnyHeader();
 	});
 });
 
@@ -49,16 +50,22 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 // Configure JWT authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-	.AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+	.AddJwtBearer(options =>
 	{
-		ValidateIssuer = true,
-		ValidateAudience = true,
-		ValidateLifetime = true,
-		ValidateIssuerSigningKey = true,
-		ValidIssuer = builder.Configuration["Jwt:Issuer"],
-		ValidAudience = builder.Configuration["Jwt:Audience"],
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidateLifetime = true,
+			ValidateIssuerSigningKey = true,
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+			RoleClaimType = ClaimTypes.Role,
+			ValidIssuer = builder.Configuration["Jwt:Issuer"],
+			ValidAudience = builder.Configuration["Jwt:Audience"]
+		};
+
 	});
+
 
 // Configure Cookie settings to prevent redirection on unauthorized access
 builder.Services.ConfigureApplicationCookie(options =>

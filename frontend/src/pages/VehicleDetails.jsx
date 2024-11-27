@@ -63,7 +63,7 @@ export default function VehicleDetails() {
         const resData = await response.json();
         setCar(resData);
       } catch (e) {
-        setErrorMessage(e.message);
+        setErrorMessage("Greška od strane servera !");
       } finally {
         setIsLoading(false);
       }
@@ -83,7 +83,7 @@ export default function VehicleDetails() {
         setDurationDays(duration);
         const price = duration * car.pricePerDay;
         setTotalPrice(price);
-        setDeposit(price * 0.20); // Deposit is 20% of total price
+        setDeposit(price * 0.20); 
       } else {
         setDurationDays(0);
         setTotalPrice(0);
@@ -132,7 +132,7 @@ export default function VehicleDetails() {
       </div>
       <h1 className="important">MOLIMO POPUNITE FORMU</h1>
       <ReservationForm
-        total={totalPrice} // No insurance cost
+        total={totalPrice} 
         startDate={startDate}
         endDate={endDate}
         vehicleId={vehicleId}

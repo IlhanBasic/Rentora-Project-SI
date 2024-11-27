@@ -14,7 +14,7 @@ export default function HomePage() {
     async function getLocations() {
       try {
         const response = await fetch('https://localhost:7247/api/Locations');
-        if (!response.ok) throw new Error("Network response was not ok");
+        if (!response.ok) setError("Error: Slaba povezanost sa serverom.");
         const resData = await response.json();
         setData(resData);
         setLoading(false);

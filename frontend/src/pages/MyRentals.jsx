@@ -32,7 +32,16 @@ export default function MyRentals() {
         );
 
         if (!response.ok) {
-          setErrorMessage("Desila se greška usled prikazivanja rezervacija");
+          const error = await response.json();
+          if(error.status === 401){
+            setErrorMessage("Error:Prijavite se za pristup");
+            return;
+          }
+          if(error.status === 403){
+            setErrorMessage("Error:Nedozvoljen pristup");
+          }
+          console.log(error)
+          setErrorMessage("Error: Desila se greška usled prikazivanja rezervacija");
           return;
         }
 
@@ -44,7 +53,7 @@ export default function MyRentals() {
         setReservations(userReservations);
       } catch (error) {
         setErrorMessage(
-          "Error prilikom prikazivanja rezervacija: " + error.message
+          "Error: Greška servera prilikom prikazivanja rezervacija. " 
         );
       } finally {
         setIsLoading(false);

@@ -7,7 +7,7 @@ function Section({ title, data, onEdit, onDelete, isEditable }) {
   return (
     <div>
       <h1>{title}</h1>
-      {isEditable && <button onClick={() => onEdit(null)}>Dodaj novi</button>}
+      {isEditable && <button onClick={() => onEdit(null)}>Dodaj novi red</button>}
       <div>
         {data && data.length > 0 ? (
           data.map((item) => (
@@ -79,18 +79,23 @@ export default function AdminPage() {
 
   const fetchData = async (endpoint, setter) => {
     try {
-      const response = await fetch(`https://localhost:7247/api/${endpoint}`);
-      const data = await response.json();
-      setter(data);
+        const response = await fetch(`https://localhost:7247/api/${endpoint}`, {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        });
+        const data = await response.json();
+        setter(data);
     } catch (error) {
-      setModalInfo({
-        modalTitle:
-          "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
-        modalText: `Error: ${error.message}. Probajte ponovo kasnije.`,
-        isOpen: true,
-      });
+        console.log(error);
+        setModalInfo({
+            modalTitle: "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
+            modalText: `Probajte ponovo kasnije.`,
+            isOpen: true,
+        });
     }
-  };
+};
+
 
   const handleEdit = (item) => {
     if (item) {
@@ -108,16 +113,17 @@ export default function AdminPage() {
         await fetch(url, {
           method: "DELETE",
         });
+
+        fetchData(endpoint, getSetter(activeSection));
         setModalInfo({
           modalTitle: "Uspešno obrisano ✅!",
           modalText: `Prikaz će biti uskoro osvežen.`,
           isOpen: true,
         });
-        fetchData(endpoint, getSetter(activeSection));
       } catch (error) {
         setModalInfo({
           modalTitle: "Došlo je do greške prilikom brisanja 🙁!",
-          modalText: `Error: ${error.message}. Pokušajte opet kasnije.`,
+          modalText: `Pokušajte opet kasnije.`,
           isOpen: true,
         });
       }
@@ -233,7 +239,9 @@ export default function AdminPage() {
                   </li>
                 )
               )}
-              <button onClick={()=>navigate('../change-password')}>Promena lozinke</button>
+              <button onClick={() => navigate("../change-password")}>
+                Promena lozinke
+              </button>
             </ul>
           </div>
         </nav>

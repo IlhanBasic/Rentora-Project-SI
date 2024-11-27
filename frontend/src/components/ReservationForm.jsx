@@ -61,7 +61,8 @@ export default function ReservationForm({
       try {
         const response = await fetch("https://localhost:7247/api/Locations");
         if (!response.ok) {
-          setErrorMessage("Greska od strane servera !");
+          const error = await response.json();
+          setErrorMessage("Error: Greska od strane servera prilikom preuzimanja lokacija !");
           return;
         }
         const resData = await response.json();
@@ -70,7 +71,7 @@ export default function ReservationForm({
         }
         setLocations(resData);
       } catch (e) {
-        setErrorMessage(e.message);
+        setErrorMessage("Error:Greška od strane servera !");
       }
     }
     getLocations();
@@ -231,8 +232,20 @@ export default function ReservationForm({
       );
 
       if (!responseReservation.ok) {
+        if(responseReservation.status === 401) {
+          setErrorMessage(
+            "Greška prilikom rezervacije vozila. Niste ulogovani."
+          );
+          return;
+        }
+        if(responseReservation.status === 403) {
+          setErrorMessage(
+            "Error: Greška prilikom rezervacije vozila. Nema pristup."
+          );
+          return;
+        }
         setErrorMessage(
-          "Greška prilikom rezervacije vozila. Rezervacija nije napravljena."
+          "Error: Greška prilikom rezervacije vozila. Rezervacija nije napravljena."
         );
         return;
       }
@@ -249,7 +262,7 @@ export default function ReservationForm({
         navigate("/");
       }, 2500);
     } catch (error) {
-      setErrorMessage("Error: Greška prilikom rezervacije. ");
+      setErrorMessage("Error: Greška servera prilikom rezervacije. ");
       return;
     }
   };
@@ -297,7 +310,7 @@ export default function ReservationForm({
                 </option>
               ))
             ) : (
-              <option value="">No locations available</option>
+              <option value="">Lokacije nisu dostupne</option>
             )}
           </select>
         </div>

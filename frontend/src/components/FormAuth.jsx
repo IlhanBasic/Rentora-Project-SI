@@ -25,7 +25,9 @@ export default function FormAuth({ type }) {
         }
       );
       if (!response.ok) {
-        setIsError("Greška servera tokom autentifikacije");
+        const error = await response.json();
+        console.log(error);
+        setIsError("Greška tokom autentifikacije. "+error.message);
         return;
       }
       const result = await response.json();
@@ -37,8 +39,8 @@ export default function FormAuth({ type }) {
       if(endpoint==='Register'){
         authenticate(data,'Login')
       }
-    } catch {
-      setIsError("Greška servera");
+    } catch(e) {
+      setIsError("Greška servera.");
     } finally {
       setIsLoading(false);
     }

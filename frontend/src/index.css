@@ -140,7 +140,7 @@ body {
 }
 .hamburger.active::before {
   content: "x";
-  transform: scale(1.2); 
+  transform: scale(1.2);
 }
 .main-navbar ul,
 .navbar-btn-group {
@@ -197,10 +197,10 @@ body {
   }
 }
 @keyframes rotateMenu {
-  0%{
+  0% {
     transform: rotate(0deg);
   }
-  100%{
+  100% {
     transform: rotate(360deg);
   }
 }
@@ -450,7 +450,7 @@ select {
   margin-top: 20px;
 }
 
-.form-auth  button {
+.form-auth button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -459,7 +459,8 @@ select {
   transition: background-color 0.3s ease;
 }
 
-.form-auth button[type="submit"],.admin-nav-list button {
+.form-auth button[type="submit"],
+.admin-nav-list button {
   background: linear-gradient(45deg, #007bff, #00d4ff);
   color: white;
   border: none;
@@ -769,6 +770,9 @@ footer .fa-whatsapp {
   text-align: center;
   margin: 2em;
 }
+.dinamic-info.active {
+  animation: fromBottomToUp 0.3s ease;
+}
 .dinamic-card {
   display: flex;
   flex-direction: column;
@@ -820,7 +824,8 @@ footer .fa-whatsapp {
   left: 48px;
   margin-left: -11px;
 }
-.ol-overlay-container,canvas {
+.ol-overlay-container,
+canvas {
   overflow: hidden;
 }
 
@@ -877,7 +882,7 @@ footer .fa-whatsapp {
 .vehicle-card-img {
   width: 100%;
   height: 250px;
-  object-fit:contain;
+  object-fit: contain;
   padding: 0.3em;
 }
 
@@ -1121,11 +1126,11 @@ select {
   animation: rentalAnime 1s ease-in-out;
 }
 @keyframes rentalAnime {
-  0%{
+  0% {
     opacity: 0;
     transform: translateX(100%);
   }
-  100%{
+  100% {
     opacity: 1;
     transform: translateX(0);
   }
@@ -1361,17 +1366,17 @@ select {
   display: flex;
   align-items: center;
   gap: 10px;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
 
 .vertical-table-row strong {
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 .vertical-table-row span {
-  flex-grow: 1; 
+  flex-grow: 1;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
 }
 
 .admin-content-container button {
@@ -1560,7 +1565,7 @@ select {
 }
 
 .admin-submit-button:hover {
-  background-color: #0056b3; 
+  background-color: #0056b3;
 }
 
 .admin-loading {
@@ -1569,7 +1574,6 @@ select {
   color: #666;
   margin-top: 20px;
 }
-
 
 /* karosel  */
 
@@ -1607,7 +1611,7 @@ select {
     height: auto;
     margin: 10em 0 10em 0;
   }
-  .carousel-container{
+  .carousel-container {
     width: auto;
     margin-bottom: 10em;
     padding: 2em;

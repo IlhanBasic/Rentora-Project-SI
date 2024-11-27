@@ -42,7 +42,8 @@ namespace RentoraAPI.Controllers
 		}
 
 		[HttpPut("{id}")]
-		//[Authorize]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin,User")]
 		public async Task<IActionResult> PutVehicle(Guid id, Vehicle vehicle)
 		{
 			if (id != vehicle.Id)
@@ -72,7 +73,8 @@ namespace RentoraAPI.Controllers
 		}
 
 		[HttpPost]
-		//[Authorize(Roles = "Admin")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin")]
 		public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
 		{
 			if (string.IsNullOrWhiteSpace(vehicle.Picture))
@@ -87,7 +89,8 @@ namespace RentoraAPI.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		//[Authorize(Roles = "Admin")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeleteVehicle(Guid id)
 		{
 			var vehicle = await _context.Vehicle.FindAsync(id);
@@ -103,7 +106,8 @@ namespace RentoraAPI.Controllers
 		}
 
 		[HttpPatch("{id}")]
-		[Authorize(Roles = "Admin")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin,User")]
 		public async Task<IActionResult> PatchVehicle(Guid id, VehiclePatchRequestDto vehiclePatchDto)
 		{
 			if (vehiclePatchDto == null || string.IsNullOrWhiteSpace(vehiclePatchDto.Status))

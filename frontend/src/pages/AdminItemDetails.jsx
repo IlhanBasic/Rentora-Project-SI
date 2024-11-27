@@ -66,7 +66,7 @@ export default function AdminItemDetails() {
         setModalInfo({
           modalTitle:
             "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
-          modalText: `Error: ${response.statusText}. Probajte ponovo kasnije.`,
+          modalText: `Probajte ponovo kasnije.`,
           isOpen: true,
         });
       }
@@ -77,7 +77,7 @@ export default function AdminItemDetails() {
       setModalInfo({
         modalTitle:
           "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
-        modalText: `Error: ${error.message}. Probajte ponovo kasnije.`,
+        modalText: `Probajte ponovo kasnije.`,
         isOpen: true,
       });
       setLoading(false);
@@ -176,7 +176,7 @@ export default function AdminItemDetails() {
         setModalInfo({
           modalTitle:
             "Došlo je do greške sa serverom prilikom čuvanja podataka 🙁!",
-          modalText: `Error: ${response.statusText}. Probajte ponovo kasnije.`,
+          modalText: `Probajte ponovo kasnije.`,
           isOpen: true,
         });
       } else {

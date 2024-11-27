@@ -16,7 +16,7 @@ export default function Vehicles() {
         setIsLoading(true);
         const response = await fetch("https://localhost:7247/api/Vehicles");
         if (!response.ok) {
-          setError("Došlo je do greške prilikom preuzimanja vozila");
+          setError("Error: Došlo je do greške prilikom preuzimanja vozila");
           return;
         }
         const resData = await response.json();

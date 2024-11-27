@@ -63,7 +63,8 @@ export default function ChangePassword() {
           }
         );
         if (!response.ok) {
-          setErrorMessage("Error: " + response.error);
+          const error = await response.json();
+          setErrorMessage("Error: "+error.message);
           return;
         }
         setSuccessChange(true);
@@ -71,7 +72,7 @@ export default function ChangePassword() {
           navigate("/");
         }, 1500);
       } catch (e) {
-        setErrorMessage("Error: " + e.message);
+        setErrorMessage("Error: Greška od strane servera ! ");
       } finally {
         setIsLoading(false);
       }

@@ -21,6 +21,8 @@ namespace RentoraAPI.Controllers
 
 		// GET: api/Reservations
 		[HttpGet]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin,User")]
 		public async Task<ActionResult<IEnumerable<Reservation>>> GetReservation()
 		{
 			var reservations = await _context.Reservation
@@ -35,6 +37,8 @@ namespace RentoraAPI.Controllers
 
 		// GET: api/Reservations/5
 		[HttpGet("{id}")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin,User")]
 		public async Task<ActionResult<Reservation>> GetReservation(Guid id)
 		{
 			var reservation = await _context.Reservation
@@ -52,6 +56,8 @@ namespace RentoraAPI.Controllers
 
 		// PUT: api/Reservations/5
 		[HttpPut("{id}")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin,User")]
 		public async Task<IActionResult> PutReservation(Guid id, Reservation reservation)
 		{
 			if (id != reservation.Id)
@@ -82,6 +88,8 @@ namespace RentoraAPI.Controllers
 
 		// POST: api/Reservations
 		[HttpPost]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "User")]
 		public async Task<ActionResult<Reservation>> PostReservation(ReservationRequestDto requestDto)
 		{
 			if (!ModelState.IsValid)
@@ -116,6 +124,8 @@ namespace RentoraAPI.Controllers
 
 		// PATCH: api/Reservations/5
 		[HttpPatch("{id}")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "User")]
 		public async Task<IActionResult> PatchReservation(Guid id, [FromBody] ReservationPatchDto reservationPatchDto)
 		{
 			if (reservationPatchDto == null || string.IsNullOrWhiteSpace(reservationPatchDto.ReservationStatus))
@@ -142,6 +152,8 @@ namespace RentoraAPI.Controllers
 
 		// DELETE: api/Reservations/5
 		[HttpDelete("{id}")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeleteReservation(Guid id)
 		{
 			var reservation = await _context.Reservation.FindAsync(id);

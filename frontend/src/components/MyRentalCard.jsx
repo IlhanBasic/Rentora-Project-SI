@@ -22,10 +22,9 @@ export default function MyRentalCard({
   const [modalInfo, setModalInfo] = useState({ modalTitle: "", modalText: "", isOpen: false });
   const navigate = useNavigate();
 
-  // Check if cancellation is allowed (24 hours before the pickup)
+
   const canCancel = new Date(toDate) - Date.now() > 24 * 60 * 60 * 1000;
 
-  // Helper function to update reservation status via API
   const updateReservationStatus = async (status) => {
     try {
       const response = await fetch(`https://localhost:7247/api/Reservations/${reservationId}`, {
@@ -63,13 +62,13 @@ export default function MyRentalCard({
     }
   };
 
-  // Close modal and reset state
+
   const closeModal = () => {
     setModalInfo({ modalTitle: "", modalText: "", isOpen: false });
     document.getElementById("root").style.filter = "blur(0)";
   };
 
-  // Check reservation status on mount and on status change
+
   useEffect(() => {
     if (!token) {
       navigate("/auth?mode=Login");
@@ -85,7 +84,7 @@ export default function MyRentalCard({
     checkReservationStatus();
   }, [reservationId, toDate, reservationStatus, isCanceled, token, navigate]);
 
-  // Handle cancelation request
+
   const handleCancelRequest = () => {
     setModalInfo({
       modalTitle: canCancel ? "Da li ste sigurni da želite da otkažete rezervaciju?" : "Rezervacija ne može biti otkazana!",
@@ -94,7 +93,6 @@ export default function MyRentalCard({
     });
   };
 
-  // Handle cancel action
   const handleCancel = async () => {
     if (!canCancel) return;
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -63,6 +64,8 @@ namespace RentoraAPI.Controllers
 
 		// PUT: api/Locations/5
 		[HttpPut("{id}")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> PutLocation(Guid id, Location location)
 		{
 			if (id != location.Id)
@@ -94,6 +97,8 @@ namespace RentoraAPI.Controllers
 
 		// POST: api/Locations
 		[HttpPost]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin")]
 		public async Task<ActionResult<Location>> PostLocation(Location location)
 		{
 			if (location == null)
@@ -110,6 +115,8 @@ namespace RentoraAPI.Controllers
 
 		// DELETE: api/Locations/5
 		[HttpDelete("{id}")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeleteLocation(Guid id)
 		{
 			var location = await _context.Location.FindAsync(id);

@@ -38,7 +38,6 @@ export default function RootLayout() {
     }
 
     const tokenDuration = getTokenDuration();
-    console.log(tokenDuration);
 
     setTimeout(() => {
       navigate("/");

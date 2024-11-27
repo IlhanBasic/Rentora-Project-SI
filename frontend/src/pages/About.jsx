@@ -3,9 +3,11 @@ import Header from "../components/Header.jsx";
 import DinamicCard from "../components/DinamicCard.jsx";
 import Carousel from "../components/Carousel.jsx";
 import aboutImg from "../assets/person.jpg";
-import { ABOUT_DATA } from "../data/ABOUT_DATA.js"; 
+import { ABOUT_DATA } from "../data/ABOUT_DATA.js";
+import { useScroll } from "framer-motion";
 
 export default function About() {
+  const { scrollY } = useScroll();
   const [successInfo, setSuccessInfo] = useState({
     numberOfHappyUsers: 0,
     numberOfYears: 0,
@@ -78,7 +80,7 @@ export default function About() {
           <p>{ABOUT_DATA.companyInfo.mission}</p>
         </div>
       </div>
-      <div className="dinamic-info">
+      <div className={`dinamic-info`}>
         <DinamicCard
           title="Zadovoljnih Korisnika"
           number={successInfo.numberOfHappyUsers}

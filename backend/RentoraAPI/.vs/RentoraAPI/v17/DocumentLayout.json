@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\controllers\\reservationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\controllers\\reservationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|solutionrelative:rentoraapi\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{82DB6D1B-52B8-492F-BD97-CF25F5753241}|RentoraAPI\\RentoraAPI.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\backend\\rentoraapi\\rentoraapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -70,7 +70,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ApplicationUser.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Models\\ApplicationUser.cs",
               "RelativeDocumentMoniker": "RentoraAPI\\Models\\ApplicationUser.cs",
@@ -78,12 +78,11 @@
               "RelativeToolTip": "RentoraAPI\\Models\\ApplicationUser.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-27T15:24:27.048Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-27T15:24:27.048Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "ReservationsController.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Controllers\\ReservationsController.cs",
               "RelativeDocumentMoniker": "RentoraAPI\\Controllers\\ReservationsController.cs",
@@ -104,8 +103,7 @@
               "RelativeToolTip": "RentoraAPI\\Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAH0AAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-22T14:54:57.294Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-22T14:54:57.294Z"
             },
             {
               "$type": "Document",
@@ -115,10 +113,18 @@
               "RelativeDocumentMoniker": "RentoraAPI\\Controllers\\AuthController.cs",
               "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\backend\\RentoraAPI\\RentoraAPI\\Controllers\\AuthController.cs",
               "RelativeToolTip": "RentoraAPI\\Controllers\\AuthController.cs",
-              "ViewState": "AQIAAFgAAAAAAAAAAAAqwGkAAAAbAAAA",
+              "ViewState": "AQIAAIQAAAAAAAAAAAAAwKMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-15T12:33:56.169Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
             {
               "$type": "Document",
@@ -143,10 +149,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-22T12:58:36.061Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
@@ -231,10 +233,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-22T13:02:00.296Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             }
           ]
         }

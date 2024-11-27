@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RentoraAPI.Models.DTO;
-using RentoraAPI.Models; 
+using RentoraAPI.Models;
 using RentoraAPI.Respositories;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +17,22 @@ namespace RentoraAPI.Controllers
 	public class AuthController : ControllerBase
 	{
 		private readonly UserManager<ApplicationUser> userManager;
+		private readonly RoleManager<IdentityRole> roleManager; // Dodano RoleManager
 		private readonly ITokenRepository tokenRepository;
 
-		public AuthController(UserManager<ApplicationUser> userManager, ITokenRepository tokenRepository)
+		// Konstruktor sa RoleManager
+		public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ITokenRepository tokenRepository)
 		{
 			this.userManager = userManager;
+			this.roleManager = roleManager; // Dodela RoleManager
 			this.tokenRepository = tokenRepository;
 		}
+
 		// GET api/auth/Users
 		[HttpGet]
 		[Route("Users")]
 		[Authorize(AuthenticationSchemes = "Bearer")]
-		[Authorize(Roles ="Admin")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetAllUsers()
 		{
 			var users = await userManager.Users.ToListAsync();
@@ -47,7 +51,7 @@ namespace RentoraAPI.Controllers
 				{
 					Id = user.Id,
 					Email = user.Email,
-					Roles = roles.ToList() 
+					Roles = roles.ToList()
 				});
 			}
 
@@ -82,7 +86,7 @@ namespace RentoraAPI.Controllers
 		[HttpGet]
 		[Route("Users/{id}")]
 		[Authorize(AuthenticationSchemes = "Bearer")]
-		[Authorize(Roles ="Admin,User")]
+		[Authorize(Roles = "Admin,User")]
 		public async Task<IActionResult> GetUserById(string id)
 		{
 			var user = await userManager.FindByIdAsync(id);
@@ -91,7 +95,7 @@ namespace RentoraAPI.Controllers
 				return NotFound(new { Message = "Korisnik nije pronađen." });
 			}
 
-			var roles = await userManager.GetRolesAsync(user); 
+			var roles = await userManager.GetRolesAsync(user);
 			var userDto = new UserDto
 			{
 				Id = user.Id,
@@ -102,12 +106,23 @@ namespace RentoraAPI.Controllers
 			return Ok(userDto);
 		}
 
-
 		// POST api/auth/Register
 		[HttpPost]
 		[Route("Register")]
 		public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
 		{
+			// Proveri da li su sve uloge validne pre nego što kreiramo korisnika
+			if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
+			{
+				foreach (var role in registerRequestDto.Roles)
+				{
+					if (!await roleManager.RoleExistsAsync(role))
+					{
+						return BadRequest(new { Message = $"Uloga '{role}' ne postoji." });
+					}
+				}
+			}
+
 			var existingUser = await userManager.FindByEmailAsync(registerRequestDto.Username);
 			if (existingUser != null)
 			{
@@ -126,6 +141,7 @@ namespace RentoraAPI.Controllers
 			var identityResult = await userManager.CreateAsync(identityUser, registerRequestDto.Password);
 			if (identityResult.Succeeded)
 			{
+				// Ako su uloge prosle, sada dodeljujemo uloge
 				if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
 				{
 					var roleResult = await userManager.AddToRolesAsync(identityUser, registerRequestDto.Roles);
@@ -135,10 +151,10 @@ namespace RentoraAPI.Controllers
 					}
 					else
 					{
-						return BadRequest(new { Message = "Neuspešno dodeljivanje uloga.", Errors = roleResult.Errors });
+						return BadRequest(new { Message = "Došlo je do greške prilikom dodele uloga." });
 					}
 				}
-				return Ok(new { Message = "Korisnik je registrovan bez uloga! Molimo vas da se prijavite." });
+				return Ok(new { Message = "Korisnik je registrovan! Molimo vas da se prijavite." });
 			}
 			else
 			{
@@ -173,6 +189,5 @@ namespace RentoraAPI.Controllers
 			}
 			return BadRequest(new { Message = "Uneta email adresa ne postoji." });
 		}
-
 	}
 }

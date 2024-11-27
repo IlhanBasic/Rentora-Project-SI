@@ -7,7 +7,7 @@ export default function VehicleDetails() {
   const { vehicleId } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  
+
   let startLocation,
     endLocation = "";
   let startDate = new Date();
@@ -38,7 +38,7 @@ export default function VehicleDetails() {
     cvv: "",
     pin: "",
   });
-  
+
   const [pickupTime, setPickupTime] = useState(startTime);
   const [pickupDate, setPickupDate] = useState(startDate.toISOString().split("T")[0]);
   const [pickupLocation, setPickupLocation] = useState(startLocation);
@@ -48,15 +48,15 @@ export default function VehicleDetails() {
 
   const [durationDays, setDurationDays] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [deposit, setDeposit] = useState(0); // New state for deposit
+  const [deposit, setDeposit] = useState(0);
+
+  const baseDeposit = 2000; 
 
   useEffect(() => {
     async function fetchVehicle() {
       setIsLoading(true);
       try {
-        const response = await fetch(
-          `https://localhost:7247/api/Vehicles/${vehicleId}`
-        );
+        const response = await fetch(`https://localhost:7247/api/Vehicles/${vehicleId}`);
         if (!response.ok) {
           navigate("/vehicles");
         }
@@ -83,7 +83,8 @@ export default function VehicleDetails() {
         setDurationDays(duration);
         const price = duration * car.pricePerDay;
         setTotalPrice(price);
-        setDeposit(price * 0.20); 
+        const calculatedDeposit = baseDeposit + (duration * car.pricePerDay * 0.2);
+        setDeposit(calculatedDeposit);
       } else {
         setDurationDays(0);
         setTotalPrice(0);
@@ -96,14 +97,22 @@ export default function VehicleDetails() {
     const currentDate = new Date();
     const selectedPickupDate = new Date(pickupDate);
     const selectedReturnDate = new Date(returnDate);
+    
     if (selectedPickupDate < currentDate) {
       setPickupDate(currentDate.toISOString().split("T")[0]);
     }
+    
     if (selectedReturnDate <= selectedPickupDate) {
       const newReturnDate = new Date(selectedPickupDate);
       newReturnDate.setDate(newReturnDate.getDate() + 1);
       setReturnDate(newReturnDate.toISOString().split("T")[0]);
     }
+    
+    // Reset deposit when dates change
+    if (selectedPickupDate >= selectedReturnDate) {
+      setDeposit(0);
+    }
+    
   }, [pickupDate, returnDate]);
 
   if (isLoading) {
@@ -132,7 +141,7 @@ export default function VehicleDetails() {
       </div>
       <h1 className="important">MOLIMO POPUNITE FORMU</h1>
       <ReservationForm
-        total={totalPrice} 
+        total={totalPrice}
         startDate={startDate}
         endDate={endDate}
         vehicleId={vehicleId}
@@ -154,9 +163,11 @@ export default function VehicleDetails() {
         setCardDetails={setCardDetails}
         minPickupDate={startDate.toISOString().split("T")[0]}
         minReturnDate={pickupDate}
-        maxReturnDate={new Date(new Date(pickupDate).getTime() + 7 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split("T")[0]}
+        maxReturnDate={
+          new Date(new Date(pickupDate).getTime() + 7 * 24 * 60 * 60 * 1000)
+            .toISOString()
+            .split("T")[0]
+        }
       />
       {deposit > 0 && (
         <h1 className="important">DEPOZIT: {deposit.toFixed(2)} RSD</h1>

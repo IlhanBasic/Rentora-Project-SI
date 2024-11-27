@@ -2,12 +2,14 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Modal from "../components/Modal.jsx";
-
+import { getTranslation } from "../data/translation.js";
 function Section({ title, data, onEdit, onDelete, isEditable }) {
   return (
     <div>
       <h1>{title}</h1>
-      {isEditable && <button onClick={() => onEdit(null)}>Dodaj novi red</button>}
+      {isEditable && (
+        <button onClick={() => onEdit(null)}>Dodaj novi red</button>
+      )}
       <div>
         {data && data.length > 0 ? (
           data.map((item) => (
@@ -18,7 +20,7 @@ function Section({ title, data, onEdit, onDelete, isEditable }) {
                 )
                 .map(([key, value], index) => (
                   <div key={index} className="vertical-table-row">
-                    <strong>{key}:</strong>
+                    <strong>{getTranslation(key)}:</strong>
                     <span>{value}</span>
                   </div>
                 ))}
@@ -41,11 +43,10 @@ function Section({ title, data, onEdit, onDelete, isEditable }) {
     </div>
   );
 }
-
 export default function AdminPage() {
   const { token, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!token) {
       navigate("/");
@@ -60,7 +61,7 @@ export default function AdminPage() {
     modalTitle: "",
     modalText: "",
   });
-  
+
   const closeModal = () => {
     setModalInfo((prev) => ({ ...prev, isOpen: false }));
     document.getElementById("root").style.filter = "blur(0)";
@@ -83,7 +84,7 @@ export default function AdminPage() {
     try {
       const response = await fetch(`https://localhost:7247/api/${endpoint}`, {
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       });
       const data = await response.json();
@@ -91,7 +92,8 @@ export default function AdminPage() {
     } catch (error) {
       console.log(error);
       setModalInfo({
-        modalTitle: "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
+        modalTitle:
+          "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
         modalText: `Probajte ponovo kasnije.`,
         isOpen: true,
       });
@@ -115,7 +117,7 @@ export default function AdminPage() {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
-          }
+          },
         });
 
         fetchData(endpoint, getSetter(activeSection));
@@ -150,7 +152,9 @@ export default function AdminPage() {
   };
 
   const renderSection = () => {
-    const isEditable = ["vehicles", "locations", "users"].includes(activeSection);
+    const isEditable = ["vehicles", "locations", "users"].includes(
+      activeSection
+    );
     switch (activeSection) {
       case "vehicles":
         return (
@@ -236,7 +240,9 @@ export default function AdminPage() {
               ].map(({ key, label }) => (
                 <li
                   key={key}
-                  className={`admin-nav-item ${activeSection === key ? "active" : ""}`}
+                  className={`admin-nav-item ${
+                    activeSection === key ? "active" : ""
+                  }`}
                   onClick={() => setActiveSection(key)}
                 >
                   {label}

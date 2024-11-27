@@ -45,6 +45,7 @@ function Section({ title, data, onEdit, onDelete, isEditable }) {
 export default function AdminPage() {
   const { token, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
+  
   useEffect(() => {
     if (!token) {
       navigate("/");
@@ -59,6 +60,7 @@ export default function AdminPage() {
     modalTitle: "",
     modalText: "",
   });
+  
   const closeModal = () => {
     setModalInfo((prev) => ({ ...prev, isOpen: false }));
     document.getElementById("root").style.filter = "blur(0)";
@@ -79,23 +81,22 @@ export default function AdminPage() {
 
   const fetchData = async (endpoint, setter) => {
     try {
-        const response = await fetch(`https://localhost:7247/api/${endpoint}`, {
-            headers: {
-                Authorization: `Bearer ${token}`, 
-            },
-        });
-        const data = await response.json();
-        setter(data);
+      const response = await fetch(`https://localhost:7247/api/${endpoint}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+      const data = await response.json();
+      setter(data);
     } catch (error) {
-        console.log(error);
-        setModalInfo({
-            modalTitle: "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
-            modalText: `Probajte ponovo kasnije.`,
-            isOpen: true,
-        });
+      console.log(error);
+      setModalInfo({
+        modalTitle: "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
+        modalText: `Probajte ponovo kasnije.`,
+        isOpen: true,
+      });
     }
-};
-
+  };
 
   const handleEdit = (item) => {
     if (item) {
@@ -112,6 +113,9 @@ export default function AdminPage() {
       try {
         await fetch(url, {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
         });
 
         fetchData(endpoint, getSetter(activeSection));
@@ -146,9 +150,7 @@ export default function AdminPage() {
   };
 
   const renderSection = () => {
-    const isEditable = ["vehicles", "locations", "users"].includes(
-      activeSection
-    );
+    const isEditable = ["vehicles", "locations", "users"].includes(activeSection);
     switch (activeSection) {
       case "vehicles":
         return (
@@ -222,23 +224,24 @@ export default function AdminPage() {
                   navigate("/");
                 }}
               >
-                Home
+                Početna
               </button>
             </div>
             <ul className="admin-nav-list">
-              {["vehicles", "reservations", "users", "locations"].map(
-                (section) => (
-                  <li
-                    key={section}
-                    className={`admin-nav-item ${
-                      activeSection === section ? "active" : ""
-                    }`}
-                    onClick={() => setActiveSection(section)}
-                  >
-                    {section.charAt(0).toUpperCase() + section.slice(1)}
-                  </li>
-                )
-              )}
+              {[
+                { key: "vehicles", label: "Vozila" },
+                { key: "reservations", label: "Rezervacije" },
+                { key: "users", label: "Korisnici" },
+                { key: "locations", label: "Lokacije" },
+              ].map(({ key, label }) => (
+                <li
+                  key={key}
+                  className={`admin-nav-item ${activeSection === key ? "active" : ""}`}
+                  onClick={() => setActiveSection(key)}
+                >
+                  {label}
+                </li>
+              ))}
               <button onClick={() => navigate("../change-password")}>
                 Promena lozinke
               </button>

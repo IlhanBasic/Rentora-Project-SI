@@ -54,7 +54,7 @@ export default function Filter({ onFilterChange, filterCarType, filterBrands }) 
       ))}
 
       <button onClick={handleFilterChange} className="apply-button">
-        Apply Filters
+        Primeni filtere
       </button>
     </div>
   );

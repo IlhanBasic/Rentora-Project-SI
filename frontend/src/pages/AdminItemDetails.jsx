@@ -157,11 +157,11 @@ export default function AdminItemDetails() {
   const createItem = async () => {
     const endpoint = section === "users" ? "Auth/Register" : apiPoint;
     const url = `https://localhost:7247/api/${endpoint}`;
-    
+
     if (section === "users" && typeof item.roles === "string") {
-      item.roles = [item.roles]; 
+      item.roles = [item.roles];
     }
-  
+
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -171,12 +171,13 @@ export default function AdminItemDetails() {
         },
         body: JSON.stringify(item),
       });
-  
+
       if (!response.ok) {
+        const error = await response.json();
         setModalInfo({
           modalTitle:
             "Došlo je do greške sa serverom prilikom čuvanja podataka 🙁!",
-          modalText: `Probajte ponovo kasnije.`,
+          modalText: `Probajte ponovo kasnije. Error: ${error.message}`,
           isOpen: true,
         });
       } else {
@@ -192,13 +193,14 @@ export default function AdminItemDetails() {
       }
     } catch (error) {
       setModalInfo({
-        modalTitle: "Došlo je do greške sa serverom prilikom čuvanja podataka 🙁!",
+        modalTitle:
+          "Došlo je do greške sa serverom prilikom čuvanja podataka 🙁!",
         modalText: `Error: ${error.message}. Probajte ponovo kasnije.`,
         isOpen: true,
       });
     }
   };
-  
+
   const updateItem = async () => {
     const endpoint = section === "users" ? "Auth/Users" : apiPoint;
     const url = `https://localhost:7247/api/${endpoint}/${id}`;
@@ -253,7 +255,70 @@ export default function AdminItemDetails() {
   if (loading) {
     return <Loader />;
   }
+  const translations = [
+    {
+      users: {
+        username: "Korisničko ime",
+        password: "Lozinka",
+        firstName: "Ime",
+        lastName: "Prezime",
+        phoneNumber: "Broj telefona",
+        roles: "Uloge",
+      },
+    },
+    {
+      locations: {
+        street: "Ulica",
+        streetNumber: "Broj ulice",
+        city: "Grad",
+        country: "Država",
+        latitude: "Geografska širina",
+        longitude: "Geografska dužina",
+      },
+    },
+    {
+      reservations: {
+        vehicleId: "ID vozila",
+        startLocationId: "ID početne lokacije",
+        endLocationId: "ID krajnje lokacije",
+        userId: "ID korisnika",
+        startDateTime: "Početni datum i vreme",
+        endDateTime: "Krajnji datum i vreme",
+        reservationStatus: "Status rezervacije",
+        creditCardNumber: "Broj kreditne kartice",
+      },
+    },
+    {
+      vehicles: {
+        brand: "Marka",
+        model: "Model",
+        yearOfManufacture: "Godina proizvodnje",
+        registrationNumber: "Registarski broj",
+        pricePerDay: "Cena po danu",
+        status: "Status",
+        picture: "Slika",
+        fuelType: "Vrsta goriva",
+        numOfDoors: "Broj vrata",
+        transmission: "Tip menjača",
+        type: "Tip vozila",
+      },
+    },
+  ];
 
+  // Pretraga prevoda za ključ u kategorijama
+  const getTranslation = (key) => {
+    for (const category of translations) {
+      for (const [categoryName, fields] of Object.entries(category)) {
+        if (fields[key]) {
+          return fields[key];
+        }
+      }
+    }
+    // Ako nije pronađen prevod, vraća originalni key sa razmakom
+    return (
+      key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1")
+    );
+  };
   return (
     <>
       <Modal
@@ -279,8 +344,7 @@ export default function AdminItemDetails() {
             return (
               <div className="admin-form-group" key={key}>
                 <label className="admin-form-label">
-                  {key.charAt(0).toUpperCase() +
-                    key.slice(1).replace(/([A-Z])/g, " $1")}
+                  {getTranslation(key)} {/* Prevod ili originalni naziv */}
                   <input
                     type={
                       typeof item[key] === "number"
@@ -294,7 +358,7 @@ export default function AdminItemDetails() {
                     name={key}
                     value={item[key]}
                     onChange={handleChange}
-                    required={key==="creditCardNumber" ? false:true}
+                    required={key === "creditCardNumber" ? false : true}
                     className="admin-form-input"
                   />
                 </label>

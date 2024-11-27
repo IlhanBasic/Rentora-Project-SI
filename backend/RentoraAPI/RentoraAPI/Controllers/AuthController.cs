@@ -118,7 +118,7 @@ namespace RentoraAPI.Controllers
 				{
 					if (!await roleManager.RoleExistsAsync(role))
 					{
-						return BadRequest(new { Message = $"Uloga '{role}' ne postoji." });
+						return BadRequest(new { Message = $"Uloga '{role}' ne postoji. Postoje samo uloge Admin i User" });
 					}
 				}
 			}
@@ -189,5 +189,28 @@ namespace RentoraAPI.Controllers
 			}
 			return BadRequest(new { Message = "Uneta email adresa ne postoji." });
 		}
+		[HttpDelete]
+		[Route("Users/{id}")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> DeleteUser(string id)
+		{
+			var user = await userManager.FindByIdAsync(id);
+			if (user == null)
+			{
+				return NotFound(new { Message = "Korisnik nije pronađen." });
+			}
+
+			// Brisanje korisnika
+			var result = await userManager.DeleteAsync(user);
+			if (result.Succeeded)
+			{
+				return Ok(new { Message = "Korisnik je uspešno obrisan." });
+			}
+
+			// Ako brisanje nije uspelo, vraćamo grešku
+			return BadRequest(new { Message = "Došlo je do greške prilikom brisanja korisnika.", Errors = result.Errors });
+		}
+
 	}
 }

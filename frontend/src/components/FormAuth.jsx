@@ -113,14 +113,14 @@ export default function FormAuth({ type }) {
   const inputGroups = {
     Login: [
       { inputId: "Email", inputName: "E-mail", inputType: "email" },
-      { inputId: "PasswordHash", inputName: "Password", inputType: "password" },
+      { inputId: "PasswordHash", inputName: "Lozinka", inputType: "password" },
     ],
     Register: [
       { inputId: "FirstName", inputName: "Ime", inputType: "text" },
       { inputId: "LastName", inputName: "Prezime", inputType: "text" },
       { inputId: "PhoneNumber", inputName: "Telefon", inputType: "text" },
       { inputId: "Username", inputName: "E-mail", inputType: "email" },
-      { inputId: "PasswordHash", inputName: "Password", inputType: "password" },
+      { inputId: "PasswordHash", inputName: "Šifra", inputType: "password" },
     ],
   };
 
@@ -139,15 +139,15 @@ export default function FormAuth({ type }) {
         <div className="btn-group">
           <button type="submit" disabled={isLoading}>
             {isLoading
-              ? "Loading..."
+              ? "Učitavanje..."
               : type === "Register"
-              ? "Sign In"
-              : "Login"}
+              ? "Registruj se"
+              : "Prijavi se"}
           </button>
           <button type="button" onClick={handleNavigate}>
             {type === "Register"
-              ? "Already Have An Account?"
-              : "Don't Have An Account? Sign Up"}
+              ? "Već imate nalog?"
+              : "Nemate nalog? Registrujte se"}
           </button>
         </div>
       </form>

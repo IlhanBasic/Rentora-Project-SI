@@ -76,10 +76,10 @@ export default function Navbar() {
           {!ctx.isLoggedIn && (
             <>
               <button onClick={() => handleNavigate("/auth/?mode=Login")}>
-                Login
+                Prijavi se
               </button>
               <button onClick={() => handleNavigate("/auth/?mode=Register")}>
-                Register
+                Registruj se
               </button>
             </>
           )}
@@ -90,9 +90,9 @@ export default function Navbar() {
                   handleNavigate(`${ctx.isAdmin ? "/Admin" : "/my-rentals"}`)
                 }
               >
-                {ctx.isAdmin ? "Admin Panel" : "Pregled Rezervacija"}
+                {ctx.isAdmin ? "Admin Stranica  " : "Profil"}
               </button>
-              <button onClick={handleLogout}>Logout</button>
+              <button onClick={handleLogout}>Odjavi se</button>
             </>
           )}
         </div>

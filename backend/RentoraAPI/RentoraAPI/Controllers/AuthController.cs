@@ -28,36 +28,6 @@ namespace RentoraAPI.Controllers
 			this.tokenRepository = tokenRepository;
 		}
 
-		// GET api/auth/Users
-		[HttpGet]
-		[Route("Users")]
-		[Authorize(AuthenticationSchemes = "Bearer")]
-		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> GetAllUsers()
-		{
-			var users = await userManager.Users.ToListAsync();
-
-			if (users == null || !users.Any())
-			{
-				return NotFound(new { Message = "Nema registrovanih korisnika." });
-			}
-
-			var userDtos = new List<UserDto>();
-
-			foreach (var user in users)
-			{
-				var roles = await userManager.GetRolesAsync(user);
-				userDtos.Add(new UserDto
-				{
-					Id = user.Id,
-					Email = user.Email,
-					Roles = roles.ToList()
-				});
-			}
-
-			return Ok(userDtos);
-		}
-
 		[HttpPatch]
 		[Route("Users/{id}/ChangePassword")]
 		public async Task<IActionResult> ChangeUserPassword(string id, [FromBody] ChangePasswordRequestDto changePasswordRequest)
@@ -81,29 +51,6 @@ namespace RentoraAPI.Controllers
 			}
 
 			return Ok(new { Message = "Lozinka je uspešno promenjena." });
-		}
-
-		[HttpGet]
-		[Route("Users/{id}")]
-		[Authorize(AuthenticationSchemes = "Bearer")]
-		[Authorize(Roles = "Admin,User")]
-		public async Task<IActionResult> GetUserById(string id)
-		{
-			var user = await userManager.FindByIdAsync(id);
-			if (user == null)
-			{
-				return NotFound(new { Message = "Korisnik nije pronađen." });
-			}
-
-			var roles = await userManager.GetRolesAsync(user);
-			var userDto = new UserDto
-			{
-				Id = user.Id,
-				Email = user.Email,
-				Roles = roles.ToList() // Dodavanje uloga u DTO
-			};
-
-			return Ok(userDto);
 		}
 
 		// POST api/auth/Register
@@ -188,28 +135,6 @@ namespace RentoraAPI.Controllers
 				return BadRequest(new { Message = "Šifra nije ispravna." });
 			}
 			return BadRequest(new { Message = "Uneta email adresa ne postoji." });
-		}
-		[HttpDelete]
-		[Route("Users/{id}")]
-		[Authorize(AuthenticationSchemes = "Bearer")]
-		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> DeleteUser(string id)
-		{
-			var user = await userManager.FindByIdAsync(id);
-			if (user == null)
-			{
-				return NotFound(new { Message = "Korisnik nije pronađen." });
-			}
-
-			// Brisanje korisnika
-			var result = await userManager.DeleteAsync(user);
-			if (result.Succeeded)
-			{
-				return Ok(new { Message = "Korisnik je uspešno obrisan." });
-			}
-
-			// Ako brisanje nije uspelo, vraćamo grešku
-			return BadRequest(new { Message = "Došlo je do greške prilikom brisanja korisnika.", Errors = result.Errors });
 		}
 
 	}

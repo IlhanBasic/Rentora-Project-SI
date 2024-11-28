@@ -1,3 +1,5 @@
+import { section } from "framer-motion/client";
+
 export const translations = [
   {
     users: {
@@ -21,8 +23,8 @@ export const translations = [
   },
   {
     reservations: {
-      firstName : "Ime",
-      lastName : "Prezime",
+      firstName: "Ime",
+      lastName: "Prezime",
       email: "E-mail",
       vehicleBrand: "Marka vozila",
       vehicleModel: "Model vozila",
@@ -51,6 +53,15 @@ export const translations = [
     },
   },
 ];
+const sections = {
+  users: "Korisnike",
+  vehicles: "Vozila",
+  reservations: "Rezervacije",
+  locations: "Lokacije",
+};
+export function getTranslationSection(section) {
+  return sections[section];
+}
 export const getTranslation = (key) => {
   for (const category of translations) {
     for (const [categoryName, fields] of Object.entries(category)) {

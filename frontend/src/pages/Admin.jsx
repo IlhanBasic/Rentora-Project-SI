@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Modal from "../components/Modal.jsx";
 import { getTranslation } from "../data/translation.js";
-function Section({ title, data, onEdit, onDelete, isEditable }) {
+function Section({ title, data, onEdit, onDelete,onCancel }) {
   return (
     <div>
       <h1>{title}</h1>
-      {isEditable && (
+      {title !== "Rezervacije" && (
         <button onClick={() => onEdit(null)}>Dodaj novi red</button>
       )}
       <div>
@@ -25,14 +25,17 @@ function Section({ title, data, onEdit, onDelete, isEditable }) {
                   </div>
                 ))}
               <div className="edit-buttons">
-                {isEditable && (
-                  <>
-                    {title !== "Korisnici" && (
-                      <button onClick={() => onEdit(item)}>Izmeni</button>
-                    )}
+                <>
+                  {title !== "Korisnici" && title !== "Rezervacije" && (
+                    <button onClick={() => onEdit(item)}>Izmeni</button>
+                  )}
+                  {(title === "Rezervacije" && item.reservationStatus !== "Otkazana" && item.reservationStatus !== "Istekla") && (
+                    <button onClick={() => onCancel(item.id)}>Otkazi</button>
+                  )}
+                  {title !== "Rezervacije" && (
                     <button onClick={() => onDelete(item.id)}>Obriši</button>
-                  </>
-                )}
+                  )}
+                </>
               </div>
             </div>
           ))
@@ -76,7 +79,7 @@ export default function AdminPage() {
   useEffect(() => {
     fetchData("Vehicles", setVehicles);
     fetchData("Reservations", setReservations);
-    fetchData("Auth/Users", setUsers);
+    fetchData("ApplicationUser", setUsers);
     fetchData("Locations", setLocations);
   }, []);
 
@@ -109,7 +112,8 @@ export default function AdminPage() {
   };
 
   const handleDelete = async (id) => {
-    const endpoint = activeSection === "users" ? "Auth/Users" : activeSection;
+    const endpoint =
+      activeSection === "users" ? "ApplicationUser" : activeSection;
     const url = `https://localhost:7247/api/${endpoint}/${id}`;
     if (window.confirm("Da li ste sigurni da želite da obrišete?")) {
       try {
@@ -135,7 +139,35 @@ export default function AdminPage() {
       }
     }
   };
+  const handleCancel = async (id) => {
+    const endpoint = "Reservations";
+    const url = `https://localhost:7247/api/${endpoint}/${id}`;
+    if (window.confirm("Da li ste sigurni da želite da otkažete rezervaciju?")) {
+      try {
+        await fetch(url, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ reservationStatus: "Otkazana" }),
+        });
 
+        fetchData(endpoint, getSetter(activeSection));
+        setModalInfo({
+          modalTitle: "Uspešno otkazano ✅!",
+          modalText: `Prikaz će biti uskoro osvežen.`,
+          isOpen: true,
+        });
+      } catch (error) {
+        setModalInfo({
+          modalTitle: "Došlo je do greške prilikom otkazivanja rezervacije  🙁!",
+          modalText: `Pokušajte opet kasnije.`,
+          isOpen: true,
+        });
+      }
+    }
+  }
   const getSetter = (section) => {
     switch (section) {
       case "vehicles":
@@ -152,9 +184,6 @@ export default function AdminPage() {
   };
 
   const renderSection = () => {
-    const isEditable = ["vehicles", "locations", "users"].includes(
-      activeSection
-    );
     switch (activeSection) {
       case "vehicles":
         return (
@@ -163,7 +192,6 @@ export default function AdminPage() {
             data={vehicles}
             onEdit={handleEdit}
             onDelete={handleDelete}
-            isEditable={isEditable}
           />
         );
       case "reservations":
@@ -171,9 +199,8 @@ export default function AdminPage() {
           <Section
             title="Rezervacije"
             data={reservations}
-            onEdit={handleEdit}
+            onCancel={handleCancel}
             onDelete={handleDelete}
-            isEditable={false}
           />
         );
       case "users":
@@ -183,7 +210,6 @@ export default function AdminPage() {
             data={users}
             onEdit={handleEdit}
             onDelete={handleDelete}
-            isEditable={isEditable}
           />
         );
       case "locations":
@@ -193,7 +219,6 @@ export default function AdminPage() {
             data={locations}
             onEdit={handleEdit}
             onDelete={handleDelete}
-            isEditable={isEditable}
           />
         );
       default:
@@ -203,7 +228,6 @@ export default function AdminPage() {
             data={vehicles}
             onEdit={handleEdit}
             onDelete={handleDelete}
-            isEditable={isEditable}
           />
         );
     }

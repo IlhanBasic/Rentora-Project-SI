@@ -34,6 +34,7 @@ namespace RentoraAPI.Controllers
 
 			var reservationDtos = reservations.Select(r => new ReservationResponseDto
 			{
+				Id = r.Id,
 				FirstName = r.User.FirstName,
 				LastName = r.User.LastName,
 				Email = r.User.Email,
@@ -176,7 +177,7 @@ namespace RentoraAPI.Controllers
 		// PATCH: api/Reservations/5
 		[HttpPatch("{id}")]
 		[Authorize(AuthenticationSchemes = "Bearer")]
-		[Authorize(Roles = "User")]
+		[Authorize(Roles = "User,Admin")]
 		public async Task<IActionResult> PatchReservation(Guid id, [FromBody] ReservationPatchDto reservationPatchDto)
 		{
 			if (reservationPatchDto == null || string.IsNullOrWhiteSpace(reservationPatchDto.ReservationStatus))

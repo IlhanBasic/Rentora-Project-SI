@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/Loader.jsx";
 import Modal from "../components/Modal.jsx";
-import { getTranslation } from "../data/translation.js";
+import { getTranslation, getTranslationSection } from "../data/translation.js";
 export default function AdminItemDetails() {
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
@@ -17,7 +17,6 @@ export default function AdminItemDetails() {
   const [loading, setLoading] = useState(true);
   const [apiPoint, setApiPoint] = useState("Vehicles");
   const navigate = useNavigate();
-
   const closeModal = () => {
     setModalInfo((prev) => ({ ...prev, isOpen: false }));
     document.getElementById("root").style.filter = "blur(0)";
@@ -34,7 +33,7 @@ export default function AdminItemDetails() {
         newApiPoint = "Reservations";
         break;
       case "users":
-        newApiPoint = "Auth/Users";
+        newApiPoint = "ApplicationUser";
         break;
       default:
         newApiPoint = "Vehicles";
@@ -202,9 +201,8 @@ export default function AdminItemDetails() {
   };
 
   const updateItem = async () => {
-    const endpoint = section === "users" ? "Auth/Users" : apiPoint;
+    const endpoint = section === "users" ? "ApplicationUser" : apiPoint;
     const url = `https://localhost:7247/api/${endpoint}/${id}`;
-
     try {
       const response = await fetch(url, {
         method: "PUT",
@@ -266,7 +264,7 @@ export default function AdminItemDetails() {
       />
       <div className="admin-item-details">
         <h1 className="admin-title">
-          {id === "new" ? `Dodaj ${section}` : `Izmeni ${section}`}
+          {id === "new" ? `Dodaj ${getTranslationSection(section)}` : `Izmeni ${section}`}
         </h1>
         <form onSubmit={handleSave} className="admin-item-form">
           {Object.keys(item).map((key) => {
@@ -281,7 +279,7 @@ export default function AdminItemDetails() {
             return (
               <div className="admin-form-group" key={key}>
                 <label className="admin-form-label">
-                  {getTranslation(key)} {/* Prevod ili originalni naziv */}
+                  {getTranslation(key)}
                   <input
                     type={
                       typeof item[key] === "number"

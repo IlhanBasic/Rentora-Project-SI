@@ -6,7 +6,7 @@ public class Reservation
 {
 	public Guid Id { get; set; }
 	[Required]
-	[ForeignKey("ApplicationUser")]
+	[ForeignKey("User")]
 	public string UserId { get; set; }
 
 	[CreditCard]

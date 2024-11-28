@@ -26,7 +26,7 @@ namespace RentoraAPI.Data
 				.HasOne(r => r.Vehicle)
 				.WithMany()
 				.HasForeignKey(r => r.VehicleId)
-				.OnDelete(DeleteBehavior.Cascade);
+				.OnDelete(DeleteBehavior.NoAction);
 
 			// Change cascade behavior for Location relationships
 			builder.Entity<Reservation>()

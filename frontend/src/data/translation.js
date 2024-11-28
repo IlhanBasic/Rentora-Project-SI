@@ -21,14 +21,18 @@ export const translations = [
   },
   {
     reservations: {
-      vehicleId: "ID vozila",
-      startLocationId: "ID početne lokacije",
-      endLocationId: "ID krajnje lokacije",
-      userId: "ID korisnika",
+      firstName : "Ime",
+      lastName : "Prezime",
+      email: "E-mail",
+      vehicleBrand: "Marka vozila",
+      vehicleModel: "Model vozila",
+      startLocation: "Početna lokacija",
+      endLocation: "Krajnja lokacija",
       startDateTime: "Početni datum i vreme",
       endDateTime: "Krajnji datum i vreme",
       reservationStatus: "Status rezervacije",
       creditCardNumber: "Broj kreditne kartice",
+      reservationAmount: "Iznos rezervacije",
     },
   },
   {

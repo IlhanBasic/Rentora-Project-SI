@@ -22,19 +22,70 @@ namespace RentoraAPI.Controllers
 		// GET: api/Reservations
 		[HttpGet]
 		[Authorize(AuthenticationSchemes = "Bearer")]
-		[Authorize(Roles = "Admin,User")]
-		public async Task<ActionResult<IEnumerable<Reservation>>> GetReservation()
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult<IEnumerable<ReservationResponseDto>>> GetReservation()
 		{
 			var reservations = await _context.Reservation
 				.Include(r => r.User)
+				.Include(r => r.Vehicle)  
+				.Include(r => r.StartLocation)
+				.Include(r => r.EndLocation)
+				.ToListAsync();
+
+			var reservationDtos = reservations.Select(r => new ReservationResponseDto
+			{
+				FirstName = r.User.FirstName,
+				LastName = r.User.LastName,
+				Email = r.User.Email,
+				VehicleBrand = r.Vehicle.Brand,
+				VehicleModel = r.Vehicle.Model,
+				StartLocation = r.StartLocation.Street + "," + r.StartLocation.City,
+				EndLocation = r.EndLocation.Street + "," + r.EndLocation.City,
+				StartDateTime = r.StartDateTime,
+				EndDateTime = r.EndDateTime,
+				CreditCardNumber = r.CreditCardNumber,
+				ReservationStatus = r.ReservationStatus,
+				ReservationAmount = CalculateReservationAmount(r.StartDateTime, r.EndDateTime, r.Vehicle?.PricePerDay ?? 0) // Koristimo cenu iz vozila
+			}).ToList();
+
+			return Ok(reservationDtos);
+		}
+
+		private double CalculateReservationAmount(DateTime startDateTime, DateTime endDateTime, double pricePerDay)
+		{
+			var rentalDuration = (endDateTime - startDateTime).TotalDays;
+			if (rentalDuration < 1) rentalDuration = 1;
+			return Math.Round(rentalDuration * pricePerDay,0);
+		}
+
+		// GET api/reservations/user/{userId}
+		[HttpGet]
+		[Route("user/{userId}")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin,User")]
+		public async Task<IActionResult> GetReservationsByUserId(string userId)
+		{
+			var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier); // This gets the user's ID from the token
+
+			if (currentUserId != userId && !User.IsInRole("Admin"))
+			{
+				return Forbid(); // Return 403 if the user is not the owner of the reservations or an admin
+			}
+
+			var reservations = await _context.Reservation
+				.Where(r => r.UserId == userId)
 				.Include(r => r.Vehicle)
 				.Include(r => r.StartLocation)
 				.Include(r => r.EndLocation)
 				.ToListAsync();
 
-			return reservations;
-		}
+			if (reservations == null || !reservations.Any())
+			{
+				return NotFound(new { Message = "No reservations found for this user." });
+			}
 
+			return Ok(reservations);
+		}
 		// GET: api/Reservations/5
 		[HttpGet("{id}")]
 		[Authorize(AuthenticationSchemes = "Bearer")]

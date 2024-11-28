@@ -21,7 +21,7 @@ export default function MyRentals() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "https://localhost:7247/api/Reservations",
+          `https://localhost:7247/api/Reservations/user/${userId}`,
           {
             method: "GET",
             headers: {
@@ -46,11 +46,7 @@ export default function MyRentals() {
         }
 
         const data = await response.json();
-
-        const userReservations = data.filter(
-          (reservation) => reservation.userId === userId
-        );
-        setReservations(userReservations);
+        setReservations([...data]);
       } catch (error) {
         setErrorMessage(
           "Error: Greška servera prilikom prikazivanja rezervacija. " 

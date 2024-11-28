@@ -457,7 +457,7 @@ namespace RentoraAPI.Migrations
                     b.HasOne("RentoraAPI.Models.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("EndLocation");

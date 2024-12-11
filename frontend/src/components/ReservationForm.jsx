@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import { AuthContext } from "../context/AuthContext.jsx";
+import API_URL from "../API_URL.js";
 export default function ReservationForm({
   vehicleId,
   pickupTime,
@@ -59,7 +60,7 @@ export default function ReservationForm({
   useEffect(() => {
     async function getLocations() {
       try {
-        const response = await fetch("https://localhost:7247/api/Locations");
+        const response = await fetch(`${API_URL}/Locations`);
         if (!response.ok) {
           const error = await response.json();
           setErrorMessage("Error: Greska od strane servera prilikom preuzimanja lokacija !");
@@ -220,7 +221,7 @@ export default function ReservationForm({
         reservationStatus: "aktivan",
       };
       const responseReservation = await fetch(
-        "https://localhost:7247/api/Reservations",
+        `${API_URL}/Reservations`,
         {
           method: "POST",
           headers: {

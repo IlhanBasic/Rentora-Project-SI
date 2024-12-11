@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import Header from "../components/Header.jsx";
 import MyRentalCard from "../components/MyRentalCard.jsx";
 import Loader from "../components/Loader.jsx";
+import API_URL from "../API_URL.js";
 
 export default function MyRentals() {
   const { token, userId, isAdmin, email } = useContext(AuthContext);
@@ -21,7 +22,7 @@ export default function MyRentals() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `https://localhost:7247/api/Reservations/user/${userId}`,
+          `${API_URL}/Reservations/user/${userId}`,
           {
             method: "GET",
             headers: {

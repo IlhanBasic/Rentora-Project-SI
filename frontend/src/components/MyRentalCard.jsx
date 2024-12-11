@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext"; 
 import Modal from "./Modal.jsx";
-
+import API_URL from "../API_URL.js";
 export default function MyRentalCard({
   vehicleId,
   reservationId,
@@ -27,7 +27,7 @@ export default function MyRentalCard({
 
   const updateReservationStatus = async (status) => {
     try {
-      const response = await fetch(`https://localhost:7247/api/Reservations/${reservationId}`, {
+      const response = await fetch(`${API_URL}/Reservations/${reservationId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export default function MyRentalCard({
   // Helper function to update vehicle status via API
   const updateVehicleStatus = async (status) => {
     try {
-      const response = await fetch(`https://localhost:7247/api/Vehicles/${vehicleId}`, {
+      const response = await fetch(`${API_URL}/Vehicles/${vehicleId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import VehicleCard from "../components/VehicleCard";
 import Filter from "../components/Filter";
 import { useEffect, useState } from "react";
 import Loader from '../components/Loader.jsx';
+import API_URL from "../API_URL.js";
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +15,7 @@ export default function Vehicles() {
     async function getCars() {
       try {
         setIsLoading(true);
-        const response = await fetch("https://localhost:7247/api/Vehicles");
+        const response = await fetch(`${API_URL}/Vehicles`);
         if (!response.ok) {
           setError("Error: Došlo je do greške prilikom preuzimanja vozila");
           return;

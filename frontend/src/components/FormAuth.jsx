@@ -1,11 +1,13 @@
 import InputGroup from "./InputGroup";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "./Loader.jsx";
+import API_URL from "../API_URL.js"
+
 export default function FormAuth({ type }) {
-  const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessages, setErrorMessages] = useState({});
   const navigate = useNavigate();
   const ctx = useContext(AuthContext);
 
@@ -17,7 +19,7 @@ export default function FormAuth({ type }) {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7247/api/Auth/${endpoint}`,
+        `${API_URL}/Auth/${endpoint}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -26,21 +28,20 @@ export default function FormAuth({ type }) {
       );
       if (!response.ok) {
         const error = await response.json();
-        console.log(error);
-        setIsError("Greška tokom autentifikacije. "+error.message);
+        setErrorMessages({ global: "Greška tokom autentifikacije. " + error.message });
         return;
       }
       const result = await response.json();
       if (endpoint === "Login") {
         ctx.login(result.jwtToken);
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
         navigate("/");
       }
-      if(endpoint==='Register'){
-        authenticate(data,'Login')
+      if (endpoint === 'Register') {
+        authenticate(data, 'Login');
       }
-    } catch(e) {
-      setIsError("Greška servera.");
+    } catch (e) {
+      setErrorMessages({ global: "Greška servera." });
     } finally {
       setIsLoading(false);
     }
@@ -48,15 +49,14 @@ export default function FormAuth({ type }) {
 
   function validateField(value, regex, errorMsg) {
     if (!regex.test(value)) {
-      setIsError(errorMsg);
-      return false;
+      return errorMsg;
     }
-    return true;
+    return null;
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    setIsError("");
+    setErrorMessages({});
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
     const validations = {
@@ -74,10 +74,10 @@ export default function FormAuth({ type }) {
       ],
       PhoneNumber: [
         /^(?:\+381\s?6[34]|0[67]4)\s?\d{3}(?:\s|-)?\d{3,4}(?:\s|-)?\d{1,2}$/,
-        "Neispravan broj telefona",
+        "Neispravan broj telefona. Telefon moze biti u formatu +381643123456 ili 0643123456",
       ],
-      FirstName: [/^[A-Za-zćĆčČđĐžŽšŠ]{2,20}$/, "Neispravno ime"],
-      LastName: [/^[A-Za-zćĆčČđĐžŽšŠ]{2,20}$/, "Neispravno prezime"],
+      FirstName: [/^[A-Za-zćĆčČđĐžŽšŠ]{2,20}$/, "Neispravno ime. Ime mora biti između 2 i 20 slova i osim slova nisu dozvoljeni drugi karakteri."],
+      LastName: [/^[A-Za-zćĆčČđĐžŽšŠ]{2,20}$/, "Neispravno prezime. Prezime mora biti između 2 i 20 slova i osim slova nisu dozvoljeni drugi karakteri."],
     };
 
     const isRegister = type === "Register";
@@ -85,15 +85,17 @@ export default function FormAuth({ type }) {
       ? ["FirstName", "LastName", "PhoneNumber", "Username", "PasswordHash"]
       : ["Email", "PasswordHash"];
 
+    let validationErrors = {};
     for (const field of fields) {
-      if (
-        !validateField(
-          data[field],
-          validations[field][0],
-          validations[field][1]
-        )
-      )
-        return;
+      const error = validateField(data[field], validations[field][0], validations[field][1]);
+      if (error) {
+        validationErrors[field] = error;
+      }
+    }
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrorMessages(validationErrors);
+      return;
     }
 
     const sendingData = isRegister
@@ -128,14 +130,18 @@ export default function FormAuth({ type }) {
     <>
       <form method="POST" className="form-auth" onSubmit={handleSubmit}>
         {inputGroups[type].map(({ inputId, inputName, inputType }) => (
-          <InputGroup
-            key={inputId}
-            inputId={inputId}
-            inputName={inputName}
-            inputType={inputType}
-          />
+          <div key={inputId}>
+            <InputGroup
+              inputId={inputId}
+              inputName={inputName}
+              inputType={inputType}
+            />
+            {errorMessages[inputId] && (
+              <p className="error-message">{errorMessages[inputId]}</p>
+            )}
+          </div>
         ))}
-        {isError && <p className="error-message">{isError}</p>}
+        {errorMessages.global && <p className="error-message">{errorMessages.global}</p>}
         <div className="btn-group">
           <button type="submit" disabled={isLoading}>
             {isLoading

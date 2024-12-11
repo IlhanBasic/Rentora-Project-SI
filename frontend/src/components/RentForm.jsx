@@ -8,16 +8,35 @@ export default function RentForm({ locations }) {
   const navigate = useNavigate();
 
   const [startDate, setStartDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0]
   );
   const [endDate, setEndDate] = useState(
-    new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
+    new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0]
   );
 
   function isNullOrEmpty(data) {
     return data === null || data === undefined || data.trim() === "";
+  }
+
+  // Provera da li je vreme unutar radnog vremena
+  function isValidWorkingHours(date, time) {
+    const dayOfWeek = new Date(date).getDay(); // 0 - nedelja, 1 - ponedeljak, ...
+    const [hours, minutes] = time.split(":").map(Number);
+
+    if (dayOfWeek === 0) {
+      // Nedeljom (9:00 - 17:00)
+      return hours >= 9 && hours < 17;
+    } else if (dayOfWeek === 6) {
+      // Subotom (7:00 - 24:00)
+      return hours >= 7 && hours < 24;
+    } else {
+      // Radnim danima (7:00 - 24:00)
+      return hours >= 7 && hours < 24;
+    }
   }
 
   useEffect(() => {
@@ -41,6 +60,7 @@ export default function RentForm({ locations }) {
     setErrorMessage("");
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+
     if (
       isNullOrEmpty(data.startLocation) ||
       isNullOrEmpty(data.startDate) ||
@@ -86,6 +106,15 @@ export default function RentForm({ locations }) {
       return;
     }
 
+    // Validacija radnog vremena
+    if (
+      !isValidWorkingHours(data.startDate, data.startTime) ||
+      !isValidWorkingHours(data.returnDate, data.returnTime)
+    ) {
+      setErrorMessage("Vreme mora biti unutar radnog vremena kompanije!");
+      return;
+    }
+
     const dataForSend = {
       StartLocation: data.startLocation,
       StartDate: data.startDate,
@@ -126,7 +155,11 @@ export default function RentForm({ locations }) {
           <input
             type="date"
             name="startDate"
-            min={new Date().toISOString().split("T")[0]}
+            min={
+              new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
+                .toISOString()
+                .split("T")[0]
+            }
             onChange={(e) => setStartDate(e.target.value)}
             value={startDate}
           />

@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Modal from "../components/Modal.jsx";
 import { getTranslation } from "../data/translation.js";
-function Section({ title, data, onEdit, onDelete,onCancel }) {
+import API_URL from "../API_URL.js";
+function Section({ title, data, onEdit, onDelete, onCancel }) {
   return (
     <div>
       <h1>{title}</h1>
@@ -14,24 +15,38 @@ function Section({ title, data, onEdit, onDelete,onCancel }) {
         {data && data.length > 0 ? (
           data.map((item) => (
             <div key={item.id} className="table-row">
-              {Object.entries(item)
-                .filter(
-                  ([key, value]) => typeof value !== "object" || value === null
-                )
-                .map(([key, value], index) => (
-                  <div key={index} className="vertical-table-row">
-                    <strong>{getTranslation(key)}:</strong>
-                    <span>{value}</span>
-                  </div>
-                ))}
+              <div className="vehicle-info">
+                {Object.entries(item)
+                  .filter(
+                    ([key, value]) =>
+                      typeof value !== "object" || value === null
+                  )
+                  .map(([key, value], index) => (
+                    <div key={index} className="vertical-table-row">
+                      <strong>{getTranslation(key)}:</strong>
+                      <span>{value}</span>
+                    </div>
+                  ))}
+              </div>
+              {item.picture && (
+                <div className="vehicle-image-container">
+                  <img
+                    src={item.picture || "/path/to/placeholder-image.jpg"} // Fallback to placeholder if no image
+                    alt="Vehicle"
+                    className="vehicle-image"
+                  />
+                </div>
+              )}
               <div className="edit-buttons">
                 <>
                   {title !== "Korisnici" && title !== "Rezervacije" && (
                     <button onClick={() => onEdit(item)}>Izmeni</button>
                   )}
-                  {(title === "Rezervacije" && item.reservationStatus !== "Otkazana" && item.reservationStatus !== "Istekla") && (
-                    <button onClick={() => onCancel(item.id)}>Otkazi</button>
-                  )}
+                  {title === "Rezervacije" &&
+                    item.reservationStatus !== "Otkazana" &&
+                    item.reservationStatus !== "Istekla" && (
+                      <button onClick={() => onCancel(item.id)}>Otkazi</button>
+                    )}
                   {title !== "Rezervacije" && (
                     <button onClick={() => onDelete(item.id)}>Obriši</button>
                   )}
@@ -47,7 +62,7 @@ function Section({ title, data, onEdit, onDelete,onCancel }) {
   );
 }
 export default function AdminPage() {
-  const { token, isAdmin} = useContext(AuthContext);
+  const { token, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,7 +72,7 @@ export default function AdminPage() {
     if (token && !isAdmin) {
       navigate("/");
     }
-  }, [token,isAdmin]);
+  }, [token, isAdmin]);
 
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
@@ -85,7 +100,7 @@ export default function AdminPage() {
 
   const fetchData = async (endpoint, setter) => {
     try {
-      const response = await fetch(`https://localhost:7247/api/${endpoint}`, {
+      const response = await fetch(`${API_URL}/${endpoint}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -114,7 +129,7 @@ export default function AdminPage() {
   const handleDelete = async (id) => {
     const endpoint =
       activeSection === "users" ? "ApplicationUser" : activeSection;
-    const url = `https://localhost:7247/api/${endpoint}/${id}`;
+    const url = `${API_URL}/${endpoint}/${id}`;
     if (window.confirm("Da li ste sigurni da želite da obrišete?")) {
       try {
         await fetch(url, {
@@ -141,8 +156,10 @@ export default function AdminPage() {
   };
   const handleCancel = async (id) => {
     const endpoint = "Reservations";
-    const url = `https://localhost:7247/api/${endpoint}/${id}`;
-    if (window.confirm("Da li ste sigurni da želite da otkažete rezervaciju?")) {
+    const url = `${API_URL}/${endpoint}/${id}`;
+    if (
+      window.confirm("Da li ste sigurni da želite da otkažete rezervaciju?")
+    ) {
       try {
         await fetch(url, {
           method: "PATCH",
@@ -161,13 +178,14 @@ export default function AdminPage() {
         });
       } catch (error) {
         setModalInfo({
-          modalTitle: "Došlo je do greške prilikom otkazivanja rezervacije  🙁!",
+          modalTitle:
+            "Došlo je do greške prilikom otkazivanja rezervacije  🙁!",
           modalText: `Pokušajte opet kasnije.`,
           isOpen: true,
         });
       }
     }
-  }
+  };
   const getSetter = (section) => {
     switch (section) {
       case "vehicles":

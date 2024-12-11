@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ReservationForm from "../components/ReservationForm.jsx";
 import Loader from "../components/Loader.jsx";
+import API_URL from "../API_URL.js";
 
 export default function VehicleDetails() {
   const { vehicleId } = useParams();
@@ -56,7 +57,7 @@ export default function VehicleDetails() {
     async function fetchVehicle() {
       setIsLoading(true);
       try {
-        const response = await fetch(`https://localhost:7247/api/Vehicles/${vehicleId}`);
+        const response = await fetch(`${API_URL}/Vehicles/${vehicleId}`);
         if (!response.ok) {
           navigate("/vehicles");
         }

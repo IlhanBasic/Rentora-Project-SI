@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/Loader.jsx";
 import Modal from "../components/Modal.jsx";
 import { getTranslation, getTranslationSection } from "../data/translation.js";
+import API_URL from "../API_URL.js";
 export default function AdminItemDetails() {
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
@@ -52,7 +53,7 @@ export default function AdminItemDetails() {
 
   const fetchData = async (updatedApiPoint) => {
     try {
-      const url = `https://localhost:7247/api/${updatedApiPoint}${
+      const url = `${API_URL}/${updatedApiPoint}${
         id ? `/${id}` : ""
       }`;
       const response = await fetch(url, {
@@ -146,9 +147,14 @@ export default function AdminItemDetails() {
         name === "pricePerDay" ||
         name === "yearOfManufacture" ||
         name === "latitude" ||
-        name === "longitude" ||
-        name === "numOfDoors"
+        name === "longitude"
           ? parseFloat(value)
+          : name === "numOfDoors" ||
+            name === "fuelType" ||
+            name === "transmissionType" ||
+            name === "vehicleType" ||
+            name === "status"
+          ? value // For these fields, just assign the selected value
           : value,
     }));
   };
@@ -202,7 +208,7 @@ export default function AdminItemDetails() {
 
   const updateItem = async () => {
     const endpoint = section === "users" ? "ApplicationUser" : apiPoint;
-    const url = `https://localhost:7247/api/${endpoint}/${id}`;
+    const url = `${API_URL}/${endpoint}/${id}`;
     try {
       const response = await fetch(url, {
         method: "PUT",
@@ -264,7 +270,9 @@ export default function AdminItemDetails() {
       />
       <div className="admin-item-details">
         <h1 className="admin-title">
-          {id === "new" ? `Dodaj ${getTranslationSection(section)}` : `Izmeni ${section}`}
+          {id === "new"
+            ? `Dodaj ${getTranslationSection(section)}`
+            : `Izmeni ${section}`}
         </h1>
         <form onSubmit={handleSave} className="admin-item-form">
           {Object.keys(item).map((key) => {
@@ -280,26 +288,88 @@ export default function AdminItemDetails() {
               <div className="admin-form-group" key={key}>
                 <label className="admin-form-label">
                   {getTranslation(key)}
-                  <input
-                    type={
-                      typeof item[key] === "number"
-                        ? "number"
-                        : key === "password"
-                        ? "password"
-                        : key === "username"
-                        ? "email"
-                        : "text"
-                    }
-                    name={key}
-                    value={item[key]}
-                    onChange={handleChange}
-                    required={key === "creditCardNumber" ? false : true}
-                    className="admin-form-input"
-                  />
+                  {key === "numOfDoors" ? (
+                    <select
+                      name={key}
+                      value={item[key]}
+                      onChange={handleChange}
+                      required
+                      className="admin-form-input"
+                    >
+                      <option value={3}>3</option>
+                      <option value={5}>5</option>
+                    </select>
+                  ) : key === "fuelType" ? (
+                    <select
+                      name={key}
+                      value={item[key]}
+                      onChange={handleChange}
+                      required
+                      className="admin-form-input"
+                    >
+                      <option value="Dizel">Dizel</option>
+                      <option value="Benzin">Benzin</option>
+                      <option value="Elektricno">Elektricno</option>
+                      <option value="Hibrid">Hibrid</option>
+                    </select>
+                  ) : key === "transmission" ? (
+                    <select
+                      name={key}
+                      value={item[key]}
+                      onChange={handleChange}
+                      required
+                      className="admin-form-input"
+                    >
+                      <option value="Automatik">Automatik</option>
+                      <option value="Manuelni">Manuelni</option>
+                    </select>
+                  ) : key === "type" ? (
+                    <select
+                      name={key}
+                      value={item[key]}
+                      onChange={handleChange}
+                      required
+                      className="admin-form-input"
+                    >
+                      <option value="Limuzina">Limuzina</option>
+                      <option value="Džip">Džip</option>
+                      <option value="Hečbek">Hečbek</option>
+                      <option value="Kabriolet">Kabriolet</option>
+                    </select>
+                  ) : key === "status" ? (
+                    <select
+                      name={key}
+                      value={item[key]}
+                      onChange={handleChange}
+                      required
+                      className="admin-form-input"
+                    >
+                      <option value="Dostupno">Dostupno</option>
+                      <option value="Zauzeto">Zauzeto</option>
+                    </select>
+                  ) : (
+                    <input
+                      type={
+                        typeof item[key] === "number"
+                          ? "number"
+                          : key === "password"
+                          ? "password"
+                          : key === "username"
+                          ? "email"
+                          : "text"
+                      }
+                      name={key}
+                      value={item[key]}
+                      onChange={handleChange}
+                      required={key === "creditCardNumber" ? false : true}
+                      className="admin-form-input"
+                    />
+                  )}
                 </label>
               </div>
             );
           })}
+
           <button
             disabled={successfullChange}
             type="submit"

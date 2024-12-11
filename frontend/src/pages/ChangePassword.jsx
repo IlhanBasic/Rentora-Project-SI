@@ -3,6 +3,7 @@ import Header from "../components/Header.jsx";
 import InputGroup from "../components/InputGroup.jsx";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../API_URL.js";
 export default function ChangePassword() {
   const [errorMessage, setErrorMessage] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +53,7 @@ export default function ChangePassword() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `https://localhost:7247/api/Auth/Users/${userId}/ChangePassword`,
+          `${API_URL}/Auth/Users/${userId}/ChangePassword`,
           {
             method: "PATCH",
             headers: {

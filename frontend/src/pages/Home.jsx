@@ -6,6 +6,7 @@ import RowOfCards from "../components/RowofCards";
 import { useState, useEffect } from "react";
 import Loader from '../components/Loader.jsx';
 import { motion, useScroll } from "framer-motion";
+import API_URL from "../API_URL.js";
 export default function HomePage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +14,7 @@ export default function HomePage() {
   useEffect(() => {
     async function getLocations() {
       try {
-        const response = await fetch('https://localhost:7247/api/Locations');
+        const response = await fetch(`${API_URL}/Locations`);
         if (!response.ok) setError("Error: Slaba povezanost sa serverom.");
         const resData = await response.json();
         setData(resData);

@@ -7,6 +7,6 @@
     "\\RentoraAPI\\RentoraAPI\\Data",
     "\\RentoraAPI\\RentoraAPI\\Respositories"
   ],
-  "SelectedNode": "\\RentoraAPI\\RentoraAPI\\Controllers\\ReservationsController.cs",
+  "SelectedNode": "\\RentoraAPI\\RentoraAPI\\Data\\RentoraDBContext.cs",
   "PreviewInSolutionExplorer": false
 }

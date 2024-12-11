@@ -82,7 +82,7 @@ namespace RentoraAPI.Controllers
 
 			if (reservations == null || !reservations.Any())
 			{
-				return NotFound(new { Message = "No reservations found for this user." });
+				return NotFound(new { Message = "Nisu pronađene rezervacije." });
 			}
 
 			return Ok(reservations);

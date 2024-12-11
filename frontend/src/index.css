@@ -465,6 +465,7 @@ select {
   color: white;
   border: none;
   border-radius: 5px;
+  margin-top: 20px;
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
@@ -1323,7 +1324,6 @@ select {
 }
 
 /* Admin Page Container */
-
 .admin-page-container {
   display: flex;
   flex-direction: row;
@@ -1525,6 +1525,16 @@ select {
 }
 
 @media (max-width: 480px) {
+  .fixed-navbar{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .admin-nav-title {
+    gap: 10px;
+  }
   .admin-nav-title h1 {
     font-size: 18px;
   }

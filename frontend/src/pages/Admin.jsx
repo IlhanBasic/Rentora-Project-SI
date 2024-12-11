@@ -47,7 +47,7 @@ function Section({ title, data, onEdit, onDelete,onCancel }) {
   );
 }
 export default function AdminPage() {
-  const { token, isAdmin } = useContext(AuthContext);
+  const { token, isAdmin} = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function AdminPage() {
     if (token && !isAdmin) {
       navigate("/");
     }
-  }, [token]);
+  }, [token,isAdmin]);
 
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,

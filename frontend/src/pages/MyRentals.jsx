@@ -25,7 +25,7 @@ export default function MyRentals() {
           {
             method: "GET",
             headers: {
-              "Authorization": `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
@@ -33,15 +33,15 @@ export default function MyRentals() {
 
         if (!response.ok) {
           const error = await response.json();
-          if(error.status === 401){
+          if (error.status === 401) {
             setErrorMessage("Error:Prijavite se za pristup");
             return;
           }
-          if(error.status === 403){
+          if (error.status === 403) {
             setErrorMessage("Error:Nedozvoljen pristup");
           }
-          console.log(error)
-          setErrorMessage("Error: Desila se greška usled prikazivanja rezervacija");
+          console.log(error);
+          setErrorMessage(`Error: ${error.message}`);
           return;
         }
 
@@ -49,7 +49,7 @@ export default function MyRentals() {
         setReservations([...data]);
       } catch (error) {
         setErrorMessage(
-          "Error: Greška servera prilikom prikazivanja rezervacija. " 
+          "Error: Greška servera prilikom prikazivanja rezervacija. "
         );
       } finally {
         setIsLoading(false);
@@ -63,7 +63,9 @@ export default function MyRentals() {
     <>
       <div className="profile-control">
         <p>Profil:{email}</p>
-        <button onClick={()=>navigate('/change-password')}>Promeni lozinku</button>
+        <button onClick={() => navigate("/change-password")}>
+          Promeni lozinku
+        </button>
       </div>
       <Header title="Moja Rentiranja" />
       <div className="rentals-container">

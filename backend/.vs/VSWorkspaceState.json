@@ -5,8 +5,9 @@
     "\\RentoraAPI\\RentoraAPI",
     "\\RentoraAPI\\RentoraAPI\\Controllers",
     "\\RentoraAPI\\RentoraAPI\\Data",
+    "\\RentoraAPI\\RentoraAPI\\Models",
     "\\RentoraAPI\\RentoraAPI\\Respositories"
   ],
-  "SelectedNode": "\\RentoraAPI\\RentoraAPI\\Controllers\\ReservationsController.cs",
+  "SelectedNode": "\\RentoraAPI\\RentoraAPI.sln",
   "PreviewInSolutionExplorer": false
 }

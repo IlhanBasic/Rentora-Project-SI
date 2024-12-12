@@ -1597,6 +1597,37 @@ select {
     font-size: 14px;
   }
 }
+.search-form{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.search-input{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  width: 200px;
+}
+.search-button,.filter-button{
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+.results-count  {
+  margin: 10px 0;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+}
+
 
 /* Admin Item Details Page  */
 /* AdminItemDetails.css */

@@ -3,19 +3,20 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Identity.UI;
 using RentoraAPI.Data;
 using RentoraAPI.Models;
 using RentoraAPI.Respositories;
+using RentoraAPI.Services;
 using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddControllers()
 	.AddJsonOptions(options =>
 	{
-		// Configure JSON serialization options to handle circular references
 		options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 	});
 
@@ -36,8 +37,13 @@ builder.Services.AddDbContext<RentoraDBContext>(options =>
 
 // Register repositories
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
+builder.Services.AddSingleton(smtpSettings);
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
-// Configure Identity with the custom User class
+builder.Services.AddControllersWithViews();
+
+// Configure Identity with the custom User class and add Default UI
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
 	options.Password.RequireDigit = true;
@@ -46,6 +52,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 	options.Password.RequireNonAlphanumeric = false;
 })
 .AddEntityFrameworkStores<RentoraDBContext>()
+.AddDefaultUI() // Ensure Default UI is added
 .AddDefaultTokenProviders();
 
 // Configure JWT authentication
@@ -63,9 +70,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			ValidIssuer = builder.Configuration["Jwt:Issuer"],
 			ValidAudience = builder.Configuration["Jwt:Audience"]
 		};
-
 	});
-
 
 // Configure Cookie settings to prevent redirection on unauthorized access
 builder.Services.ConfigureApplicationCookie(options =>

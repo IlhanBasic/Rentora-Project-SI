@@ -38,7 +38,11 @@ export default function FormAuth({ type }) {
         navigate("/");
       }
       if (endpoint === 'Register') {
-        authenticate(data, 'Login');
+        window.scrollTo(0,0);
+        setErrorMessages({
+          
+        });
+        navigate('/auth?mode=login');
       }
     } catch (e) {
       setErrorMessages({ global: "Greška servera." });

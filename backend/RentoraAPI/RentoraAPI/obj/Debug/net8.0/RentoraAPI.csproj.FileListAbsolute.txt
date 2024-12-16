@@ -680,3 +680,16 @@ C:\Users\PC\Documents\Rentora\Rentora-projekat\backend - Copy\RentoraAPI\Rentora
 C:\Users\PC\Documents\Rentora\Rentora-projekat\backend - Copy\RentoraAPI\RentoraAPI\obj\Debug\net8.0\RentoraAPI.genruntimeconfig.cache
 C:\Users\PC\Documents\Rentora\Rentora-projekat\backend - Copy\RentoraAPI\RentoraAPI\obj\Debug\net8.0\ref\RentoraAPI.dll
 C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\obj\Debug\net8.0\RentoraAPI.sourcelink.json
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\Google.Apis.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\Google.Apis.Auth.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\Google.Apis.Core.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\Google.Apis.Gmail.v1.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\MailKit.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\MimeKit.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\System.Management.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Management.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\RentoraAPI.staticwebassets.runtime.json
+C:\Users\PC\Documents\Rentora\Rentora-projekat\backend\RentoraAPI\RentoraAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.UI.dll

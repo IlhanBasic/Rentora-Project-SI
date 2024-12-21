@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using RentoraAPI.Data;
 using RentoraAPI.Models;
 
@@ -17,35 +16,19 @@ namespace RentoraAPI.Controllers
 	public class LocationsController : ControllerBase
 	{
 		private readonly RentoraDBContext _context;
-		private readonly IMemoryCache _cache;
-		private readonly string _cacheKey = "LocationList";
 
-		public LocationsController(RentoraDBContext context, IMemoryCache cache)
+		public LocationsController(RentoraDBContext context)
 		{
 			_context = context;
-			_cache = cache;
 		}
 
 		// GET: api/Locations
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<Location>>> GetLocation()
 		{
-			if (!_cache.TryGetValue(_cacheKey, out List<Location> locationList))
-			{
-				locationList = await _context.Location.ToListAsync() ?? new List<Location>();
+			var locationList = await _context.Location.ToListAsync();
 
-				// Set cache options
-				var cacheOptions = new MemoryCacheEntryOptions
-				{
-					AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
-					SlidingExpiration = TimeSpan.FromMinutes(2)
-				};
-
-				// Save data in cache
-				_cache.Set(_cacheKey, locationList, cacheOptions);
-			}
-
-			return locationList;
+			return locationList ?? new List<Location>();
 		}
 
 		// GET: api/Locations/5
@@ -78,7 +61,6 @@ namespace RentoraAPI.Controllers
 			try
 			{
 				await _context.SaveChangesAsync();
-				_cache.Remove(_cacheKey); // Invalidate the cache
 			}
 			catch (DbUpdateConcurrencyException)
 			{
@@ -108,7 +90,6 @@ namespace RentoraAPI.Controllers
 
 			_context.Location.Add(location);
 			await _context.SaveChangesAsync();
-			_cache.Remove(_cacheKey); // Invalidate the cache
 
 			return CreatedAtAction("GetLocation", new { id = location.Id }, location);
 		}
@@ -127,7 +108,6 @@ namespace RentoraAPI.Controllers
 
 			_context.Location.Remove(location);
 			await _context.SaveChangesAsync();
-			_cache.Remove(_cacheKey); // Invalidate the cache
 
 			return NoContent();
 		}

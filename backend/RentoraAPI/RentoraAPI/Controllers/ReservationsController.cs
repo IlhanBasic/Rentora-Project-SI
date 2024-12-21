@@ -87,56 +87,6 @@ namespace RentoraAPI.Controllers
 
 			return Ok(reservations);
 		}
-		// GET: api/Reservations/5
-		[HttpGet("{id}")]
-		[Authorize(AuthenticationSchemes = "Bearer")]
-		[Authorize(Roles = "Admin,User")]
-		public async Task<ActionResult<Reservation>> GetReservation(Guid id)
-		{
-			var reservation = await _context.Reservation
-				.Include(r => r.User)
-				.Include(r => r.Vehicle)
-				.FirstOrDefaultAsync(r => r.Id == id);
-
-			if (reservation == null)
-			{
-				return NotFound("Rezervacija sa zadatim ID-jem nije pronađena.");
-			}
-
-			return reservation;
-		}
-
-		// PUT: api/Reservations/5
-		[HttpPut("{id}")]
-		[Authorize(AuthenticationSchemes = "Bearer")]
-		[Authorize(Roles = "Admin,User")]
-		public async Task<IActionResult> PutReservation(Guid id, Reservation reservation)
-		{
-			if (id != reservation.Id)
-			{
-				return BadRequest("Neispravan ID. Molimo proverite ID rezervacije.");
-			}
-
-			_context.Entry(reservation).State = EntityState.Modified;
-
-			try
-			{
-				await _context.SaveChangesAsync();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				if (!ReservationExists(id))
-				{
-					return NotFound("Rezervacija sa zadatim ID-jem nije pronađena.");
-				}
-				else
-				{
-					return StatusCode(StatusCodes.Status500InternalServerError, "Došlo je do greške prilikom ažuriranja rezervacije. Molimo pokušajte ponovo.");
-				}
-			}
-
-			return NoContent();
-		}
 
 		// POST: api/Reservations
 		[HttpPost]

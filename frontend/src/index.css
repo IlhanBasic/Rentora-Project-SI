@@ -610,8 +610,12 @@ footer .fa-whatsapp {
 }
 
 /* modal  */
-
-.modal {
+.modal-admin{
+  min-width: 600px;
+  width: auto;
+  max-width: 80%;
+}
+.modal,.modal-admin {
   border: none;
   border-radius: 8px;
   width: 400px;
@@ -629,19 +633,19 @@ footer .fa-whatsapp {
   pointer-events: auto;
 }
 
-.modal h1 {
+.modal h1,.modal-admin h1 {
   margin: 0 0 10px;
   font-size: 24px;
   color: #333;
 }
 
-.modal p {
+.modal p, .modal-admin p {
   margin: 0 0 20px;
   font-size: 16px;
   color: #555;
 }
 
-.modal button {
+.modal button, .modal-admin button {
   background: #007bff;
   color: white;
   border: none;
@@ -652,7 +656,7 @@ footer .fa-whatsapp {
   transition: background 0.3s ease;
 }
 
-.modal button:hover {
+.modal button:hover, .modal-admin button:hover {
   background: #0056b3;
 }
 .btn-modal-group {
@@ -1460,9 +1464,10 @@ select {
   padding: 15px;
   margin-bottom: 20px;
   transition: box-shadow 0.3s ease;
-  display: flex; /* Use flexbox for splitting content */
-  align-items: center; /* Center content vertically */
-  justify-content: space-between; /* Distribute space between info and image */
+  display: flex; 
+  width: 100%;
+  align-items: center; 
+  justify-content: space-between; 
 }
 
 .table-row:hover {
@@ -1543,17 +1548,16 @@ select {
   margin-right: 10px;
 }
 
-/* Optional: Media Query for smaller screens */
 @media (max-width: 768px) {
   .table-row {
-    flex-direction: column; /* Stack content vertically on smaller screens */
+    flex-direction: column;
     align-items: flex-start;
   }
 
   .vehicle-info,
   .vehicle-image-container {
-    flex: none; /* Disable flex behavior */
-    width: 100%; /* Make both sections take full width */
+    flex: none; 
+    width: 100%; 
     padding-right: 0;
   }
 }

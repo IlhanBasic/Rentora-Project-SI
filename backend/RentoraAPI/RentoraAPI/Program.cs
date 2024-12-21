@@ -115,9 +115,6 @@ builder.Services.AddSwaggerGen(options =>
 	});
 });
 
-// Add memory cache
-builder.Services.AddMemoryCache();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

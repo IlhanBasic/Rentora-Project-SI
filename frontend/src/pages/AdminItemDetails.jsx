@@ -53,9 +53,7 @@ export default function AdminItemDetails() {
 
   const fetchData = async (updatedApiPoint) => {
     try {
-      const url = `${API_URL}/${updatedApiPoint}${
-        id ? `/${id}` : ""
-      }`;
+      const url = `${API_URL}/${updatedApiPoint}${id ? `/${id}` : ""}`;
       const response = await fetch(url, {
         headers: {
           "Content-Type": "application/json",
@@ -103,12 +101,12 @@ export default function AdminItemDetails() {
           yearOfManufacture: 0,
           registrationNumber: "",
           pricePerDay: 0,
-          status: "",
+          status: "Dostupno",
           picture: "",
-          fuelType: "",
-          numOfDoors: 0,
-          transmission: "",
-          type: "",
+          fuelType: "Dizel",
+          numOfDoors: 3,
+          transmission: "Automatik",
+          type: "Limuzina",
         });
         break;
       case "reservations":
@@ -291,18 +289,18 @@ export default function AdminItemDetails() {
                   {key === "numOfDoors" ? (
                     <select
                       name={key}
-                      value={item[key]}
+                      value={item[key] || "3"} 
                       onChange={handleChange}
                       required
                       className="admin-form-input"
                     >
-                      <option value={3}>3</option>
-                      <option value={5}>5</option>
+                      <option value="3">3</option>
+                      <option value="5">5</option>
                     </select>
                   ) : key === "fuelType" ? (
                     <select
                       name={key}
-                      value={item[key]}
+                      value={item[key] || "Dizel"} 
                       onChange={handleChange}
                       required
                       className="admin-form-input"
@@ -315,7 +313,7 @@ export default function AdminItemDetails() {
                   ) : key === "transmission" ? (
                     <select
                       name={key}
-                      value={item[key]}
+                      value={item[key] || "Automatik"}
                       onChange={handleChange}
                       required
                       className="admin-form-input"
@@ -326,7 +324,7 @@ export default function AdminItemDetails() {
                   ) : key === "type" ? (
                     <select
                       name={key}
-                      value={item[key]}
+                      value={item[key] || "Limuzina"}
                       onChange={handleChange}
                       required
                       className="admin-form-input"
@@ -339,7 +337,7 @@ export default function AdminItemDetails() {
                   ) : key === "status" ? (
                     <select
                       name={key}
-                      value={item[key]}
+                      value={item[key] || "Dostupno"} 
                       onChange={handleChange}
                       required
                       className="admin-form-input"
@@ -359,7 +357,7 @@ export default function AdminItemDetails() {
                           : "text"
                       }
                       name={key}
-                      value={item[key]}
+                      value={item[key] || ""}
                       onChange={handleChange}
                       required={key === "creditCardNumber" ? false : true}
                       className="admin-form-input"

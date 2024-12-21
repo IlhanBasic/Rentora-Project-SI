@@ -27,19 +27,21 @@ export default function Vehicles() {
       }
   
       const resData = await response.json();
+      const vehiclesData = resData.vehicles; 
   
-      if (resData.length === 0) {
+      if (!Array.isArray(vehiclesData)) {
+        throw new Error("Invalid data format");
+      }
+  
+      if (vehiclesData.length === 0) {
         setHasMore(false);
         return;
       }
-  
-      // Filtriranje samo dostupnih vozila
-      const availableVehicles = resData.filter((vehicle) => vehicle.status === "Dostupno");
-  
-      // Dodajemo samo nove dostupne vozila koja još nisu prikazana
+      const availableVehicles = vehiclesData.filter((vehicle) => vehicle.status === "Dostupno");
+      console.log(availableVehicles);
       setVehicles((prevVehicles) => [
         ...prevVehicles,
-        ...availableVehicles.filter((v) => !prevVehicles.some((pv) => pv.id === v.id))
+        ...availableVehicles.filter((v) => !prevVehicles.some((pv) => pv.id === v.id)),
       ]);
   
       const brands = [...new Set(availableVehicles.map((item) => item.brand))];

@@ -81,7 +81,7 @@ export default function AdminPage() {
           },
         });
 
-        fetchData(endpoint, getSetter(activeSection));
+        fetchData(endpoint==="vehicles" ? "Vehicles/all" : endpoint, getSetter(activeSection));
         setModalInfo({
           modalTitle: "Uspešno obrisano ✅!",
           modalText: `Prikaz će biti uskoro osvežen.`,

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RentoraAPI.Models.DTO;
-using RentoraAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RentoraAPI.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class ApplicationUserController : ControllerBase
 	{
@@ -37,6 +36,9 @@ namespace RentoraAPI.Controllers
 			var userDtos = users.Select(user => new UserDto
 			{
 				Id = user.Id,
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				PhoneNumber = user.PhoneNumber,
 				Email = user.Email,
 				Roles = userManager.GetRolesAsync(user).Result.ToList()
 			}).ToList();
@@ -60,6 +62,9 @@ namespace RentoraAPI.Controllers
 			var userDto = new UserDto
 			{
 				Id = user.Id,
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				PhoneNumber = user.PhoneNumber,
 				Email = user.Email,
 				Roles = roles.ToList()
 			};

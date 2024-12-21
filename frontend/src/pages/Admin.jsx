@@ -2,180 +2,11 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Modal from "../components/Modal.jsx";
-import { getTranslation } from "../data/translation.js";
+import AdminSection from "./AdminSection";
 import API_URL from "../API_URL.js";
-function search(data, searchValue) {
-  return data.filter((item) => {
-    return Object.values(item).some((value) =>
-      value.toString().toLowerCase().includes(searchValue.toLowerCase())
-    );
-  });
-}
-
-function Section({ title, data, onEdit, onDelete, onCancel }) {
-  const [filteredData, setFilteredData] = useState(data);
-
-  useEffect(() => {
-    setFilteredData(data);
-  }, [data]);
-
-  function handleSubmitSearch(e) {
-    e.preventDefault();
-    const searchValue = e.target[0].value.trim();
-    e.target[0].value = "";
-
-    const results = search(data, searchValue);
-    setFilteredData(results);
-  }
-  function filterVehiclesAvailability(vehicles, status) {
-    if (status === "Sve") return vehicles;
-    return vehicles.filter((vehicle) => vehicle.status === status);
-  }
-  function filterReservationsAvailability(reservations, status) {
-    if (status === "Sve") return reservations;
-    return reservations.filter(
-      (reservation) => reservation.reservationStatus === status
-    );
-  }
-  const detailsFields = ["registrationNumber","picture","fuelType","numOfDoors","transmission","creditCardNumber","firstName","lastName","phoneNumber","email","latitude","longitude"];
-  function handleShowDetails(){
-    
-  }
-
-  return (
-    <>
-      <h1>{title}</h1>
-      {title !== "Rezervacije" && (
-        <button onClick={() => onEdit(null)}>Dodaj novi red</button>
-      )}
-
-      <form className="search-form" onSubmit={handleSubmitSearch}>
-        <input className="search-input" type="text" placeholder="Pretraga" />
-        <button className="search-button">Pretraži</button>
-      </form>
-      {
-        <div className="results-count">
-          <p>Ukupno pronađeno: {filteredData.length}</p>
-        </div>
-      }
-      {title === "Vozila" && (
-        <button
-          className="filter-button"
-          onClick={() =>
-            setFilteredData(filterVehiclesAvailability(data, "Dostupno"))
-          }
-        >
-          Prikaži samo dostupna vozila
-        </button>
-      )}
-      {title === "Vozila" && (
-        <button
-          className="filter-button"
-          onClick={() =>
-            setFilteredData(filterVehiclesAvailability(data, "Zauzeto"))
-          }
-        >
-          Prikaži samo zauzeta vozila
-        </button>
-      )}
-      {title === "Vozila" && (
-        <button
-          className="filter-button"
-          onClick={() =>
-            setFilteredData(filterVehiclesAvailability(data, "Sve"))
-          }
-        >
-          Prikaži sva vozila
-        </button>
-      )}
-      {title === "Rezervacije" && (
-        <button
-          className="filter-button"
-          onClick={() =>
-            setFilteredData(filterReservationsAvailability(data, "Aktivna"))
-          }
-        >
-          Prikaži samo aktivne rezervacije
-        </button>
-      )}
-      {title === "Rezervacije" && (
-        <button
-          className="filter-button"
-          onClick={() =>
-            setFilteredData(filterReservationsAvailability(data, "Otkazana"))
-          }
-        >
-          Prikaži samo otkazane rezervacije
-        </button>
-      )}
-      {title === "Rezervacije" && (
-        <button
-          className="filter-button"
-          onClick={() =>
-            setFilteredData(filterReservationsAvailability(data, "Sve"))
-          }
-        >
-          Prikaži sve rezervacije
-        </button>
-      )}
-      <>
-        {filteredData && filteredData.length > 0 ? (
-          filteredData.map((item) => (
-            <div key={item.id} className="table-row">
-              <div className="vehicle-info">
-                {Object.entries(item)
-                  .filter(
-                    ([key, value]) =>
-                      typeof value !== "object" ||
-                      value === null ||
-                      key === "id"
-                  )
-                  .map(([key, value], index) => (
-                    <div key={index} className="vertical-table-row">
-                      <strong>{getTranslation(key)}:</strong>
-                      <span>{value}</span>
-                    </div>
-                  ))}
-                  <button onClick={handleShowDetails}>Detalji</button>
-              </div>
-              {item.picture && (
-                <div className="vehicle-image-container">
-                  <img
-                    src={item.picture}
-                    alt="Vehicle"
-                    className="vehicle-image"
-                  />
-                </div>
-              )}
-              <div className="edit-buttons">
-                <>
-                  {title !== "Korisnici" && title !== "Rezervacije" && (
-                    <button onClick={() => onEdit(item)}>Izmeni</button>
-                  )}
-                  {title === "Rezervacije" &&
-                    item.reservationStatus !== "Otkazana" &&
-                    item.reservationStatus !== "Istekla" && (
-                      <button onClick={() => onCancel(item.id)}>Otkazi</button>
-                    )}
-                  {title !== "Rezervacije" && (
-                    <button onClick={() => onDelete(item.id)}>Obriši</button>
-                  )}
-                </>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>Nema podataka</p>
-        )}
-      </>
-    </>
-  );
-}
-
 export default function AdminPage() {
   const { token, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
-
   useEffect(() => {
     if (!token) {
       navigate("/");
@@ -203,7 +34,7 @@ export default function AdminPage() {
   const [locations, setLocations] = useState([]);
 
   useEffect(() => {
-    fetchData("Vehicles", setVehicles);
+    fetchData("Vehicles/all", setVehicles);
     fetchData("Reservations", setReservations);
     fetchData("ApplicationUser", setUsers);
     fetchData("Locations", setLocations);
@@ -311,12 +142,11 @@ export default function AdminPage() {
         return () => {};
     }
   };
-
-  const renderSection = () => {
+  const RenderSection = () => {
     switch (activeSection) {
       case "vehicles":
         return (
-          <Section
+          <AdminSection
             title="Vozila"
             data={vehicles}
             onEdit={handleEdit}
@@ -325,7 +155,7 @@ export default function AdminPage() {
         );
       case "reservations":
         return (
-          <Section
+          <AdminSection
             title="Rezervacije"
             data={reservations}
             onCancel={handleCancel}
@@ -334,7 +164,7 @@ export default function AdminPage() {
         );
       case "users":
         return (
-          <Section
+          <AdminSection
             title="Korisnici"
             data={users}
             onEdit={handleEdit}
@@ -343,7 +173,7 @@ export default function AdminPage() {
         );
       case "locations":
         return (
-          <Section
+          <AdminSection
             title="Lokacije"
             data={locations}
             onEdit={handleEdit}
@@ -352,7 +182,7 @@ export default function AdminPage() {
         );
       default:
         return (
-          <Section
+          <AdminSection
             title="Vozila"
             data={vehicles}
             onEdit={handleEdit}
@@ -407,7 +237,7 @@ export default function AdminPage() {
             </ul>
           </div>
         </nav>
-        <div className="admin-content-container">{renderSection()}</div>
+        <div className="admin-content-container">{RenderSection()}</div>
       </div>
     </>
   );

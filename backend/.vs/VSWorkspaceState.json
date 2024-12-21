@@ -4,9 +4,7 @@
     "\\RentoraAPI",
     "\\RentoraAPI\\RentoraAPI",
     "\\RentoraAPI\\RentoraAPI\\Controllers",
-    "\\RentoraAPI\\RentoraAPI\\Data",
-    "\\RentoraAPI\\RentoraAPI\\Models",
-    "\\RentoraAPI\\RentoraAPI\\Respositories"
+    "\\RentoraAPI\\RentoraAPI\\Data"
   ],
   "SelectedNode": "\\RentoraAPI\\RentoraAPI\\appsettings.json",
   "PreviewInSolutionExplorer": false

@@ -1,84 +1,93 @@
+import React, { useEffect, useState, useCallback } from "react";
 import Header from "../components/Header";
 import VehicleCard from "../components/VehicleCard";
 import Filter from "../components/Filter";
-import { useEffect, useState } from "react";
-import Loader from '../components/Loader.jsx';
+import Loader from "../components/Loader.jsx";
 import API_URL from "../API_URL.js";
+
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [error, setError] = useState(null);
   const [filterBrands, setFilterBrands] = useState([]);
   const [filterCarType, setFilterCarType] = useState([]);
-  useEffect(() => {
-    async function getCars() {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`${API_URL}/Vehicles`);
-        if (!response.ok) {
-          setError("Error: Došlo je do greške prilikom preuzimanja vozila");
-          return;
-        }
-        const resData = await response.json();
-        const brands = [...new Set(resData.map((item) => item.brand))];
-        const carType = [...new Set(resData.map((item) => item.type))];
-        setFilterBrands([...brands]);
-        setFilterCarType([...carType]);
-        setVehicles(resData);
-        setFilteredVehicles(
-          resData.filter((vehicle) => vehicle.status === "Dostupno")
-        );
-      } catch (e) {
-        setError("Error: Došlo je do greške od strane servera.");
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    getCars();
-  }, []);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isFetching, setIsFetching] = useState(false); // Sprečavanje paralelnih zahteva
 
-  const applyFilters = (filters) => {
-    const newFilteredVehicles = vehicles.filter((vehicle) => {
-      const selectedPrice = filters.price ? JSON.parse(filters.price) : null;
-      return (
-        vehicle.status === "Dostupno" &&
-        (filters.brand ? vehicle.brand === filters.brand : true) &&
-        (filters.type ? vehicle.type === filters.type : true) &&
-        (filters.transmission
-          ? vehicle.transmission === filters.transmission
-          : true) &&
-        (selectedPrice
-          ? vehicle.pricePerDay >= selectedPrice[0] &&
-            vehicle.pricePerDay <= selectedPrice[1]
-          : true) &&
-        (filters.fuel ? vehicle.fuelType === filters.fuel : true) &&
-        (filters.doors ? vehicle.numOfDoors === parseInt(filters.doors) : true)
-      );
-    });
-    setFilteredVehicles(newFilteredVehicles);
-  };
+  const fetchVehicles = useCallback(async () => {
+    if (isFetching || !hasMore) return;
+  
+    setIsFetching(true);
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${API_URL}/Vehicles?page=${page}&limit=10`);
+      if (!response.ok) {
+        throw new Error("Došlo je do greške prilikom preuzimanja vozila.");
+      }
+  
+      const resData = await response.json();
+  
+      if (resData.length === 0) {
+        setHasMore(false);
+        return;
+      }
+  
+      // Filtriranje samo dostupnih vozila
+      const availableVehicles = resData.filter((vehicle) => vehicle.status === "Dostupno");
+  
+      // Dodajemo samo nove dostupne vozila koja još nisu prikazana
+      setVehicles((prevVehicles) => [
+        ...prevVehicles,
+        ...availableVehicles.filter((v) => !prevVehicles.some((pv) => pv.id === v.id))
+      ]);
+  
+      const brands = [...new Set(availableVehicles.map((item) => item.brand))];
+      const carType = [...new Set(availableVehicles.map((item) => item.type))];
+  
+      setFilterBrands((prev) => [...new Set([...prev, ...brands])]);
+      setFilterCarType((prev) => [...new Set([...prev, ...carType])]);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setIsLoading(false);
+      setIsFetching(false);
+    }
+  }, [page, vehicles, hasMore, isFetching]);
+  
+
+  useEffect(() => {
+    fetchVehicles();
+  }, [page]);
+
+  const handleScroll = useCallback(() => {
+    if (
+      window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 100 &&
+      !isFetching &&
+      hasMore
+    ) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  }, [isFetching, hasMore]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   return (
     <>
       <Header title="Odaberite vozilo" />
-      <Filter
-        filterBrands={filterBrands}
-        filterCarType={filterCarType}
-        onFilterChange={applyFilters}
-      />
-      {isLoading && <Loader/>}
+      <Filter filterBrands={filterBrands} filterCarType={filterCarType} />
+      <div className="vehicles">
+        {vehicles.map((vehicle) => (
+          <VehicleCard key={vehicle.id} vehicle={vehicle} />
+        ))}
+      </div>
+      {isLoading && <Loader />}
       {error && <p className="error-message">{error}</p>}
-      {!isLoading && !error && filteredVehicles.length === 0 && (
-        <p className="center">Nemamo vozilo po tim zahtevima !</p>
-      )}
-      {!isLoading && !error && filteredVehicles.length > 0 && (
-        <div className="vehicles">
-          {filteredVehicles.map((vehicle) => (
-            <VehicleCard key={vehicle.id} vehicle={vehicle} />
-          ))}
-        </div>
-      )}
+      {!hasMore && <p className="center">Nema više vozila za prikaz!</p>}
     </>
   );
 }

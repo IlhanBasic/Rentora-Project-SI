@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RentoraAPI.Data;
 using RentoraAPI.Models;
 
@@ -20,13 +21,53 @@ namespace RentoraAPI.Controllers
 		{
 			_context = context;
 		}
+		[HttpGet("all")]
+		[Authorize(AuthenticationSchemes = "Bearer")]
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult<IEnumerable<Vehicle>>> GetAllVehicles()
+		{
+			try
+			{
+				var vehicles = await _context.Vehicle.ToListAsync();
+				return Ok(vehicles);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, "Internal server error");
+			}
+		}
+
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicle()
+		public async Task<IActionResult> GetVehicle(int page = 1, int pageSize = 6)
 		{
-			var vehicles = await _context.Vehicle.ToListAsync();
-			return vehicles;
+			if (page <= 0 || pageSize <= 0)
+			{
+				return BadRequest("Page and pageSize must be greater than 0.");
+			}
+
+			// Ukupni broj vozila u bazi
+			int totalCount = await _context.Vehicle.CountAsync();
+
+			// Paginacija pomoću LINQ-a
+			var vehicles = await _context.Vehicle
+				.Skip((page - 1) * pageSize) // Preskače prethodne zapise
+				.Take(pageSize) // Uzima zapise za trenutnu stranicu
+				.ToListAsync();
+
+			// Metapodaci o paginaciji
+			var result = new
+			{
+				TotalCount = totalCount,
+				PageSize = pageSize,
+				CurrentPage = page,
+				TotalPages = (int)Math.Ceiling((double)totalCount / pageSize),
+				Vehicles = vehicles
+			};
+
+			return Ok(result);
 		}
+
 
 		[HttpGet("{id}")]
 		public async Task<ActionResult<Vehicle>> GetVehicle(Guid id)

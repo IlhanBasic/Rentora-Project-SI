@@ -835,7 +835,11 @@ canvas {
 }
 
 /* vozila  */
-
+.vehicle-container{
+  overflow: hidden;
+  padding-left:10px ;
+  padding-right:10px ;
+}
 .vehicles {
   display: flex;
   justify-content: space-evenly;
@@ -844,9 +848,56 @@ canvas {
   padding: 3em;
   align-self: start;
   margin: auto;
+  overflow: hidden;
   animation: fromBottomToUp 3s ease-in-out;
   transition: all 0.5s ease-out;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.pagination button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.icon {
+  font-size: 18px;
+}
+
 @keyframes fromBottomToUp {
   0% {
     transform: translateY(300px);

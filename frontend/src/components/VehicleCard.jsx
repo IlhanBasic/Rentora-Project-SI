@@ -45,7 +45,7 @@ export default function VehicleCard({ vehicle }) {
       });
     } else {
       setModalInfo({
-        modalTitle: "Rezervacija je obavezna 😔!",
+        modalTitle: "Prijava je obavezna 😔!",
         modalText: "Morate se prvo ulogovati da bi rezervisali vozilo!",
         isOpen: true,
       });

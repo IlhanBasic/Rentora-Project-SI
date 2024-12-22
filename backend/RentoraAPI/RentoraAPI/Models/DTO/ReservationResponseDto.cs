@@ -15,6 +15,8 @@
 		public string CreditCardNumber { get; set; }
 		public string ReservationStatus { get; set; }
 		public double ReservationAmount { get; set; }
+		public string Insurance {  get; set; }
+		public string ChildSeat { get; set; }
 	}
 
 }

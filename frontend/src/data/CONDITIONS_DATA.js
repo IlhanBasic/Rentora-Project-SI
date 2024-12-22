@@ -4,7 +4,7 @@ const CONDITIONS_DATA = [
     items: [
       'Vozač mora biti stariji od 21 godine.',
       'Validna vozačka dozvola je obavezna.',
-      'Uplata depozita je neophodna prilikom preuzimanja vozila. Ukoliko korisnik ne uplati depozit, vozilo ne može biti preuzeto. Prilikom povratka vozila, depozit se vraca na racun korisnika.',
+      'Uplata depozita je neophodna prilikom preuzimanja vozila. Ukoliko korisnik ne uplati depozit, vozilo ne može biti preuzeto. Prilikom povratka vozila, depozit se vraća na račun korisnika.',
       'Putem aplikacije moguće je rezervisati vozilo na 7 dana unapred.',
       'Putem aplikacije moguće je napraviti rezervaciju do 30 dana. Za trajanje preko toga potrebno je napraviti poseban ugovor na licu mesta u jednoj od naših poslovnica.',
       'Moguće je besplatno otkazati rezervaciju do 24 sata pre preuzimanja vozila.',
@@ -36,7 +36,18 @@ const CONDITIONS_DATA = [
       'Ako korisnik vrati vozilo sa oštećenjima, biće odgovoran za troškove popravke, pored dodatnih troškova za kašnjenje.',
       'U slučaju da vozilo nije vraćeno u roku od 48 sati nakon dogovorenog vremena, kompanija zadržava pravo da prijavi vozilo kao ukradeno i preduzme odgovarajuće pravne mere.'
     ]
+  },
+  {
+    title: 'Dodatne mogućnosti rezervacije vozila',
+    items: [
+      'Moguće je ukoliko korisnik to želi da odabere vrstu osiguranja i to:',
+      '  - Basic (400 dinara po danu): Pokriva osnovne štete na vozilu.',
+      '  - Premium (1000 dinara po danu): Pokriva osnovne i dodatne štete na vozilu, uključujući štete prouzrokovane trećim licima.',
+      '  - Full (2000 dinara po danu): Pokriva sve štete, uključujući krađu vozila i potpunu zaštitu bez dodatnih troškova.',
+      'Dodatno, korisnik može izabrati dečije sedište uz doplatu od 500 dinara po danu.'
+    ]
   }
 ];
 
 export default CONDITIONS_DATA;
+  

@@ -344,6 +344,9 @@ namespace RentoraAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ChildSeat")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CreditCardNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -352,6 +355,9 @@ namespace RentoraAPI.Migrations
 
                     b.Property<Guid>("EndLocationId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Insurance")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReservationStatus")
                         .IsRequired()
@@ -451,7 +457,7 @@ namespace RentoraAPI.Migrations
                     b.HasOne("ApplicationUser", "User")
                         .WithMany("Reservations")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RentoraAPI.Models.Vehicle", "Vehicle")

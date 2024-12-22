@@ -12,6 +12,10 @@ export default function ReservationForm({
   pickupLocation,
   setPickupLocation,
   returnTime,
+  insurance,
+  setInsurance,
+  childSeat,
+  setChildSeat,
   setReturnTime,
   returnDate,
   setReturnDate,
@@ -63,7 +67,9 @@ export default function ReservationForm({
         const response = await fetch(`${API_URL}/Locations`);
         if (!response.ok) {
           const error = await response.json();
-          setErrorMessage("Error: Greska od strane servera prilikom preuzimanja lokacija !");
+          setErrorMessage(
+            "Error: Greska od strane servera prilikom preuzimanja lokacija !"
+          );
           return;
         }
         const resData = await response.json();
@@ -219,27 +225,26 @@ export default function ReservationForm({
         endDateTime: endDateTime,
         creditCardNumber: data["cardNumber"] ?? null,
         reservationStatus: "aktivan",
+        insurance:data['insurance'] ?? 'nema',
+        childSeat:data['childSeat'] ?? 'nema',
       };
-      const responseReservation = await fetch(
-        `${API_URL}/Reservations`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-          },
-          body: JSON.stringify(reservationData),
-        }
-      );
+      const responseReservation = await fetch(`${API_URL}/Reservations`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(reservationData),
+      });
 
       if (!responseReservation.ok) {
-        if(responseReservation.status === 401) {
+        if (responseReservation.status === 401) {
           setErrorMessage(
             "Greška prilikom rezervacije vozila. Niste ulogovani."
           );
           return;
         }
-        if(responseReservation.status === 403) {
+        if (responseReservation.status === 403) {
           setErrorMessage(
             "Error: Greška prilikom rezervacije vozila. Nema pristup."
           );
@@ -315,6 +320,7 @@ export default function ReservationForm({
             )}
           </select>
         </div>
+
         <div>
           <label>Datum vraćanja:</label>
           <input
@@ -351,6 +357,35 @@ export default function ReservationForm({
             )}
           </select>
         </div>
+        <div className="extra-options">
+          <label>Sedište za decu (opciono):</label>
+          <select
+            name="childSeat"
+            value={childSeat ?? ""}
+            onChange={(e) => setChildSeat(e.target.value)}
+          >
+            <option selected value="nema">
+              Nema sedišta
+            </option>
+            <option value="jedno">1 Sedište + 500 RSD</option>
+            <option value="dva">2 Sedišta + 1000 RSD</option>
+          </select>
+        </div>
+        <div className="extra-options">
+          <label>Osiguranje (opciono):</label>
+          <select
+            name="insurance"
+            value={insurance ?? ""}
+            onChange={(e) => setInsurance(e.target.value)}
+          >
+            <option selected value="nema">
+              Nema
+            </option>
+            <option value="basic">Osiguranje (Osnovno) 400 RSD po danu </option>
+            <option value="premium">Osiguranje (Premium) 1000 RSD po danu</option>
+            <option value="full">Kompletno osiguranje 2000 RSD po danu</option>
+          </select>
+        </div>
         <div>
           <label>Metoda plaćanja:</label>
           <select name="paymentMethod" onChange={handlePaymentMethodChange}>
@@ -358,7 +393,6 @@ export default function ReservationForm({
             <option value="card">Kartica</option>
           </select>
         </div>
-
         {paymentMethod === "card" && (
           <div>
             <h4>Detalji kartice</h4>

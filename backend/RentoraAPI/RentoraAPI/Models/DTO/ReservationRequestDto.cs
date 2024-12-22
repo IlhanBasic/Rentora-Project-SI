@@ -28,5 +28,7 @@ namespace RentoraAPI.Models.DTO
 
 		[CreditCard]
 		public string? CreditCardNumber { get; set; }
+		public string? Insurance { get; set; }
+		public string? ChildSeat { get; set; }
 	}
 }

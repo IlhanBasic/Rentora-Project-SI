@@ -35,6 +35,8 @@ export const translations = [
       reservationStatus: "Status rezervacije",
       creditCardNumber: "Broj kreditne kartice",
       reservationAmount: "Iznos rezervacije",
+      insurance : "Osiguranje",
+      childSeat : "Dečije sedište",
     },
   },
   {

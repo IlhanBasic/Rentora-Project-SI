@@ -5,6 +5,7 @@ using RentoraAPI.Data;
 using RentoraAPI.Models;
 using RentoraAPI.Models.DTO;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace RentoraAPI.Controllers
 {
@@ -27,7 +28,7 @@ namespace RentoraAPI.Controllers
 		{
 			var reservations = await _context.Reservation
 				.Include(r => r.User)
-				.Include(r => r.Vehicle)  
+				.Include(r => r.Vehicle)
 				.Include(r => r.StartLocation)
 				.Include(r => r.EndLocation)
 				.ToListAsync();
@@ -45,20 +46,54 @@ namespace RentoraAPI.Controllers
 				StartDateTime = r.StartDateTime,
 				EndDateTime = r.EndDateTime,
 				CreditCardNumber = r.CreditCardNumber,
+				Insurance = r.Insurance,
+				ChildSeat = r.ChildSeat,
 				ReservationStatus = r.ReservationStatus,
-				ReservationAmount = CalculateReservationAmount(r.StartDateTime, r.EndDateTime, r.Vehicle?.PricePerDay ?? 0) // Koristimo cenu iz vozila
+				ReservationAmount = CalculateReservationAmount(
+				r.StartDateTime,
+				r.EndDateTime,
+				r.Vehicle?.PricePerDay ?? 0,
+				r.Insurance ?? "none",
+				r.ChildSeat ?? "nema"
+			)
+
 			}).ToList();
 
 			return Ok(reservationDtos);
 		}
 
-		private double CalculateReservationAmount(DateTime startDateTime, DateTime endDateTime, double pricePerDay)
+		private double CalculateReservationAmount(DateTime startDateTime, DateTime endDateTime, double pricePerDay, string insurance, string childSeat)
 		{
+			// Cene osiguranja
+			var insurancePrices = new Dictionary<string, double>
+		{
+			{ "basic", 400 },
+			{ "full", 2000 },
+			{ "premium", 1000 },
+			{ "none", 0 }
+		};
+
+			// Cene dečijih sedišta
+			var childSeatPrices = new Dictionary<string, double>
+		{
+			{ "jedno", 500 },
+			{ "dva", 1000 },
+			{ "nema", 0 }
+		};
+
+			// Trajanje rentiranja u danima (minimalno 1 dan)
 			var rentalDuration = (endDateTime - startDateTime).TotalDays;
 			if (rentalDuration < 1) rentalDuration = 1;
-			return Math.Round(rentalDuration * pricePerDay,0);
-		}
 
+			// Cena za osiguranje i sedišta
+			var insurancePrice = insurancePrices.ContainsKey(insurance.ToLower()) ? insurancePrices[insurance.ToLower()] : 0;
+			var childSeatPrice = childSeatPrices.ContainsKey(childSeat.ToLower()) ? childSeatPrices[childSeat.ToLower()] : 0;
+
+			// Ukupna cena
+			var totalAmount = rentalDuration * pricePerDay + insurancePrice + childSeatPrice;
+
+			return Math.Round(totalAmount, 0);
+		}
 		// GET api/reservations/user/{userId}
 		[HttpGet]
 		[Route("user/{userId}")]
@@ -108,6 +143,8 @@ namespace RentoraAPI.Controllers
 				EndLocationId = requestDto.EndLocationId,
 				StartDateTime = requestDto.StartDateTime,
 				EndDateTime = requestDto.EndDateTime,
+				Insurance = requestDto.Insurance,
+				ChildSeat = requestDto.ChildSeat,
 				ReservationStatus = "Aktivna",
 				CreditCardNumber = requestDto.CreditCardNumber
 			};

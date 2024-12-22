@@ -24,6 +24,8 @@ public class Reservation
 
 	[Required]
 	public string ReservationStatus { get; set; }
+	public string? Insurance { get; set; }
+	public string? ChildSeat { get; set; }
 
 	public virtual ApplicationUser User { get; set; }
 

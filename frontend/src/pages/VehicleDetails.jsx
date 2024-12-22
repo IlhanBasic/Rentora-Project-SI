@@ -9,12 +9,9 @@ export default function VehicleDetails() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  let startLocation,
-    endLocation = "";
-  let startDate = new Date();
-  let endDate = new Date();
-  let startTime = "12:00";
-  let endTime = "12:00";
+  let startLocation = "", endLocation = "";
+  let startDate = new Date(), endDate = new Date();
+  let startTime = "12:00", endTime = "12:00";
 
   if (searchParams.get("StartTime") && searchParams.get("ReturnTime")) {
     startTime = searchParams.get("StartTime");
@@ -47,11 +44,25 @@ export default function VehicleDetails() {
   const [returnDate, setReturnDate] = useState(endDate.toISOString().split("T")[0]);
   const [returnLocation, setReturnLocation] = useState(endLocation);
 
+  const [insurance, setInsurance] = useState("nema");
+  const [childSeat, setChildSeat] = useState("nema");
   const [durationDays, setDurationDays] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [deposit, setDeposit] = useState(0);
 
-  const baseDeposit = 2000; 
+  const baseDeposit = 2000;
+
+  const insurancePrices = {
+    basic: 400,
+    full: 2000,
+    premium: 1000,
+    none: 0
+  };
+  const childSeatPrices = {
+    jedno: 500,
+    dva: 1000,
+    nema:0
+  };
 
   useEffect(() => {
     async function fetchVehicle() {
@@ -82,9 +93,17 @@ export default function VehicleDetails() {
           : 0;
       if (duration > 0) {
         setDurationDays(duration);
-        const price = duration * car.pricePerDay;
+        let price = duration * car.pricePerDay;
+        if (insurance !== "nema") {
+          price += insurancePrices[insurance] * duration; 
+        }
+        if (childSeat !== "nema") {
+          price += childSeatPrices[childSeat];
+        }
         setTotalPrice(price);
-        const calculatedDeposit = baseDeposit + (duration * car.pricePerDay * 0.2);
+
+        const calculatedDeposit =
+          baseDeposit + duration * car.pricePerDay * 0.2;
         setDeposit(calculatedDeposit);
       } else {
         setDurationDays(0);
@@ -92,28 +111,25 @@ export default function VehicleDetails() {
         setDeposit(0);
       }
     }
-  }, [pickupDate, returnDate, car.pricePerDay]);
+  }, [pickupDate, returnDate, car.pricePerDay, insurance, childSeat, car.childSeat]);
 
   useEffect(() => {
     const currentDate = new Date();
     const selectedPickupDate = new Date(pickupDate);
     const selectedReturnDate = new Date(returnDate);
-    
+
     if (selectedPickupDate < currentDate) {
       setPickupDate(currentDate.toISOString().split("T")[0]);
     }
-    
+
     if (selectedReturnDate <= selectedPickupDate) {
       const newReturnDate = new Date(selectedPickupDate);
       newReturnDate.setDate(newReturnDate.getDate() + 1);
       setReturnDate(newReturnDate.toISOString().split("T")[0]);
     }
-    
-    // Reset deposit when dates change
     if (selectedPickupDate >= selectedReturnDate) {
       setDeposit(0);
     }
-    
   }, [pickupDate, returnDate]);
 
   if (isLoading) {
@@ -148,6 +164,10 @@ export default function VehicleDetails() {
         vehicleId={vehicleId}
         pickupTime={pickupTime}
         pickupDate={pickupDate}
+        insurance={insurance}
+        setInsurance={setInsurance}
+        childSeat={childSeat}
+        setChildSeat={setChildSeat}
         pickupLocation={pickupLocation}
         setPickupTime={setPickupTime}
         setPickupDate={setPickupDate}
@@ -164,11 +184,7 @@ export default function VehicleDetails() {
         setCardDetails={setCardDetails}
         minPickupDate={startDate.toISOString().split("T")[0]}
         minReturnDate={pickupDate}
-        maxReturnDate={
-          new Date(new Date(pickupDate).getTime() + 7 * 24 * 60 * 60 * 1000)
-            .toISOString()
-            .split("T")[0]
-        }
+        maxReturnDate={new Date(new Date(pickupDate).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]}
       />
       {deposit > 0 && (
         <h1 className="important">DEPOZIT: {deposit.toFixed(2)} RSD</h1>

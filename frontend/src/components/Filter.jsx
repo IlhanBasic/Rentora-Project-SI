@@ -1,4 +1,3 @@
-// Filter.jsx
 import React, { useState } from "react";
 import FilterGroup from "./FilterGroup";
 

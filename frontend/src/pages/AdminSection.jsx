@@ -75,10 +75,13 @@ function AdminSection({ title, data, onEdit, onDelete, onCancel }) {
         close={closeModal}
         data={modalInfo.data}
       />
+      <div className="admin-title-container">
       <h1>{title}</h1>
       {title !== "Rezervacije" && (
         <button onClick={() => onEdit(null)}>Dodaj novi red</button>
       )}
+      </div>
+      
 
       <form className="search-form" onSubmit={handleSubmitSearch}>
         <input className="search-input" type="text" placeholder="Pretraga" />
@@ -89,7 +92,7 @@ function AdminSection({ title, data, onEdit, onDelete, onCancel }) {
         <p>Ukupno pronađeno: {filteredData.length}</p>
       </div>
       {title === "Vozila" && (
-        <>
+        <div className="filter-buttons">
           <button
             className="filter-button"
             onClick={() =>
@@ -114,7 +117,7 @@ function AdminSection({ title, data, onEdit, onDelete, onCancel }) {
           >
             Prikaži sva vozila
           </button>
-        </>
+        </div>
       )}
 
       {title === "Rezervacije" && (

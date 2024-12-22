@@ -5,6 +5,13 @@ import Modal from "../components/Modal.jsx";
 import AdminSection from "./AdminSection";
 import API_URL from "../API_URL.js";
 export default function AdminPage() {
+  const [hamburgerMenu, setHamburgerMenu] = useState(true);
+  // useEffect(() => {
+  //   setHamburgerMenu(false);
+  // }, [location.pathname]);
+  function handleToggle() {
+    setHamburgerMenu((prev) => !prev);
+  }
   const { token, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
   useEffect(() => {
@@ -81,7 +88,10 @@ export default function AdminPage() {
           },
         });
 
-        fetchData(endpoint==="vehicles" ? "Vehicles/all" : endpoint, getSetter(activeSection));
+        fetchData(
+          endpoint === "vehicles" ? "Vehicles/all" : endpoint,
+          getSetter(activeSection)
+        );
         setModalInfo({
           modalTitle: "Uspešno obrisano ✅!",
           modalText: `Prikaz će biti uskoro osvežen.`,
@@ -201,7 +211,7 @@ export default function AdminPage() {
         text={modalInfo.modalText}
       />
       <div className="admin-page-container">
-        <nav className="admin-nav-container">
+        <nav className={`admin-nav-container ${hamburgerMenu ? "active" : ""}`}>
           <div className="fixed-navbar">
             <div className="admin-nav-title">
               <h1>Admin Panel</h1>
@@ -235,6 +245,11 @@ export default function AdminPage() {
                 Promena lozinke
               </button>
             </ul>
+            <button
+              className={`hamburger ${hamburgerMenu ? "active" : ""} hamburger-admin`}
+              aria-label="Toggle menu"
+              onClick={handleToggle}
+            ></button>
           </div>
         </nav>
         <div className="admin-content-container">{RenderSection()}</div>

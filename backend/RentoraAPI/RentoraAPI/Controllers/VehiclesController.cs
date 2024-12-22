@@ -22,8 +22,8 @@ namespace RentoraAPI.Controllers
 			_context = context;
 		}
 		[HttpGet("all")]
-		[Authorize(AuthenticationSchemes = "Bearer")]
-		[Authorize(Roles = "Admin")]
+		//[Authorize(AuthenticationSchemes = "Bearer")]
+		//[Authorize(Roles = "Admin")]
 		public async Task<ActionResult<IEnumerable<Vehicle>>> GetAllVehicles()
 		{
 			try

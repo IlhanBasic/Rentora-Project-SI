@@ -6,9 +6,6 @@ import AdminSection from "./AdminSection";
 import API_URL from "../API_URL.js";
 export default function AdminPage() {
   const [hamburgerMenu, setHamburgerMenu] = useState(true);
-  // useEffect(() => {
-  //   setHamburgerMenu(false);
-  // }, [location.pathname]);
   function handleToggle() {
     setHamburgerMenu((prev) => !prev);
   }
@@ -246,7 +243,7 @@ export default function AdminPage() {
               </button>
             </ul>
             <button
-              className={`hamburger ${hamburgerMenu ? "active" : ""} hamburger-admin`}
+              className={`hamburger-admin ${hamburgerMenu ? "active" : ""} `}
               aria-label="Toggle menu"
               onClick={handleToggle}
             ></button>

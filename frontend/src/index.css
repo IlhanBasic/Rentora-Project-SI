@@ -141,12 +141,10 @@ body {
   transform: scale(1.2);
 }
 .main-navbar ul,
-.admin-nav-container ul,
 .navbar-btn-group {
   display: none;
 }
 .main-navbar.active ul,
-.admin-nav-container.active ul,
 .main-navbar.active .navbar-btn-group {
   display: flex;
   flex-direction: column;
@@ -217,24 +215,29 @@ body {
   }
 }
 
-.main-navbar ul li,.admin-nav-container ul li {
+.main-navbar ul li,
+.admin-nav-container ul li {
   opacity: 0;
   animation: fadeInStaggered 0.3s ease forwards;
 }
 
-.main-navbar.active ul li:nth-child(1),.admin-nav-container ul li:nth-child(1) {
+.main-navbar.active ul li:nth-child(1),
+.admin-nav-container ul li:nth-child(1) {
   animation-delay: 0.1s;
 }
 
-.main-navbar.active ul li:nth-child(2),.admin-nav-container ul li:nth-child(2) {
+.main-navbar.active ul li:nth-child(2),
+.admin-nav-container ul li:nth-child(2) {
   animation-delay: 0.2s;
 }
 
-.main-navbar.active ul li:nth-child(3),.admin-nav-container ul li:nth-child(3) {
+.main-navbar.active ul li:nth-child(3),
+.admin-nav-container ul li:nth-child(3) {
   animation-delay: 0.3s;
 }
 
-.main-navbar.active ul li:nth-child(4),.admin-nav-container ul li:nth-child(4) {
+.main-navbar.active ul li:nth-child(4),
+.admin-nav-container ul li:nth-child(4) {
   animation-delay: 0.4s;
 }
 .main-navbar.active .navbar-btn-group button {
@@ -614,12 +617,13 @@ footer .fa-whatsapp {
 }
 
 /* modal  */
-.modal-admin{
+.modal-admin {
   min-width: 600px;
   width: auto;
   max-width: 80%;
 }
-.modal,.modal-admin {
+.modal,
+.modal-admin {
   border: none;
   border-radius: 8px;
   width: 400px;
@@ -637,19 +641,22 @@ footer .fa-whatsapp {
   pointer-events: auto;
 }
 
-.modal h1,.modal-admin h1 {
+.modal h1,
+.modal-admin h1 {
   margin: 0 0 10px;
   font-size: 24px;
   color: #333;
 }
 
-.modal p, .modal-admin p {
+.modal p,
+.modal-admin p {
   margin: 0 0 20px;
   font-size: 16px;
   color: #555;
 }
 
-.modal button, .modal-admin button {
+.modal button,
+.modal-admin button {
   background: #007bff;
   color: white;
   border: none;
@@ -660,7 +667,8 @@ footer .fa-whatsapp {
   transition: background 0.3s ease;
 }
 
-.modal button:hover, .modal-admin button:hover {
+.modal button:hover,
+.modal-admin button:hover {
   background: #0056b3;
 }
 .btn-modal-group {
@@ -669,6 +677,13 @@ footer .fa-whatsapp {
   width: 100%;
   padding: 16px;
   border-top: 1px solid #ddd;
+}
+@media (max-width: 768px) {
+  .modal,
+  .modal-admin {
+    min-width: 90%;
+    text-align: center;
+  }
 }
 
 /* Uslovi page  */
@@ -843,10 +858,10 @@ canvas {
 }
 
 /* vozila  */
-.vehicle-container{
+.vehicle-container {
   overflow: hidden;
-  padding-left:10px ;
-  padding-right:10px ;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .vehicles {
   display: flex;
@@ -1000,7 +1015,7 @@ canvas {
 }
 
 @media (max-width: 768px) {
-  .vehicles{
+  .vehicles {
     padding: 0;
   }
   .vehicle-card {
@@ -1029,16 +1044,15 @@ canvas {
 }
 
 @media (max-width: 480px) {
-
   .vehicle-card {
     margin: 0.5em;
     border-radius: 8px;
-    width: 100% ;
+    width: 100%;
   }
 
   .vehicle-card-img {
     height: 120px;
-    object-fit: contain; 
+    object-fit: contain;
     width: 100%;
     background-color: #f4f4f4;
   }
@@ -1058,8 +1072,6 @@ canvas {
     font-size: 0.85em;
   }
 }
-
-
 
 /* Filtriranje vozila  */
 
@@ -1385,8 +1397,80 @@ select {
 .scroll-to-top:hover {
   background-color: #0056b3;
 }
-
 /* Admin Page Container */
+.hamburger-admin {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger-admin::before,
+.hamburger-admin::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 24px;
+  height: 2px;
+  background-color: #1f2937;
+  transition: transform 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.hamburger-admin::before {
+  top: 40%;
+}
+
+.hamburger-admin::after {
+  bottom: 40%;
+}
+
+.hamburger-admin.active::before {
+  transform: translateX(-50%) rotate(45deg);
+  top: 50%;
+}
+
+.hamburger-admin.active::after {
+  transform: translateX(-50%) rotate(-45deg);
+  bottom: 46%;
+}
+.admin-nav-container ul {
+  display: block;
+}
+.admin-nav-container .active ul {
+  display: block;
+}
+/* Responsive Design */
+@media (max-width: 1100px) {
+  .hamburger-admin {
+    display: block;
+  }
+
+  .admin-content-container {
+    margin-left: 0;
+  }
+  
+  .admin-nav-container ul {
+    display: none;
+    position: fixed;
+    top:80px;
+    width:fit-content;
+    left:10px;
+    background-color: #333;
+    padding: 10px;
+    z-index: 40;
+  }
+  .admin-nav-container.active ul {
+    display: block;
+  }
+}
 .admin-page-container {
   display: flex;
   flex-direction: row;
@@ -1405,20 +1489,16 @@ select {
   left: 0;
   z-index: 1000;
 }
-
-
 .admin-nav-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
 }
-
 .admin-nav-title h1 {
   font-size: 24px;
   color: #fff;
 }
-
 .admin-nav-title .back-home {
   padding: 8px 12px;
   background-color: #007bff;
@@ -1428,7 +1508,6 @@ select {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 .admin-nav-title .back-home:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
@@ -1456,7 +1535,7 @@ select {
 
 .admin-content-container {
   flex-grow: 1;
-  margin-left: 270px;
+  margin-left: 25%;
   padding: 30px 20px;
 }
 
@@ -1633,7 +1712,7 @@ select {
     margin: 10px 0;
   }
 }
-@media (max-width:900px) {
+@media (max-width:1100px) {
   .admin-nav-title{
     justify-content: center;
     gap: 30px;  

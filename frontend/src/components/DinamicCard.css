@@ -1,0 +1,26 @@
+.dinamic-info {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: start;
+  text-align: center;
+  margin: 2em;
+}
+.dinamic-info.active {
+  animation: fromBottomToUp 0.3s ease;
+}
+.dinamic-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  gap: 2rem;
+}
+.dinamic-card h1 {
+  font-size: 2em;
+  transition: all 0.4ms ease-in-out;
+}
+@media (max-width: 976px) {
+  .dinamic-card h1 {
+    font-size: 1.3em !important;
+  }
+}

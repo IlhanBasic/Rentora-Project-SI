@@ -11,7 +11,7 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Style, Icon } from 'ol/style';
 import Overlay from 'ol/Overlay';
-
+import "./Mapa.css";
 const Mapa = ({ locations }) => {
   useEffect(() => {
     if (locations.length === 0 || !document.getElementById('popup')) return;

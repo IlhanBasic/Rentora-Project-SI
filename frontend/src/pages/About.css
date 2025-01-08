@@ -1,0 +1,50 @@
+
+.about-main {
+    padding: 5em;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2rem;
+    align-items: center;
+    margin: auto;
+    animation: fromBottomToUp 1s ease-in-out;
+  }
+  .about-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+  }
+  
+  .about-main img {
+    width: 50%;
+    height: auto;
+    object-fit: cover;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+  }
+  
+  .about-general-info {
+    width: 50%;
+    padding: 1em;
+  }
+  
+  .about-main h1,
+  .about-main p {
+    text-align: left;
+    padding: 0.5em;
+  }
+  
+  @media (max-width: 768px) {
+    .row-of-card {
+      flex-direction: column;
+    }
+    .about-main {
+      flex-direction: column;
+    }
+  
+    .about-main img,
+    .about-general-info {
+      width: 100%;
+      padding: 0.5em 0;
+    }
+  }

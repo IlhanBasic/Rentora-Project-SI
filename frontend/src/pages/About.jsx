@@ -5,7 +5,7 @@ import Carousel from "../components/Carousel.jsx";
 import aboutImg from "../assets/person.jpg";
 import { ABOUT_DATA } from "../data/ABOUT_DATA.js";
 import { useScroll } from "framer-motion";
-
+import "./About.css";
 export default function About() {
   const { scrollY } = useScroll();
   const [successInfo, setSuccessInfo] = useState({

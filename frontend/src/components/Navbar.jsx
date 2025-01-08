@@ -2,6 +2,7 @@ import { NavLink, useNavigate, Link } from "react-router-dom";
 import logoImg from "/logo1.png";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import "./Navbar.css";
 export default function Navbar() {
   const [hamburgerMenu, setHamburgerMenu] = useState(false);
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { getTranslation } from "../data/translation";
-
+import './Modals.css';
 export default function AdminModal({ open, close, data }) {
   const ref = useRef();
   

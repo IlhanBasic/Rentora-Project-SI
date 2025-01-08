@@ -4,7 +4,7 @@ import Filter from "../components/Filter";
 import { useEffect, useState } from "react";
 import Loader from '../components/Loader.jsx';
 import API_URL from "../API_URL.js";
-
+import "./Vehicles.css";
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);

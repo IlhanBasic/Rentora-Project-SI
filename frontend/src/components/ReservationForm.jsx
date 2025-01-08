@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import { AuthContext } from "../context/AuthContext.jsx";
 import API_URL from "../API_URL.js";
+import "./ReservationForm.css";
 export default function ReservationForm({
   vehicleId,
   pickupTime,

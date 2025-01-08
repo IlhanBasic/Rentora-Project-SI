@@ -1,4 +1,5 @@
 import logoImg from "/logo1.png";
+import "./Footer.css";
 export default function Footer() {
   return (
     <>

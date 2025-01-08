@@ -1,8 +1,8 @@
-// Conditions.js
 import React from 'react';
 import Header from '../components/Header';
 import ConditionSection from '../components/ConditionSection.jsx';
 import CONDITIONS_DATA from '../data/CONDITIONS_DATA.js';
+import './Conditions.css';
 export default function Conditions() {
   return (
     <>

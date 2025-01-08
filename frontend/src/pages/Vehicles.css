@@ -1,0 +1,32 @@
+.vehicle-container {
+    overflow: hidden;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .vehicles {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 2em;
+    padding: 3em;
+    align-self: start;
+    margin: auto;
+    overflow: hidden;
+    animation: fromBottomToUp 3s ease-in-out;
+    transition: all 0.5s ease-out;
+  }
+  
+  .icon {
+    font-size: 18px;
+  }
+  
+  @keyframes fromBottomToUp {
+    0% {
+      transform: translateY(300px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }

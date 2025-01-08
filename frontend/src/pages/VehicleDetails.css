@@ -1,0 +1,28 @@
+.car-details {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 20px;
+    margin: auto;
+  }
+  
+  .car-details-image {
+    width: 50vw;
+    height: auto;
+  }
+  
+  .car-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .car-info h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .car-info p {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }

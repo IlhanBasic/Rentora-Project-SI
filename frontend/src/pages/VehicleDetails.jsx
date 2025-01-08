@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ReservationForm from "../components/ReservationForm.jsx";
 import Loader from "../components/Loader.jsx";
 import API_URL from "../API_URL.js";
-
+import "./VehicleDetails.css";
 export default function VehicleDetails() {
   const { vehicleId } = useParams();
   const navigate = useNavigate();

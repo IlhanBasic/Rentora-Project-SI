@@ -5,6 +5,7 @@ import Loader from "../components/Loader.jsx";
 import Modal from "../components/Modal.jsx";
 import { getTranslation, getTranslationSection } from "../data/translation.js";
 import API_URL from "../API_URL.js";
+import "./AdminItemDetails.css";  
 export default function AdminItemDetails() {
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FilterGroup from "./FilterGroup";
-
+import "./Filter.css";
 const transmissions = ["Automatik", "Manuelni"];
 const prices = [
   { label: "3500-4500 RSD", value: [3500, 4500] },

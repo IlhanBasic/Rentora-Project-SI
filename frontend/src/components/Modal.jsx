@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
-
+import "./Modals.css";
 export default function Modal({ open, close, title, text, type, onConfirm }) {
   const ref = useRef();
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Import icons from react-icons
 import CAROUSEL_DATA from "../data/CAROUSEL_DATA.js";
-
+import "./Carousel.css";
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showGroup, setShowGroup] = useState([]);

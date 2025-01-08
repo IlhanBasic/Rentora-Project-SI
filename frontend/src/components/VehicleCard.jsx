@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import VehicleCardInfoItem from "./VehicleCardInfoItem";
 import { AuthContext } from "../context/AuthContext.jsx";
-
+import "./VehicleCard.css"; 
 export default function VehicleCard({ vehicle }) {
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,

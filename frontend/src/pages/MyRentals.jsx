@@ -5,7 +5,7 @@ import Header from "../components/Header.jsx";
 import MyRentalCard from "../components/MyRentalCard.jsx";
 import Loader from "../components/Loader.jsx";
 import API_URL from "../API_URL.js";
-
+import "./MyRentals.css";
 export default function MyRentals() {
   const { token, userId, isAdmin, email } = useContext(AuthContext);
   const [reservations, setReservations] = useState([]);

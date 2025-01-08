@@ -4,6 +4,7 @@ import InputGroup from "../components/InputGroup.jsx";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../API_URL.js";
+import "./ChangePassword.css";
 export default function ChangePassword() {
   const [errorMessage, setErrorMessage] = useState();
   const [isLoading, setIsLoading] = useState(false);

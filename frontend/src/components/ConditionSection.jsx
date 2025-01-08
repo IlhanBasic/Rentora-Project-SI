@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
 const ConditionSection = ({ title, items }) => {
   const listVariant = {
     visible: {

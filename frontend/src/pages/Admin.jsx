@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import Modal from "../components/Modal.jsx";
 import AdminSection from "./AdminSection";
 import API_URL from "../API_URL.js";
+import "./Admin.css";
 export default function AdminPage() {
   const [hamburgerMenu, setHamburgerMenu] = useState(true);
   function handleToggle() {

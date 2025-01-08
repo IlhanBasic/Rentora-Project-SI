@@ -1,0 +1,105 @@
+
+footer {
+    background: #333333;
+    color: white;
+    position: relative;
+    width: 100%;
+    padding: 20px 0;
+  }
+  
+  footer img {
+    width: 250px;
+    margin-top: 20px;
+  }
+  
+  footer span {
+    display: block;
+    margin-top: 25px;
+  }
+  
+  footer h6 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 30px;
+  }
+  
+  footer .col-3 {
+    padding: 10px 15px;
+    width: 25%;
+  }
+  .col-3 {
+    text-align: center;
+  }
+  footer a {
+    text-decoration: none;
+    transition: 0.5s;
+    color: white;
+  }
+  
+  footer a:hover {
+    color: #f5871f;
+  }
+  
+  footer .fa-whatsapp {
+    margin-right: 5px;
+  }
+  
+  .copyright {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    height: 45px;
+    background-color: #242424;
+    padding-top: 15px;
+    margin-top: 20px;
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 13px;
+  }
+  
+  .social i {
+    color: #fff;
+    font-size: 17px;
+    margin-right: 15px;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    footer .col-3 {
+      width: 50%;
+      padding: 10px;
+    }
+  }
+  
+  @media only screen and (max-width: 600px) {
+    footer .col-3 {
+      width: 100%;
+      padding-left: 0;
+      margin-bottom: 20px;
+    }
+  
+    .footer-container {
+      flex-direction: column;
+      padding: 0 10px;
+    }
+  
+    .copyright {
+      font-size: 12px;
+    }
+  }

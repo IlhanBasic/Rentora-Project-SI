@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "./Loader.jsx";
 import API_URL from "../API_URL.js"
-
+import "./FormAuth.css";
 export default function FormAuth({ type }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});

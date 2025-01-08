@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
-
+import { createPortal } from 'react-dom';
 export default function ScrollToTop() {
     const [isVisible, setIsVisible] = useState(false);
 
@@ -26,9 +26,10 @@ export default function ScrollToTop() {
         };
     }, []);
 
-    return (
+    return createPortal(
         <div className={`scroll-to-top ${isVisible ? 'visible' : ''}`} onClick={scrollToTop}>
             <FaArrowUp />
-        </div>
+        </div>,
+        document.getElementById('scroll')
     );
 }

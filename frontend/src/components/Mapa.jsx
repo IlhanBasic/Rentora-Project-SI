@@ -14,7 +14,38 @@ import Overlay from 'ol/Overlay';
 
 const Mapa = ({ locations }) => {
   useEffect(() => {
-    if (locations.length === 0) return; 
+    if (locations.length === 0 || !document.getElementById('popup')) return;
+
+    // Kreiranje VectorSource sa lokacijama
+    const vectorSource = new VectorSource({
+      features: locations.map(car => {
+        const feature = new Feature({
+          geometry: new Point(fromLonLat([car.longitude, car.latitude])),
+        });
+        feature.set('street', car.street);
+        feature.set('streetNumber', car.streetNumber);
+        feature.set('city', car.city);
+        feature.set('country', car.country);
+        feature.setStyle(new Style({
+          image: new Icon({
+            src: '/pin.png',
+            scale: 0.1,
+          }),
+        }));
+        return feature;
+      }),
+    });
+
+    // Kreiranje sloja sa lokacijama
+    const vectorLayer = new VectorLayer({
+      source: vectorSource,
+    });
+
+    // Kreiranje mape
+    const view = new View({
+      center: fromLonLat([20.5169, 43.1371]),
+      zoom: 7,
+    });
 
     const map = new Map({
       target: 'map',
@@ -22,39 +53,25 @@ const Mapa = ({ locations }) => {
         new TileLayer({
           source: new OSM(),
         }),
-        new VectorLayer({
-          source: new VectorSource({
-            features: locations.map(car => {
-              const feature = new Feature({
-                geometry: new Point(fromLonLat([car.longitude, car.latitude])),
-              });
-              feature.set('street', car.street);
-              feature.set('streetNumber', car.streetNumber);
-              feature.set('city', car.city);
-              feature.set('country', car.country);
-              feature.setStyle(new Style({
-                image: new Icon({
-                  src: '/pin.png',
-                  scale: 0.1,
-                }),
-              }));
-              return feature;
-            }),
-          }),
-        }),
+        vectorLayer,
       ],
-      view: new View({
-        center: fromLonLat([20.5169, 43.1371]),
-        zoom: 7,
-      }),
+      view: view,
     });
 
+    // Kreiranje Overlay za popup
     const overlay = new Overlay({
       element: document.getElementById('popup'),
       autoPan: true,
     });
     map.addOverlay(overlay);
-    
+
+    // Fokusiranje mape na sve lokacije
+    if (locations.length > 0) {
+      const extent = vectorSource.getExtent();
+      view.fit(extent, { padding: [50, 50, 50, 50] });
+    }
+
+    // Dodavanje funkcionalnosti za prikaz informacija o lokacijama
     map.on('click', function (evt) {
       const feature = map.forEachFeatureAtPixel(evt.pixel, (feature) => feature);
       if (feature) {
@@ -67,9 +84,9 @@ const Mapa = ({ locations }) => {
         const country = feature.get('country');
 
         document.getElementById('popup-content').innerHTML = `
-          <strong>Street:</strong> ${street} ${streetNumber} <br/>
-          <strong>City:</strong> ${city} <br/>
-          <strong>Country:</strong> ${country}
+          <strong>Ulica:</strong> ${street} ${streetNumber} <br/>
+          <strong>Grad:</strong> ${city} <br/>
+          <strong>Država:</strong> ${country}
         `;
         overlay.getElement().style.display = 'block';
       } else {
@@ -77,14 +94,15 @@ const Mapa = ({ locations }) => {
       }
     });
 
+    // Čišćenje mape prilikom demontiranja komponente
     return () => {
       map.setTarget(undefined);
     };
-  }, [locations]); 
+  }, [locations]);
 
   return (
     <div>
-      <div id="map" ></div>
+      <div id="map" style={{ width: '100%', height: '500px' }}></div>
       <div id="popup" className="ol-popup" style={{ display: 'none' }}>
         <a href="#" id="popup-closer" className="ol-popup-closer"></a>
         <div id="popup-content"></div>

@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import Mapa from "../components/Mapa";
 import RentForm from "../components/RentForm";
-import RowOfCards from "../components/RowofCards";
+import RowOfCards from "../components/RowOfCards";
 import { useState, useEffect } from "react";
 import Loader from '../components/Loader.jsx';
 import { motion, useScroll } from "framer-motion";

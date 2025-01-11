@@ -41,8 +41,7 @@ export default function Vehicles() {
   }, []);
 
   const applyFilters = (filters) => {
-    console.log(filters );
-    const newFilteredVehicles = vehicles.filter((vehicle) => {
+    const newFilteredVehicles = vehicles.filter((vehicle) => {  
       const selectedPrice = filters.price ? filters.price.split(',').map(Number) : null;
       return (
         vehicle.status === "Dostupno" &&

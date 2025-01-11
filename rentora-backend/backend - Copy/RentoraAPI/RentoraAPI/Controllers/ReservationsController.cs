@@ -182,7 +182,7 @@ namespace RentoraAPI.Controllers
 			var vehicle = await _context.Vehicle.FindAsync(reservation.VehicleId);
 			if (vehicle != null)
 			{
-				vehicle.Status = reservation.ReservationStatus == "Završena" || reservation.ReservationStatus == "Otkazana" ? "Dostupno" : "Zauzeto";
+				vehicle.Status = reservation.ReservationStatus == "Istekla" || reservation.ReservationStatus == "Otkazana" ? "Dostupno" : "Zauzeto";
 			}
 
 			await _context.SaveChangesAsync();

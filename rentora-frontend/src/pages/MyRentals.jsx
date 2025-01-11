@@ -79,9 +79,21 @@ export default function MyRentals() {
             const dayDifference = Math.ceil(
               (endDateTime - startDateTime) / (1000 * 60 * 60 * 24)
             );
+            const insurancePrices = {
+              basic: 400,
+              full: 2000,
+              premium: 1000,
+              nema: 0
+            };
+            const childSeatPrices = {
+              jedno: 500,
+              dva: 1000,
+              nema:0
+            };
+            const baseDeposit = 2000;
             const totalPrice =
               dayDifference > 0
-                ? dayDifference * reservation.vehicle.pricePerDay
+                ? dayDifference * reservation.vehicle.pricePerDay + (insurancePrices[reservation.insurance] *dayDifference )+ childSeatPrices[reservation.childSeat]
                 : 0;
 
             return (
@@ -97,7 +109,7 @@ export default function MyRentals() {
                 toLocation={`${reservation.endLocation.street} ${reservation.endLocation.streetNumber}, ${reservation.endLocation.city}, ${reservation.endLocation.country}`}
                 src={reservation.vehicle.picture || ""}
                 status={reservation.reservationStatus}
-                totalPrice={`${totalPrice.toFixed(0)} RSD`}
+                totalPrice={`${totalPrice.toFixed(2)} RSD`}
               />
             );
           })

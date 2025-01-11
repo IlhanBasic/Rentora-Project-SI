@@ -56,10 +56,10 @@ export const translations = [
   },
 ];
 const sections = {
-  users: "Korisnike",
-  vehicles: "Vozila",
-  reservations: "Rezervacije",
-  locations: "Lokacije",
+  users: "Korisnika",
+  vehicles: "Vozilo",
+  reservations: "Rezervaciju",
+  locations: "Lokaciju",
 };
 export function getTranslationSection(section) {
   return sections[section];

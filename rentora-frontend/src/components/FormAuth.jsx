@@ -12,6 +12,7 @@ export default function FormAuth({ type }) {
   const ctx = useContext(AuthContext);
 
   function handleNavigate() {
+    setErrorMessages({});
     navigate(`/auth?mode=${type === "Register" ? "Login" : "Register"}`);
   }
 
@@ -69,8 +70,12 @@ export default function FormAuth({ type }) {
         "Neispravan e-mail",
       ],
       PasswordHash: [
-        /^(?=.*[A-Z])(?=.*\d).{2,}$/,
-        "Lozinka mora sadržati jedno veliko slovo i jedan broj",
+        /^(?=.*[A-Z])(?=.*\d).{6,}$/,
+        "Lozinka mora sadržati jedno veliko slovo i jedan broj i minimum dužinu 6 karaktera",
+      ],
+      ConfirmPassword: [
+        /^(?=.*[A-Z])(?=.*\d).{6,}$/,
+        "Lozinka mora sadržati jedno veliko slovo i jedan broj i minimum dužinu 6 karaktera",
       ],
       Username: [
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -86,7 +91,7 @@ export default function FormAuth({ type }) {
 
     const isRegister = type === "Register";
     const fields = isRegister
-      ? ["FirstName", "LastName", "PhoneNumber", "Username", "PasswordHash"]
+      ? ["FirstName", "LastName", "PhoneNumber", "Username", "PasswordHash","ConfirmPassword"]
       : ["Email", "PasswordHash"];
 
     let validationErrors = {};
@@ -101,7 +106,12 @@ export default function FormAuth({ type }) {
       setErrorMessages(validationErrors);
       return;
     }
-
+    if(isRegister) {
+      if(data.PasswordHash !== data.ConfirmPassword) {
+        setErrorMessages({ConfirmPassword: "Lozinke se ne podudaraju."});
+        return;
+      }
+    }
     const sendingData = isRegister
       ? {
           username: data.Username,
@@ -127,6 +137,7 @@ export default function FormAuth({ type }) {
       { inputId: "PhoneNumber", inputName: "Telefon", inputType: "text" },
       { inputId: "Username", inputName: "E-mail", inputType: "email" },
       { inputId: "PasswordHash", inputName: "Šifra", inputType: "password" },
+      { inputId: "ConfirmPassword", inputName: "Ponovljena Šifra", inputType: "password" },
     ],
   };
 

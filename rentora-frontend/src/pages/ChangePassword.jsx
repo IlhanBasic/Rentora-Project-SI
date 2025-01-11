@@ -54,7 +54,7 @@ export default function ChangePassword() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `${API_URL}/Auth/Users/${userId}/ChangePassword`,
+          `${API_URL}/ApplicationUser/${userId}/ChangePassword`,
           {
             method: "PATCH",
             headers: {

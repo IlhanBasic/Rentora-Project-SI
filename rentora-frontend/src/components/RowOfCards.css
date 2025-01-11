@@ -1,4 +1,3 @@
-/* sekcija zasto nas izabrati  */
 
 .card-with-image img {
   width: 12em;
@@ -20,4 +19,13 @@
   gap: 2em;
   text-align: center;
   margin: auto;
+}
+@media (max-width: 768px) {
+  .row-of-card {
+    flex-direction: column;
+  }
+  .row-of-card img {
+    width: 100%;
+    height: 150px;
+  }
 }

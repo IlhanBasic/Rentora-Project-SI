@@ -19,6 +19,30 @@ namespace RentoraAPI.Controllers
 		{
 			this.userManager = userManager;
 		}
+		[HttpPatch]
+		[Route("{id}/ChangePassword")]
+		public async Task<IActionResult> ChangeUserPassword(string id, [FromBody] ChangePasswordRequestDto changePasswordRequest)
+		{
+			var user = await userManager.FindByIdAsync(id);
+			if (user == null)
+			{
+				return NotFound(new { Message = "Korisnik nije pronađen." });
+			}
+
+			var checkPasswordResult = await userManager.CheckPasswordAsync(user, changePasswordRequest.OldPassword);
+			if (!checkPasswordResult)
+			{
+				return BadRequest(new { Message = "Stare šifre se ne poklapaju." });
+			}
+
+			var result = await userManager.ChangePasswordAsync(user, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
+			if (!result.Succeeded)
+			{
+				return BadRequest(new { Message = "Greška prilikom promene lozinke.", Errors = result.Errors });
+			}
+
+			return Ok(new { Message = "Lozinka je uspešno promenjena." });
+		}
 
 		// GET api/users
 		[HttpGet]

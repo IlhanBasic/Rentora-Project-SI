@@ -1,27 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import banner1 from "../assets/banner1.jpg";
-import banner2 from "../assets/banner2.jpg";
-import banner3 from "../assets/banner3.jpg";
+import bannerImg from "../assets/banner2.jpg";
 import { ReactTyped } from "react-typed";
 import "./HeroSection.css";
 export default function HeroSection({ children }) {
-  const banners = [banner1, banner2, banner3];
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentPhotoIndex((prev) => (prev + 1) % banners.length);
-    }, 10000);
-
-    return () => clearInterval(interval);
-  }, [banners.length]);
-
-  const currentPhoto = banners[currentPhotoIndex];
-
   return (
     <section
       className="hero-banner"
       style={{
-        backgroundImage: `url(${currentPhoto})`,
+        backgroundImage: `url(${bannerImg})`,
         backgroundSize: "cover",
       }}
     >

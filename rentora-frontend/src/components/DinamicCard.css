@@ -1,26 +1,88 @@
 .dinamic-info {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: start;
-  text-align: center;
-  margin: 2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
-.dinamic-info.active {
-  animation: fromBottomToUp 0.3s ease;
-}
+
 .dinamic-card {
+  position: relative;
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+  border-radius: 16px;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-self: center;
-  gap: 2rem;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 
+    5px 5px 15px rgba(0, 0, 0, 0.08),
+    -5px -5px 15px rgba(255, 255, 255, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
+
+.dinamic-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dinamic-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    8px 8px 20px rgba(0, 0, 0, 0.1),
+    -8px -8px 20px rgba(255, 255, 255, 0.9);
+}
+
+.dinamic-card:hover::before {
+  opacity: 1;
+}
+
 .dinamic-card h1 {
-  font-size: 2em;
-  transition: all 0.4ms ease-in-out;
+  margin: 0;
+  text-align: center;
 }
-@media (max-width: 976px) {
-  .dinamic-card h1 {
-    font-size: 1.3em !important;
+
+.dinamic-card h1:first-child {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.dinamic-card h1:last-child {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #1f2937;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .dinamic-info {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    padding: 1.5rem;
+  }
+
+  .dinamic-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dinamic-info {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .dinamic-card {
+    padding: 1.25rem;
   }
 }

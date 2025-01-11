@@ -30,8 +30,6 @@ export default function ErrorPage() {
     title = "Vreme čekanja na server je isteklo";
     text = "Molimo pokušajte ponovo kasnije.";
   }
-
-  console.log(error);
   return (
     <div className="error-page">
       <div className="error-content">

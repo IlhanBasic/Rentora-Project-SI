@@ -27,7 +27,7 @@ export default function AdminModal({ open, close, data }) {
       className="modal-admin"
     >
       <div key={data.id} className="table-row">
-        <div className="vehicle-info">
+        <div className="table-info">
           {Object.entries(data).map(([key, value], index) => (
             <div key={index} className="vertical-table-row">
               <strong>{getTranslation(key)}:</strong>
@@ -39,8 +39,8 @@ export default function AdminModal({ open, close, data }) {
         </div>
 
         {data.picture && (
-          <div className="vehicle-image-container">
-            <img src={data.picture} alt="Vehicle" className="vehicle-image" />
+          <div className="table-image-container">
+            <img src={data.picture} alt="Table Image" className="table-image" />
           </div>
         )}
       </div>

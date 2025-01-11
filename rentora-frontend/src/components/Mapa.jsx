@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -12,20 +12,30 @@ import VectorSource from 'ol/source/Vector';
 import { Style, Icon } from 'ol/style';
 import Overlay from 'ol/Overlay';
 import "./Mapa.css";
+
 const Mapa = ({ locations }) => {
+  const mapRef = useRef(null);
+  const overlayRef = useRef(null);
+  const popupRef = useRef(null);
+  const popupCloserRef = useRef(null);
+  const popupContentRef = useRef(null);
+
   useEffect(() => {
-    if (locations.length === 0 || !document.getElementById('popup')) return;
+    if (locations.length === 0) return;
 
     // Kreiranje VectorSource sa lokacijama
     const vectorSource = new VectorSource({
       features: locations.map(car => {
         const feature = new Feature({
           geometry: new Point(fromLonLat([car.longitude, car.latitude])),
+          properties: {
+            street: car.street,
+            streetNumber: car.streetNumber,
+            city: car.city,
+            country: car.country
+          }
         });
-        feature.set('street', car.street);
-        feature.set('streetNumber', car.streetNumber);
-        feature.set('city', car.city);
-        feature.set('country', car.country);
+        
         feature.setStyle(new Style({
           image: new Icon({
             src: '/pin.png',
@@ -48,7 +58,7 @@ const Mapa = ({ locations }) => {
     });
 
     const map = new Map({
-      target: 'map',
+      target: mapRef.current,
       layers: [
         new TileLayer({
           source: new OSM(),
@@ -60,10 +70,16 @@ const Mapa = ({ locations }) => {
 
     // Kreiranje Overlay za popup
     const overlay = new Overlay({
-      element: document.getElementById('popup'),
-      autoPan: true,
+      element: popupRef.current,
+      autoPan: {
+        animation: {
+          duration: 250,
+        },
+      },
     });
+    
     map.addOverlay(overlay);
+    overlayRef.current = overlay;
 
     // Fokusiranje mape na sve lokacije
     if (locations.length > 0) {
@@ -71,30 +87,44 @@ const Mapa = ({ locations }) => {
       view.fit(extent, { padding: [50, 50, 50, 50] });
     }
 
+    // Zatvaranje popup-a
+    const closer = popupCloserRef.current;
+    if (closer) {
+      closer.onclick = function() {
+        overlay.setPosition(undefined);
+        closer.blur();
+        return false;
+      };
+    }
+
     // Dodavanje funkcionalnosti za prikaz informacija o lokacijama
-    map.on('click', function (evt) {
-      const feature = map.forEachFeatureAtPixel(evt.pixel, (feature) => feature);
+    map.on('click', function(evt) {
+      const feature = map.forEachFeatureAtPixel(evt.pixel, feature => feature);
+      
       if (feature) {
         const coordinates = feature.getGeometry().getCoordinates();
-        overlay.setPosition(coordinates);
-
-        const street = feature.get('street');
-        const streetNumber = feature.get('streetNumber');
-        const city = feature.get('city');
-        const country = feature.get('country');
-
-        document.getElementById('popup-content').innerHTML = `
-          <strong>Ulica:</strong> ${street} ${streetNumber} <br/>
-          <strong>Grad:</strong> ${city} <br/>
-          <strong>Država:</strong> ${country}
-        `;
-        overlay.getElement().style.display = 'block';
+        const props = feature.getProperties().properties;
+        
+        if (props && popupContentRef.current) {
+          popupContentRef.current.innerHTML = `
+            <strong>Ulica:</strong> ${props.street} ${props.streetNumber}<br>
+            <strong>Grad:</strong> ${props.city}<br>
+            <strong>Država:</strong> ${props.country}
+          `;
+          overlay.setPosition(coordinates);
+        }
       } else {
-        overlay.getElement().style.display = 'none';
+        overlay.setPosition(undefined);
       }
     });
 
-    // Čišćenje mape prilikom demontiranja komponente
+    // Promena kursora kada je iznad markera
+    map.on('pointermove', function(evt) {
+      const pixel = map.getEventPixel(evt.originalEvent);
+      const hit = map.hasFeatureAtPixel(pixel);
+      map.getTarget().style.cursor = hit ? 'pointer' : '';
+    });
+
     return () => {
       map.setTarget(undefined);
     };
@@ -102,10 +132,10 @@ const Mapa = ({ locations }) => {
 
   return (
     <div>
-      <div id="map" style={{ width: '100%', height: '500px' }}></div>
-      <div id="popup" className="ol-popup" style={{ display: 'none' }}>
-        <a href="#" id="popup-closer" className="ol-popup-closer"></a>
-        <div id="popup-content"></div>
+      <div ref={mapRef} style={{ width: '100%', height: '500px' }}></div>
+      <div ref={popupRef} className="ol-popup">
+        <a href="#" ref={popupCloserRef} className="ol-popup-closer"></a>
+        <div ref={popupContentRef}></div>
       </div>
     </div>
   );

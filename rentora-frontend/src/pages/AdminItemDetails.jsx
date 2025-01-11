@@ -153,7 +153,7 @@ export default function AdminItemDetails() {
             name === "transmissionType" ||
             name === "vehicleType" ||
             name === "status"
-          ? value // For these fields, just assign the selected value
+          ? value 
           : value,
     }));
   };
@@ -271,14 +271,14 @@ export default function AdminItemDetails() {
         <h1 className="admin-title">
           {id === "new"
             ? `Dodaj ${getTranslationSection(section)}`
-            : `Izmeni ${section}`}
+            : `Izmeni ${getTranslationSection(section)}`}
         </h1>
         <form onSubmit={handleSave} className="admin-item-form">
           {Object.keys(item).map((key) => {
             if (
               typeof item[key] === "object" &&
               item[key] !== null &&
-              !Array.isArray(item[key])
+              !Array.isArray(item[key]) || key === "id"
             ) {
               return null;
             }

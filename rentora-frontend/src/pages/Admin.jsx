@@ -16,10 +16,7 @@ export default function AdminPage() {
     if (!token) {
       navigate("/");
     }
-    if (token && !isAdmin) {
-      navigate("/");
-    }
-  }, [token, isAdmin]);
+  }, []);
 
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,

@@ -154,7 +154,7 @@
         {filteredData && filteredData.length > 0 ? (
           filteredData.map((item) => (
             <div key={item.id} className="table-row">
-              <div className="vehicle-info">
+              <div className="table-info">
                 {Object.entries(item)
                   .filter(([key]) => basicFields.includes(key))
                   .map(([key, value], index) => (
@@ -169,11 +169,11 @@
               </div>
 
               {item.picture && (
-                <div className="vehicle-image-container">
+                <div className="table-image-container">
                   <img
                     src={item.picture}
-                    alt="Vehicle"
-                    className="vehicle-image"
+                    alt="Table Image"
+                    className="table-image"
                   />
                 </div>
               )}

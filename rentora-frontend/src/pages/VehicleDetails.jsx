@@ -56,7 +56,7 @@ export default function VehicleDetails() {
     basic: 400,
     full: 2000,
     premium: 1000,
-    none: 0
+    nema: 0
   };
   const childSeatPrices = {
     jedno: 500,

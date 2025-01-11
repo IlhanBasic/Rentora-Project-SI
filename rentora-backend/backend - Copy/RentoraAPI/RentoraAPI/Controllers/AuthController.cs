@@ -30,32 +30,6 @@ namespace RentoraAPI.Controllers
 			this.tokenRepository = tokenRepository;
 			this.emailSender = emailSender;
 		}
-
-		[HttpPatch]
-		[Route("Users/{id}/ChangePassword")]
-		public async Task<IActionResult> ChangeUserPassword(string id, [FromBody] ChangePasswordRequestDto changePasswordRequest)
-		{
-			var user = await userManager.FindByIdAsync(id);
-			if (user == null)
-			{
-				return NotFound(new { Message = "Korisnik nije pronađen." });
-			}
-
-			var checkPasswordResult = await userManager.CheckPasswordAsync(user, changePasswordRequest.OldPassword);
-			if (!checkPasswordResult)
-			{
-				return BadRequest(new { Message = "Stare šifre se ne poklapaju." });
-			}
-
-			var result = await userManager.ChangePasswordAsync(user, changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
-			if (!result.Succeeded)
-			{
-				return BadRequest(new { Message = "Greška prilikom promene lozinke.", Errors = result.Errors });
-			}
-
-			return Ok(new { Message = "Lozinka je uspešno promenjena." });
-		}
-
 		// POST api/auth/Register NOVI
 		[HttpPost]
 		[Route("Register")]
@@ -109,6 +83,7 @@ namespace RentoraAPI.Controllers
 				var identityResult = await userManager.CreateAsync(identityUser, registerRequestDto.Password);
 				if (!identityResult.Succeeded)
 				{
+					await userManager.DeleteAsync(identityUser);
 					return BadRequest(new
 					{
 						Message = "Registracija korisnika nije uspela.",

@@ -148,7 +148,7 @@ export default function RentForm({ locations }) {
                 </option>
               ))
             ) : (
-              <option value="">No locations available</option>
+              <option value="">Nema lokacija u bazi</option>
             )}
           </select>
           <label htmlFor="startDate">Odaberite Datum Preuzimanja</label>

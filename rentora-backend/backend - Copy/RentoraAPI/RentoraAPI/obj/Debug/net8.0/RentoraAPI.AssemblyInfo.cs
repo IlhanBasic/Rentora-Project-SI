@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RentoraAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2239755f3e0077295a206511758e0dbe8ae5878e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d97cfb9d8e66056799bbee0af6f41a54c4665a2f")]
 [assembly: System.Reflection.AssemblyProductAttribute("RentoraAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RentoraAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

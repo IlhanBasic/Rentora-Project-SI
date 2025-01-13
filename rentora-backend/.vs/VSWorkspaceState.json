@@ -3,8 +3,9 @@
     "",
     "\\backend - Copy",
     "\\backend - Copy\\RentoraAPI",
-    "\\backend - Copy\\RentoraAPI\\RentoraAPI"
+    "\\backend - Copy\\RentoraAPI\\RentoraAPI",
+    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\Controllers"
   ],
-  "SelectedNode": "\\backend - Copy\\RentoraAPI\\RentoraAPI\\appsettings.json",
+  "SelectedNode": "\\backend - Copy\\RentoraAPI\\RentoraAPI\\Controllers\\ApplicationUserController.cs",
   "PreviewInSolutionExplorer": false
 }

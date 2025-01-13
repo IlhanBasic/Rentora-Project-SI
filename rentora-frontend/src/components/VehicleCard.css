@@ -9,6 +9,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     max-width: 20em;
+    width: 100%;
     transition: transform 0.2s, box-shadow 0.2s;
     text-align: center;
     margin: 1em auto;

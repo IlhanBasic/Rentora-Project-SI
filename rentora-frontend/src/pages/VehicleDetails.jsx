@@ -10,7 +10,8 @@ export default function VehicleDetails() {
   const [searchParams] = useSearchParams();
 
   let startLocation = "", endLocation = "";
-  let startDate = new Date(), endDate = new Date();
+  let startDate = new Date(Date.now() + 1000 * 60 * 60 * 24);
+  let endDate = new Date(startDate.getTime() + 1000 * 60 * 60 * 24);
   let startTime = "12:00", endTime = "12:00";
 
   if (searchParams.get("StartTime") && searchParams.get("ReturnTime")) {

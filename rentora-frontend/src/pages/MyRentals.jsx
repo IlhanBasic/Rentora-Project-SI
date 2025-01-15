@@ -116,7 +116,7 @@ export default function MyRentals() {
         ) : !errorMessage && !isLoading ? (
           <p>Još uvek niste napravili rezervaciju.</p>
         ) : (
-          <p className="error-message">{errorMessage}</p>
+          <p>Nema rezervacija.</p>
         )}
       </div>
     </>

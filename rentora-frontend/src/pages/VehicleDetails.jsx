@@ -159,6 +159,7 @@ export default function VehicleDetails() {
       </div>
       <h1 className="important">MOLIMO POPUNITE FORMU</h1>
       <ReservationForm
+        carLocation={car.locationId}
         total={totalPrice}
         startDate={startDate}
         endDate={endDate}

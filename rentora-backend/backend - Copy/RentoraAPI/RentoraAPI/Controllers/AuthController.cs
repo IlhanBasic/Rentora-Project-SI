@@ -110,10 +110,84 @@ namespace RentoraAPI.Controllers
 				var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth",
 					new { userId = identityUser.Id, token }, Request.Scheme);
 
-				// Send confirmation email
 				await emailSender.SendEmailAsync(identityUser.Email, "Verifikacija profila",
-					$"Molimo vas da kliknete na sledeći link kako biste verifikovali svoj profil: <a href='{confirmationLink}'>Verifikacija</a>");
-
+					$@"
+    <!DOCTYPE html>
+    <html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>Verifikacija Profila</title>
+        <style>
+            body {{
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }}
+            .email-container {{
+                max-width: 600px;
+                margin: 20px auto;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                padding: 20px;
+            }}
+            .header {{
+                text-align: center;
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 0;
+                font-size: 24px;
+                font-weight: bold;
+            }}
+            .content {{
+                margin: 20px 0;
+                font-size: 16px;
+                line-height: 1.6;
+                color: #333333;
+            }}
+            .button {{
+                display: block;
+                width: 200px;
+                margin: 20px auto;
+                text-align: center;
+                background-color: #4CAF50;
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+                padding: 10px 15px;
+                border-radius: 5px;
+            }}
+            .button:hover {{
+                background-color: #45a049;
+            }}
+            .footer {{
+                text-align: center;
+                font-size: 14px;
+                color: #666666;
+                margin-top: 20px;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class='email-container'>
+            <div class='header'>Verifikacija Vašeg Profila</div>
+            <div class='content'>
+                <p>Poštovani {identityUser.FirstName} {identityUser.LastName},</p>
+                <p>Hvala vam što ste se registrovali na našu platformu! Kako bismo aktivirali vaš profil, molimo vas da potvrdite svoj email klikom na dugme ispod:</p>
+                <a href='{confirmationLink}' class='button'>Verifikujte Svoj Profil</a>
+                <p>Ako imate bilo kakva pitanja, slobodno nas kontaktirajte.</p>
+                <p>Hvala,</p>
+                <p>Vaš tim</p>
+            </div>
+            <div class='footer'>
+                &copy; {DateTime.Now.Year} Vaša Kompanija. Sva prava zadržana.
+            </div>
+        </div>
+    </body>
+    </html>");
 				return Ok(new { Message = "Korisnik je registrovan! Molimo vas da potvrdite svoj email." });
 			}
 			catch (Exception ex)
@@ -135,18 +209,100 @@ namespace RentoraAPI.Controllers
 			var user = await userManager.FindByIdAsync(userId);
 			if (user == null)
 			{
-				return BadRequest(new { Message = "Korisnik nije pronađen." });
+				return new ContentResult
+				{
+					Content = GenerateHtmlResponse("Korisnik nije pronađen.", "error"),
+					ContentType = "text/html"
+				};
 			}
 
 			var result = await userManager.ConfirmEmailAsync(user, token);
 			if (result.Succeeded)
 			{
-				user.EmailConfirmed = true; 
-				await userManager.UpdateAsync(user); 
-				return Ok(new { Message = "Email je uspešno potvrđen." });
+				user.EmailConfirmed = true;
+				await userManager.UpdateAsync(user);
+				return new ContentResult
+				{
+					Content = GenerateHtmlResponse("Email je uspešno potvrđen!", "success"),
+					ContentType = "text/html"
+				};
 			}
 
-			return BadRequest(new { Message = "Došlo je do greške prilikom potvrde email-a." });
+			return new ContentResult
+			{
+				Content = GenerateHtmlResponse("Došlo je do greške prilikom potvrde email-a.", "error"),
+				ContentType = "text/html"
+			};
+		}
+
+		private string GenerateHtmlResponse(string message, string status)
+		{
+			var successColor = "#4CAF50";
+			var errorColor = "#f44336";
+
+			return $@"
+    <!DOCTYPE html>
+    <html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>Email Confirmation</title>
+        <style>
+            body {{
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+            }}
+            .container {{
+                text-align: center;
+                max-width: 500px;
+                margin: 20px;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }}
+            .message {{
+                font-size: 20px;
+                font-weight: bold;
+                color: {(status == "success" ? successColor : errorColor)};
+                margin-bottom: 20px;
+            }}
+            .icon {{
+                font-size: 50px;
+                margin-bottom: 20px;
+                color: {(status == "success" ? successColor : errorColor)};
+            }}
+            .footer {{
+                font-size: 14px;
+                color: #666666;
+                margin-top: 20px;
+            }}
+            a {{
+                color: {(status == "success" ? successColor : errorColor)};
+                text-decoration: none;
+                font-weight: bold;
+            }}
+            a:hover {{
+                text-decoration: underline;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='icon'>{(status == "success" ? "✔" : "✖")}</div>
+            <div class='message'>{message}</div>
+            <div class='footer'>
+                <p>Vratite se na <a href='https://rentora-project-si.onrender.com/auth?mode=Login'>početnu stranicu</a>.</p>
+            </div>
+        </div>
+    </body>
+    </html>";
 		}
 
 		// POST api/auth/Login

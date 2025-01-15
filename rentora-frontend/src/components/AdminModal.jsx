@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import { useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { getTranslation } from "../data/translation";
-import './Modals.css';
+import "./Modals.css";
 export default function AdminModal({ open, close, data }) {
   const ref = useRef();
-  
+
   useEffect(() => {
     if (open) {
       ref.current.showModal();
@@ -28,14 +28,17 @@ export default function AdminModal({ open, close, data }) {
     >
       <div key={data.id} className="table-row">
         <div className="table-info">
-          {Object.entries(data).map(([key, value], index) => (
-            <div key={index} className="vertical-table-row">
-              <strong>{getTranslation(key)}:</strong>
-              <span>
-                {value} {key === "reservationAmount" && "RSD"}
-              </span>
-            </div>
-          ))}
+          {Object.entries(data).map(
+            ([key, value], index) =>
+              (key !== "location" && key !=="locationId" && key !=="picture") && (
+                <div key={index} className="vertical-table-row">
+                  <strong>{getTranslation(key)}:</strong>
+                  <span>
+                    {value} {key === "reservationAmount" && "RSD"}
+                  </span>
+                </div>
+              )
+          )}
         </div>
 
         {data.picture && (

@@ -18,6 +18,29 @@ export default function AdminItemDetails() {
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
   const [apiPoint, setApiPoint] = useState("Vehicles");
+  const [locations, setLocations] = useState([]);
+  useEffect(()=>{
+    const fetchLocations = async () => {
+      const url = `${API_URL}/Locations`;
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        setModalInfo({
+          modalTitle:
+            "Došlo je do greške sa serverom prilikom preuzimanja podataka 🙁!",
+          modalText: `Probajte ponovo kasnije.`,
+          isOpen: true,
+        });
+      }
+      const data = await response.json();
+      setLocations(data);
+    };
+    fetchLocations();
+  },[])
   const navigate = useNavigate();
   const closeModal = () => {
     setModalInfo((prev) => ({ ...prev, isOpen: false }));
@@ -108,6 +131,7 @@ export default function AdminItemDetails() {
           numOfDoors: 3,
           transmission: "Automatik",
           type: "Limuzina",
+          locationId: "",
         });
         break;
       case "reservations":
@@ -278,7 +302,7 @@ export default function AdminItemDetails() {
             if (
               typeof item[key] === "object" &&
               item[key] !== null &&
-              !Array.isArray(item[key]) || key === "id"
+              !Array.isArray(item[key]) || key === "id" || key === "location"
             ) {
               return null;
             }
@@ -346,7 +370,22 @@ export default function AdminItemDetails() {
                       <option value="Dostupno">Dostupno</option>
                       <option value="Zauzeto">Zauzeto</option>
                     </select>
-                  ) : (
+                  ) : key === "locationId"? (
+                    <select
+                      name={key}
+                      value={item[key] || locations[0].id} 
+                      onChange={handleChange}
+                      required
+                      className="admin-form-input"
+                    > 
+                      {(locations || []).map((location) => (
+                        <option key={location.id} value={location.id}>
+                          {location.street},{location.streetNumber},{location.city},
+                          {location.country}
+                        </option>
+                      ))}
+                    </select>
+                  ) :(
                     <input
                       type={
                         typeof item[key] === "number"

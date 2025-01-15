@@ -154,6 +154,7 @@ namespace RentoraAPI.Controllers
 			var vehicle = await _context.Vehicle.FindAsync(requestDto.VehicleId);
 			if (vehicle != null)
 			{
+				vehicle.LocationId = requestDto.EndLocationId;
 				vehicle.Status = "Zauzeto"; // Update status to Reserved
 			}
 
@@ -182,6 +183,7 @@ namespace RentoraAPI.Controllers
 			var vehicle = await _context.Vehicle.FindAsync(reservation.VehicleId);
 			if (vehicle != null)
 			{
+				vehicle.LocationId = reservation.EndLocationId;
 				vehicle.Status = reservation.ReservationStatus == "Istekla" || reservation.ReservationStatus == "Otkazana" ? "Dostupno" : "Zauzeto";
 			}
 

@@ -2,9 +2,11 @@
 using System.Threading.Tasks;
 using RentoraAPI.Models;
 using MimeKit;
+using MimeKit.Utils;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using RentoraAPI.Respositories;
+
 namespace RentoraAPI.Services
 {
 	public class EmailSender : IEmailSender
@@ -18,36 +20,43 @@ namespace RentoraAPI.Services
 
 		public async Task SendEmailAsync(string email, string subject, string message)
 		{
-			var mimeMessage = new MimeMessage();
+			var mimeMessage = new MimeMessage
+			{
+				MessageId = MimeUtils.GenerateMessageId(),
+			};
+
 			mimeMessage.From.Add(new MailboxAddress(_smtpSettings.DisplayName, _smtpSettings.FromEmail));
 			mimeMessage.To.Add(MailboxAddress.Parse(email));
 			mimeMessage.Subject = subject;
-			mimeMessage.Body = new TextPart("html") { Text = message };
+			mimeMessage.Headers.Add("X-Mailer", "Rentora Email Service");
+			mimeMessage.Body = new TextPart("html")
+			{
+				Text = message,
+				
+			};
 
 			using (var client = new SmtpClient())
 			{
 				try
 				{
-					// Provera da li je klijent već povezan pre nego što pokušaš da se povežeš ponovo
 					if (!client.IsConnected)
 					{
 						await client.ConnectAsync(_smtpSettings.Host, _smtpSettings.Port, SecureSocketOptions.StartTls);
 					}
 
-					// Autentifikacija
+					client.CheckCertificateRevocation = true;
 					await client.AuthenticateAsync(_smtpSettings.Username, _smtpSettings.Password);
 
-					// Slanje emaila
 					await client.SendAsync(mimeMessage);
 				}
 				catch (Exception ex)
 				{
-					// Logovanje greške u konzolu
+					Console.WriteLine($"Email sending failed: {ex.Message}");
+					Console.WriteLine($"StackTrace: {ex.StackTrace}");
 					throw new InvalidOperationException("Failed to send email.", ex);
 				}
 				finally
 				{
-					// Uvek se uveri da je konekcija ispravno prekinuta
 					if (client.IsConnected)
 					{
 						await client.DisconnectAsync(true);

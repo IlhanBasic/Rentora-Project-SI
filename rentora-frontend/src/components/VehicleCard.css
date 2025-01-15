@@ -1,4 +1,4 @@
-.vehicle-card {
+/* .vehicle-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -146,4 +146,209 @@
       padding: 0.4em 0.8em;
       font-size: 0.85em;
     }
-  }
+  } */
+  /* NOVI CSS */
+  .vehicle-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    max-width: 20em;
+    width: 100%;
+    transition: all 0.3s ease;
+    text-align: center;
+    margin: 1em auto;
+    position: relative;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(26, 35, 126, 0.15);
+}
+
+.vehicle-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #1a237e, #303f9f);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.vehicle-card:hover::after {
+    transform: scaleX(1);
+}
+
+.vehicle-card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background-color: #f8f9fa;
+    transition: transform 0.3s ease;
+}
+
+.vehicle-card:hover .vehicle-card-img {
+    transform: scale(1.05);
+}
+
+.vehicle-card-title {
+    padding: 0.8em;
+    background: linear-gradient(90deg, #1a237e, #283593);
+    color: white;
+    font-size: 1.2em;
+    font-weight: 700;
+    text-transform: capitalize;
+    display: flex;
+    justify-content: center;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.vehicle-card-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #ffd700;
+}
+
+.vehicle-card-info {
+    padding: 1em;
+    color: #2c3e50;
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+}
+
+.info-item {
+    margin: 0.2em 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    gap: 0.6em;
+    transition: transform 0.2s ease;
+}
+
+.info-item:hover {
+    transform: translateX(3px);
+}
+
+.info-icon {
+    width: 20px;
+    height: 20px;
+    color: #1a237e;
+}
+
+.vehicle-card button {
+    margin: 0.8em auto 1.2em;
+    padding: 0.6em 1.8em;
+    background: linear-gradient(90deg, #ffd700, #ffc107);
+    border: none;
+    color: #1a237e;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 12px rgba(255, 215, 0, 0.2);
+    width: auto;
+    min-width: 180px;
+}
+
+.vehicle-card button:hover {
+    background: linear-gradient(90deg, #ffc107, #ffd700);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+.vehicle-card button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
+}
+
+/* Grid layout for vehicle cards */
+.vehicles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5em;
+    padding: 1.5em;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .vehicles {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.2em;
+        padding: 1em;
+    }
+
+    .vehicle-card {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .vehicle-card-img {
+        height: 160px;
+    }
+
+    .vehicle-card-title {
+        font-size: 1.1em;
+        padding: 0.7em;
+    }
+
+    .vehicle-card-info {
+        padding: 0.8em;
+    }
+
+    .vehicle-card button {
+        padding: 0.6em 1.5em;
+        min-width: 160px;
+        font-size: 0.95em;
+    }
+}
+
+@media (max-width: 480px) {
+    .vehicles {
+        grid-template-columns: 1fr;
+        gap: 1em;
+        padding: 0.8em;
+    }
+
+    .vehicle-card {
+        border-radius: 10px;
+    }
+
+    .vehicle-card-img {
+        height: 140px;
+    }
+
+    .vehicle-card-title {
+        font-size: 1em;
+        padding: 0.6em;
+    }
+
+    .vehicle-card-info {
+        padding: 0.8em;
+        font-size: 0.85em;
+    }
+
+    .vehicle-card button {
+        padding: 0.5em 1.4em;
+        font-size: 0.9em;
+        min-width: 150px;
+        margin: 0.6em auto 1em;
+    }
+}

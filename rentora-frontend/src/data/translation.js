@@ -52,6 +52,7 @@ export const translations = [
       numOfDoors: "Broj vrata",
       transmission: "Tip menjača",
       type: "Tip vozila",
+      locationId: "Lokacija",
     },
   },
 ];

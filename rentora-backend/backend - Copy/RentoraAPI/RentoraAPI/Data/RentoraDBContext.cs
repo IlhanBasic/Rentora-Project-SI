@@ -39,9 +39,8 @@ namespace RentoraAPI.Data
 				.WithMany()
 				.HasForeignKey(r => r.EndLocationId)
 				.OnDelete(DeleteBehavior.NoAction); // Sprečava brisanje krajnje lokacije
-
-			// Seed roles
-			var roles = new List<IdentityRole>
+		   // Seed roles
+		   var roles = new List<IdentityRole>
 	{
 		new IdentityRole
 		{

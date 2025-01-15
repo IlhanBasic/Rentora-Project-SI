@@ -4,8 +4,9 @@
     "\\backend - Copy",
     "\\backend - Copy\\RentoraAPI",
     "\\backend - Copy\\RentoraAPI\\RentoraAPI",
-    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\Controllers"
+    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\Controllers",
+    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\Models"
   ],
-  "SelectedNode": "\\backend - Copy\\RentoraAPI\\RentoraAPI\\Controllers\\ApplicationUserController.cs",
+  "SelectedNode": "\\backend - Copy\\RentoraAPI\\RentoraAPI\\RentoraAPI.sln",
   "PreviewInSolutionExplorer": false
 }

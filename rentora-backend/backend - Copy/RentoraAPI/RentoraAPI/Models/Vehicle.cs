@@ -6,6 +6,7 @@ namespace RentoraAPI.Models
 	public class Vehicle
 	{
 		public Guid Id { get; set; }
+		public Guid LocationId { get; set; }
 
 		[Required(ErrorMessage = "Marka je obavezna.")]
 		[StringLength(50, ErrorMessage = "Marka ne može biti duža od 50 karaktera.")]

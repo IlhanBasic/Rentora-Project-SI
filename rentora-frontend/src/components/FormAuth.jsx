@@ -82,7 +82,7 @@ export default function FormAuth({ type }) {
         "Neispravan e-mail",
       ],
       PhoneNumber: [
-        /^(?:\+381\s?6[34]|0[67]4)\s?\d{3}(?:\s|-)?\d{3,4}(?:\s|-)?\d{1,2}$/,
+        /^(?:\+381\s?6[0123456789]|06[0123456789])\s?\d{3}(?:\s|-)?\d{3,4}(?:\s|-)?\d{1,2}$/,
         "Neispravan broj telefona. Telefon moze biti u formatu +381643123456 ili 0643123456",
       ],
       FirstName: [/^[A-Za-zćĆčČđĐžŽšŠ]{2,20}$/, "Neispravno ime. Ime mora biti između 2 i 20 slova i osim slova nisu dozvoljeni drugi karakteri."],

@@ -11,6 +11,7 @@ export default function ReservationForm({
   pickupDate,
   setPickupDate,
   pickupLocation,
+  carLocation,
   setPickupLocation,
   returnTime,
   insurance,
@@ -306,16 +307,22 @@ export default function ReservationForm({
           <label>Mesto preuzimanja:</label>
           <select
             name="startLocation"
-            value={pickupLocation ?? defaultLocation}
-            onChange={(e) => setPickupLocation(e.target.value)}
+            // value={pickupLocation ?? defaultLocation}
+            value={carLocation}
+            // onChange={(e) => setPickupLocation(e.target.value)}
+            // disabled
           >
             {locations.length > 0 ? (
-              locations.map((location) => (
-                <option key={location.id} value={location.id}>
-                  {location.street}, {location.streetNumber}, {location.city},{" "}
-                  {location.country}
-                </option>
-              ))
+              locations.map((location) => {
+                if (location.id === carLocation) {
+                  return (
+                    <option key={location.id} value={location.id} selected>
+                    {location.street}, {location.streetNumber}, {location.city},{" "}
+                    {location.country}
+                  </option>
+                  )
+                }
+              })
             ) : (
               <option value="">Lokacije nisu dostupne</option>
             )}

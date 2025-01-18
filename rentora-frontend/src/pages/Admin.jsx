@@ -292,7 +292,7 @@ export default function AdminPage() {
                   {label}
                 </li>
               ))}
-              <button onClick={() => navigate("../change-password")}>
+              <button className="change-password" onClick={() => navigate("../change-password")}>
                 Promena lozinke
               </button>
             </ul>

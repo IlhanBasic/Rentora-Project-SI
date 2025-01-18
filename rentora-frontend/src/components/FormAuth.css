@@ -1,110 +1,104 @@
+
+
+/* Glavna forma */
+.form-auth {
+  width: 100%;
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.15); /* Polu-providna bela pozadina */
+  backdrop-filter: blur(10px); /* Efekat stakla */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+/* Hover efekat na celu formu */
+.form-auth:hover {
+  transform: scale(1.02);
+}
+
+/* Input grupe */
 .input-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-  }
-  
-  .input-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 1rem;
-    color: #333;
-  }
-  
-  .input-group input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  .input-group input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+/* Labela */
+.input-group label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Input polja */
+.input-group input {
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* Efekat fokusa na input */
+.input-group input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Dugmad */
+.form-auth .btn-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 20px;
+}
+
+/* Stilizovano dugme */
+.form-auth button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* Submit dugme - elegantan gradient */
+.form-auth button[type="submit"] {
+  background: linear-gradient(135deg, #007bff, #00d4ff);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+}
+
+/* Hover efekat na submit dugme */
+.form-auth button[type="submit"]:hover {
+  background: linear-gradient(135deg, #0056b3, #00a3cc);
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.5);
+}
+
+/* Dugme za otkazivanje */
+.form-auth button[type="button"] {
+  background: linear-gradient(135deg, #6c757d, #adb5bd);
+  color: white;
+  box-shadow: 0 4px 10px rgba(108, 117, 125, 0.4);
+}
+
+/* Hover efekat na otkazivanje */
+.form-auth button[type="button"]:hover {
+  background: linear-gradient(135deg, #5a6268, #7d8287);
+  box-shadow: 0 6px 15px rgba(108, 117, 125, 0.5);
+}
+
+/* Responsivnost - centriranje */
+@media (max-width: 480px) {
   .form-auth {
-    min-width: 40vw;
-    /* max-width: 40vw; */
-    margin: 0 auto;
+      padding: 20px;
+      max-width: 90%;
   }
-  
-  .form-auth .input-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-auth .input-group:last-child {
-    margin-bottom: 0;
-  }
-  
-  .form-auth input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  .form-auth input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
-  .form-auth .btn-group {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-top: 20px;
-  }
-  
-  .form-auth button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .form-auth button[type="submit"],
-  .admin-nav-list button {
-    background: linear-gradient(45deg, #007bff, #00d4ff);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  .btn-group {
-    display: flex;
-    justify-content: space-between;
-    gap: 1em;
-    align-items: center;
-  }
-  .form-auth .btn-group button[type="submit"]:hover {
-    background: linear-gradient(45deg, #0056b3, #00a3cc);
-    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
-  }
-  
-  .form-auth .btn-group button[type="button"] {
-    background: linear-gradient(45deg, #6c757d, #adb5bd);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .form-auth .btn-group button[type="button"]:hover {
-    background: linear-gradient(45deg, #5a6268, #7d8287);
-    box-shadow: 0 4px 10px rgba(108, 117, 125, 0.4);
-  }
-  
+}

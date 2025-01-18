@@ -307,10 +307,7 @@ export default function ReservationForm({
           <label>Mesto preuzimanja:</label>
           <select
             name="startLocation"
-            // value={pickupLocation ?? defaultLocation}
             value={carLocation}
-            // onChange={(e) => setPickupLocation(e.target.value)}
-            // disabled
           >
             {locations.length > 0 ? (
               locations.map((location) => {

@@ -20,7 +20,7 @@ namespace RentoraAPI.Data
 				.WithMany(u => u.Reservations) // Koristi ApplicationUser
 				.HasForeignKey(r => r.UserId)
 				.IsRequired()
-				.OnDelete(DeleteBehavior.Restrict); // Sprečava brisanje korisnika pri brisanju rezervacije
+				.OnDelete(DeleteBehavior.Cascade);  // Sprečava brisanje korisnika pri brisanju rezervacije
 
 			builder.Entity<Reservation>()
 				.HasOne(r => r.Vehicle)

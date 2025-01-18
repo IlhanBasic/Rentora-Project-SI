@@ -3,7 +3,7 @@ import { section } from "framer-motion/client";
 export const translations = [
   {
     users: {
-      username: "Korisničko ime",
+      username: "Email",
       password: "Lozinka",
       firstName: "Ime",
       lastName: "Prezime",

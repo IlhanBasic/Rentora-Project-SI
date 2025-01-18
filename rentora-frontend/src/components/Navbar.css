@@ -1,192 +1,9 @@
-/* .main-navbar {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background: linear-gradient(90deg, #4a90e2, #ffffff);
-    padding: 10px 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .main-navbar img {
-    width: 5.5em;
-    height: 5.5em;
-    object-fit: cover;
-  }
-  
-  .main-navbar ul {
-    font-weight: 700;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 3em;
-    transition: all 0.3s ease;
-  }
-  .main-navbar ul li a:hover {
-    color: #007bff;
-    border-bottom: 2px solid #007bff;
-  }
-  .main-navbar ul li a.active {
-    border-bottom: 2px solid #007bff;
-  }
-  
-  .navbar-btn-group {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .navbar-btn-group button{
-    background: linear-gradient(90deg, #4a90e2, #66b2ff);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
-  }
-  
-  
-  .navbar-btn-group button:hover {
-    background: linear-gradient(90deg, #66b2ff, #4a90e2);
-    transform: translateY(-1px);
-  }
-  
-  .navbar-btn-group button:active {
-    transform: translateY(1px);
-  }
-  
-  .hamburger {
-    top: 20px;
-    right: 20px;
-    display: none;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-  .hamburger.active {
-    animation: rotateMenu 0.3s forwards;
-  }
-  .hamburger.active::before {
-    content: "x";
-    transform: scale(1.2);
-  }
-  .main-navbar ul,
-  .navbar-btn-group {
-    display: none;
-  }
-  .main-navbar.active ul,
-  .main-navbar.active .navbar-btn-group {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .main-navbar.active ul li {
-    width: 100%;
-    text-align: center;
-  }
-  
-  .main-navbar.active .navbar-btn-group {
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  @media (min-width: 976px) {
-    .main-navbar ul,
-    .navbar-btn-group {
-      display: flex;
-      flex-direction: row;
-    }
-  }
-  @media (max-width: 976px) {
-    .hamburger {
-      display: block;
-      z-index: 1;
-      margin: auto;
-      position: absolute;
-    }
-    .hamburger::before {
-      content: "≡";
-    }
-    .hamburger.active::before {
-      content: "x";
-    }
-    .main-navbar.active .navbar-btn-group {
-      width: 50%;
-    }
-    .main-navbar.active {
-      flex-direction: row-reverse;
-      justify-content: center;
-    }
-    .main-navbar.active img {
-      display: none;
-      position: absolute;
-    }
-  }
-  @keyframes rotateMenu {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes fadeInStaggered {
-    0% {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .main-navbar ul li {
-    opacity: 0;
-    animation: fadeInStaggered 0.3s ease forwards;
-  }
-  
-  .main-navbar.active ul li:nth-child(1){
-    animation-delay: 0.1s;
-  }
-  
-  
-  .main-navbar.active ul li:nth-child(2){
-    animation-delay: 0.2s;
-  }
-  
-  
-  .main-navbar.active ul li:nth-child(3){
-    animation-delay: 0.3s;
-  }
-  
-  
-  .main-navbar.active ul li:nth-child(4){
-    animation-delay: 0.4s;
-  }
-  
-  .main-navbar.active .navbar-btn-group button {
-    opacity: 0;
-    animation: fadeInStaggered 0.3s ease forwards;
-  }
-  
-  .main-navbar.active .navbar-btn-group button:nth-child(1) {
-    animation-delay: 0.5s;
-  }
-  
-  .main-navbar.active .navbar-btn-group button:nth-child(2) {
-    animation-delay: 0.6s;
-  }
-   */
-/* Novi Navbar  */
+/* Updated Navbar */
 .main-navbar {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background: linear-gradient(90deg, #1a237e, #283593, #303f9f);
+  background: linear-gradient(90deg, #1a237e, #283593, #303f9f); /* Keep blue gradient */
   padding: 10px 20px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
@@ -219,7 +36,7 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background-color: #ffd700;
+  background-color: #ffd700; /* Accent color for hover */
   transition: width 0.3s ease, left 0.3s ease;
 }
 
@@ -229,12 +46,11 @@
 }
 
 .main-navbar ul li a:hover {
-  color: #ffd700;
+  color: #ffd700; /* Hover effect with gold accent */
 }
 
-
 .main-navbar ul li a.active {
-  color: #ffd700;
+  color: #ffd700; /* Active link color */
 }
 
 .navbar-btn-group {
@@ -243,8 +59,8 @@
 }
 
 .navbar-btn-group button {
-  background: linear-gradient(90deg, #ffd700, #ffc107);
-  color: #1a237e;
+  background: linear-gradient(90deg, #1a237e, #283593); /* Darker blue gradient */
+  color: white;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -256,7 +72,7 @@
 }
 
 .navbar-btn-group button:hover {
-  background: linear-gradient(90deg, #ffc107, #ffd700);
+  background: linear-gradient(90deg, #283593, #1a237e); /* Reverse gradient on hover */
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

@@ -357,6 +357,9 @@
     margin: auto;
   }
 }
+.fixed-navbar {
+  
+}
 @media (max-width: 480px) {
   .fixed-navbar {
     display: flex;

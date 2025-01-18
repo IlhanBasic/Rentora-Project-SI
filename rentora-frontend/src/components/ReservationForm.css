@@ -1,60 +1,125 @@
-
 .reservation-form {
-    max-width: 80%;
-    margin: 1em auto;
+  max-width: 800px;
+  margin: 2em auto;
+  padding: 30px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-form h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.reservation-form div {
+  margin-bottom: 20px;
+}
+
+.reservation-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+.reservation-form input,
+.reservation-form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  font-size: 16px;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.reservation-form input:focus,
+.reservation-form select:focus {
+  border-color: #007bff;
+  background-color: #ffffff;
+  outline: none;
+}
+
+.reservation-form input::placeholder,
+.reservation-form select option {
+  color: #888;
+}
+
+.reservation-form .extra-options {
+  margin-top: 15px;
+}
+
+.reservation-form .extra-options label {
+  font-weight: 500;
+}
+
+.reservation-form button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.reservation-form button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+h4 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.card-input-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card-input-group div {
+  flex: 1;
+}
+
+.card-input-group input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  font-size: 16px;
+}
+
+.card-input-group input:focus {
+  border-color: #007bff;
+  background-color: #fff;
+}
+
+@media (max-width: 768px) {
+  .reservation-form {
+    width: 90%;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
   }
-  
-  .reservation-form h3 {
-    margin-bottom: 20px;
+
+  .card-input-group {
+    flex-direction: column;
   }
-  
-  .reservation-form div {
-    margin-bottom: 15px;
-  }
-  
-  .reservation-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .reservation-form input[type="text"],
-  .reservation-form input[type="date"],
-  .reservation-form input[type="time"],
-  .reservation-form input[type="password"],
-  select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .reservation-form input[type="radio"] {
-    margin-right: 5px;
-  }
-  
+
   .reservation-form button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
     font-size: 16px;
-    cursor: pointer;
-    width: 100%;
   }
-  
-  .reservation-form button:hover {
-    background-color: #0056b3;
-  }
-  
-  @media (max-width: 768px) {
-    .car-details {
-      flex-direction: column;
-    }
-  }
+}

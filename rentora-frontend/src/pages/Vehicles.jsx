@@ -47,7 +47,7 @@
 //   }, []);
 
 //   const applyFilters = (filters) => {
-//     const newFilteredVehicles = vehicles.filter((vehicle) => {  
+//     const newFilteredVehicles = vehicles.filter((vehicle) => {
 //       const selectedPrice = filters.price ? filters.price.split(',').map(Number) : null;
 //       return (
 //         vehicle.status === "Dostupno" && (availableVehicleLocation !== "" ? vehicle.location === availableVehicleLocation : true) &&
@@ -89,8 +89,9 @@
 import Header from "../components/Header";
 import VehicleCard from "../components/VehicleCard";
 import Filter from "../components/Filter";
+import FilterByLocation from "../components/FilterByLocation";
 import { useEffect, useState } from "react";
-import Loader from '../components/Loader.jsx';
+import Loader from "../components/Loader.jsx";
 import API_URL from "../API_URL.js";
 import "./Vehicles.css";
 import { useLocation } from "react-router-dom";
@@ -102,12 +103,29 @@ export default function Vehicles() {
   const [error, setError] = useState(null);
   const [filterBrands, setFilterBrands] = useState([]);
   const [filterCarType, setFilterCarType] = useState([]);
-  
+  const [locations, setLocations] = useState([]);
+  const [vehicleStartLocation, setVehicleStartLocation] = useState(null);
   const location = useLocation();
   const currentSearchParams = new URLSearchParams(location.search);
   const startLocation = currentSearchParams.get("StartLocation");
   const availableVehicleLocation = startLocation ? startLocation.trim() : "";
-
+  useEffect(() => {
+    async function getLocations() {
+      try {
+        const response = await fetch(`${API_URL}/Locations`);
+        if (!response.ok) {
+          setError("Error: Došlo je do greške prilikom preuzimanja lokacija");
+          return;
+        }
+        const resData = await response.json();
+        setLocations(resData);
+        setVehicleStartLocation(resData[0].id);
+      } catch (e) {
+        setError("Error: Došlo je do greške od strane servera.");
+      }
+    }
+    getLocations();
+  }, []);
   useEffect(() => {
     async function getCars() {
       try {
@@ -125,11 +143,15 @@ export default function Vehicles() {
         setVehicles(resData);
         const initialFiltered = resData.filter((vehicle) => {
           const isAvailable = vehicle.status === "Dostupno";
-          const matchesLocation = !availableVehicleLocation || 
-                                vehicle.locationId === availableVehicleLocation
+          let matchesLocation =
+            !availableVehicleLocation ||
+            vehicle.locationId === availableVehicleLocation;
+          if (availableVehicleLocation === "") {
+            matchesLocation = vehicle.locationId === vehicleStartLocation;
+          }
           return isAvailable && matchesLocation;
         });
-        
+
         setFilteredVehicles(initialFiltered);
       } catch (e) {
         setError("Error: Došlo je do greške od strane servera.");
@@ -138,21 +160,30 @@ export default function Vehicles() {
       }
     }
     getCars();
-  }, [availableVehicleLocation]);
+  }, [availableVehicleLocation, vehicleStartLocation]);
 
   const applyFilters = (filters) => {
-    const newFilteredVehicles = vehicles.filter((vehicle) => {  
-      const selectedPrice = filters.price ? filters.price.split(',').map(Number) : null;
-      const locationMatch = !availableVehicleLocation || 
-                          vehicle.locationId === availableVehicleLocation;
+    const newFilteredVehicles = vehicles.filter((vehicle) => {
+      const selectedPrice = filters.price
+        ? filters.price.split(",").map(Number)
+        : null;
+        let locationMatch =
+        !availableVehicleLocation ||
+        vehicle.locationId === availableVehicleLocation;
+      if (availableVehicleLocation === "") {
+        locationMatch = vehicle.locationId === vehicleStartLocation;
+      }
       return (
         vehicle.status === "Dostupno" &&
         locationMatch &&
         (filters.brand ? vehicle.brand === filters.brand : true) &&
         (filters.type ? vehicle.type === filters.type : true) &&
-        (filters.transmission ? vehicle.transmission === filters.transmission : true) &&
+        (filters.transmission
+          ? vehicle.transmission === filters.transmission
+          : true) &&
         (selectedPrice
-          ? vehicle.pricePerDay >= selectedPrice[0] && vehicle.pricePerDay <= selectedPrice[1]
+          ? vehicle.pricePerDay >= selectedPrice[0] &&
+            vehicle.pricePerDay <= selectedPrice[1]
           : true) &&
         (filters.fuel ? vehicle.fuelType === filters.fuel : true) &&
         (filters.doors ? vehicle.numOfDoors === parseInt(filters.doors) : true)
@@ -164,6 +195,12 @@ export default function Vehicles() {
   return (
     <>
       <Header title="Odaberite vozilo" />
+      {!startLocation && (
+        <FilterByLocation
+          locations={locations}
+          setVehicleStartLocation={setVehicleStartLocation}
+        />
+      )}
       <Filter
         filterBrands={filterBrands}
         filterCarType={filterCarType}

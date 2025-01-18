@@ -37,9 +37,7 @@ export default function AuthenticationPage() {
   return (
     <>
       <Header title={mode === "Login" ? "Prijava" : "Registracija"} />
-      <div className='center-div'>
         <FormAuth type={mode} />
-      </div>
     </>
   );
 }

@@ -95,15 +95,35 @@ namespace RentoraAPI.Controllers
 		}
 
 		// DELETE: api/Locations/5
+		// DELETE: api/Locations/5
 		[HttpDelete("{id}")]
 		[Authorize(AuthenticationSchemes = "Bearer")]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeleteLocation(Guid id)
 		{
 			var location = await _context.Location.FindAsync(id);
+
 			if (location == null)
 			{
 				return NotFound("Lokacija sa zadatim ID-jem nije pronađena.");
+			}
+
+			var locations = await _context.Location.ToListAsync();
+
+			// Prevent deleting the last location
+			if (locations.Count == 1)
+			{
+				return BadRequest(new { Message = "To je poslednja lokacija koja ne sme biti obrisana" });
+			}
+
+			var vehicles = await _context.Vehicle.ToListAsync();
+			var vehiclesByLocation = vehicles.FindAll(v => v.LocationId == id);
+
+			// Optionally handle the vehicles before deleting location, if needed
+			foreach (var vehicle in vehiclesByLocation)
+			{
+				// Set vehicle's location to a default or handle it in another way
+				vehicle.LocationId = locations[0].Id;  // Example: Move to first location or handle differently
 			}
 
 			_context.Location.Remove(location);

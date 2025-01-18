@@ -30,6 +30,87 @@ namespace RentoraAPI.Controllers
 			this.tokenRepository = tokenRepository;
 			this.emailSender = emailSender;
 		}
+		[HttpPost]
+		[Route("CreateUser")]
+		public async Task<IActionResult> CreateUser([FromBody] RegisterRequestDto registerRequestDto)
+		{
+			// Validate input data
+			if (registerRequestDto == null)
+			{
+				return BadRequest(new { Message = "Podaci za registraciju nisu poslati." });
+			}
+
+			if (string.IsNullOrEmpty(registerRequestDto.Username) ||
+				string.IsNullOrEmpty(registerRequestDto.Password) ||
+				string.IsNullOrEmpty(registerRequestDto.FirstName) ||
+				string.IsNullOrEmpty(registerRequestDto.LastName))
+			{
+				return BadRequest(new { Message = "Sva polja su obavezna." });
+			}
+
+			// Validate roles
+			if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
+			{
+				foreach (var role in registerRequestDto.Roles)
+				{
+					if (!await roleManager.RoleExistsAsync(role))
+					{
+						return BadRequest(new { Message = $"Uloga '{role}' ne postoji. Dozvoljene uloge su: Admin i User." });
+					}
+				}
+			}
+
+			// Check if user already exists
+			var existingUser = await userManager.FindByEmailAsync(registerRequestDto.Username);
+			if (existingUser != null)
+			{
+				return BadRequest(new { Message = $"Email '{registerRequestDto.Username}' je već zauzet." });
+			}
+
+			// Create new user
+			var identityUser = new ApplicationUser
+			{
+				UserName = registerRequestDto.Username,
+				Email = registerRequestDto.Username,
+				FirstName = registerRequestDto.FirstName,
+				LastName = registerRequestDto.LastName,
+				PhoneNumber = registerRequestDto.PhoneNumber,
+				EmailConfirmed = true  // Automatski potvrđujemo email
+			};
+
+			try
+			{
+				var identityResult = await userManager.CreateAsync(identityUser, registerRequestDto.Password);
+				if (!identityResult.Succeeded)
+				{
+					await userManager.DeleteAsync(identityUser);
+					return BadRequest(new
+					{
+						Message = "Registracija korisnika nije uspela.",
+						Errors = identityResult.Errors.Select(e => e.Description)
+					});
+				}
+
+				// Add roles to the user
+				if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
+				{
+					var roleResult = await userManager.AddToRolesAsync(identityUser, registerRequestDto.Roles);
+					if (!roleResult.Succeeded)
+					{
+						// If role assignment fails, delete the created user to maintain data integrity
+						await userManager.DeleteAsync(identityUser);
+						return BadRequest(new { Message = "Došlo je do greške prilikom dodele uloga." });
+					}
+				}
+
+				return Ok(new { Message = "Korisnik je uspešno kreiran i email je automatski potvrđen." });
+			}
+			catch (Exception e)
+			{
+				return NotFound();
+			}
+		}
+
 		// POST api/auth/Register NOVI
 		[HttpPost]
 		[Route("Register")]

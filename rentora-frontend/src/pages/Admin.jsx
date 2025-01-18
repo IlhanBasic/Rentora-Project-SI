@@ -5,13 +5,21 @@ import Modal from "../components/Modal.jsx";
 import AdminSection from "./AdminSection";
 import API_URL from "../API_URL.js";
 import "./Admin.css";
+
 export default function AdminPage() {
   const [hamburgerMenu, setHamburgerMenu] = useState(true);
+  const [deleteModalInfo, setDeleteModalInfo] = useState({
+    isOpen: false,
+    itemId: null
+  });
+  
   function handleToggle() {
     setHamburgerMenu((prev) => !prev);
   }
+  
   const { token, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
+  
   useEffect(() => {
     if (!token) {
       navigate("/");
@@ -27,6 +35,10 @@ export default function AdminPage() {
   const closeModal = () => {
     setModalInfo((prev) => ({ ...prev, isOpen: false }));
     document.getElementById("root").style.filter = "blur(0)";
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModalInfo({ isOpen: false, itemId: null });
   };
 
   const [activeSection, setActiveSection] = useState("vehicles");
@@ -70,19 +82,34 @@ export default function AdminPage() {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDeleteClick = (id) => {
+    setDeleteModalInfo({
+      isOpen: true,
+      itemId: id
+    });
+  };
+
+  const handleDeleteConfirm = async () => {
+    const id = deleteModalInfo.itemId;
     const endpoint =
       activeSection === "users" ? "ApplicationUser" : activeSection;
     const url = `${API_URL}/${endpoint}/${id}`;
-    if (window.confirm("Da li ste sigurni da želite da obrišete?")) {
-      try {
-        await fetch(url, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+    
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      if(!response.ok){
+        setModalInfo({
+          modalTitle: "Došlo je do greške prilikom brisanja 🙁!",
+          modalText: `Pokušajte opet kasnije.`,
+          isOpen: true,
         });
-
+      } else {
         fetchData(
           endpoint === "vehicles" ? "Vehicles/all" : endpoint,
           getSetter(activeSection)
@@ -92,47 +119,65 @@ export default function AdminPage() {
           modalText: `Prikaz će biti uskoro osvežen.`,
           isOpen: true,
         });
-      } catch (error) {
-        setModalInfo({
-          modalTitle: "Došlo je do greške prilikom brisanja 🙁!",
-          modalText: `Pokušajte opet kasnije.`,
-          isOpen: true,
-        });
       }
+    } catch (error) {
+      setModalInfo({
+        modalTitle: "Došlo je do greške prilikom brisanja 🙁!",
+        modalText: `Pokušajte opet kasnije.`,
+        isOpen: true,
+      });
+    } finally {
+      setDeleteModalInfo({ isOpen: false, itemId: null });
     }
   };
+  
   const handleCancel = async (id) => {
     const endpoint = "Reservations";
     const url = `${API_URL}/${endpoint}/${id}`;
-    if (
-      window.confirm("Da li ste sigurni da želite da otkažete rezervaciju?")
-    ) {
-      try {
-        await fetch(url, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ reservationStatus: "Otkazana" }),
-        });
+    
+    setDeleteModalInfo({
+      isOpen: true,
+      itemId: id
+    });
+  };
 
-        fetchData(endpoint, getSetter(activeSection));
-        setModalInfo({
-          modalTitle: "Uspešno otkazano ✅!",
-          modalText: `Prikaz će biti uskoro osvežen.`,
-          isOpen: true,
-        });
-      } catch (error) {
-        setModalInfo({
-          modalTitle:
-            "Došlo je do greške prilikom otkazivanja rezervacije  🙁!",
-          modalText: `Pokušajte opet kasnije.`,
-          isOpen: true,
-        });
+  const handleCancelConfirm = async () => {
+    const id = deleteModalInfo.itemId;
+    const endpoint = "Reservations";
+    const url = `${API_URL}/${endpoint}/${id}`;
+    
+    try {
+      const response = await fetch(url, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ reservationStatus: "Otkazana" }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to cancel reservation");
       }
+
+      fetchData(endpoint, getSetter(activeSection));
+      setModalInfo({
+        modalTitle: "Uspešno otkazano ✅!",
+        modalText: `Prikaz će biti uskoro osvežen.`,
+        isOpen: true,
+      });
+    } catch (error) {
+      setModalInfo({
+        modalTitle:
+          "Došlo je do greške prilikom otkazivanja rezervacije 🙁!",
+        modalText: `Pokušajte opet kasnije.`,
+        isOpen: true,
+      });
+    } finally {
+      setDeleteModalInfo({ isOpen: false, itemId: null });
     }
   };
+
   const getSetter = (section) => {
     switch (section) {
       case "vehicles":
@@ -147,6 +192,7 @@ export default function AdminPage() {
         return () => {};
     }
   };
+
   const RenderSection = () => {
     switch (activeSection) {
       case "vehicles":
@@ -155,7 +201,7 @@ export default function AdminPage() {
             title="Vozila"
             data={vehicles}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            onDelete={handleDeleteClick}
           />
         );
       case "reservations":
@@ -164,7 +210,7 @@ export default function AdminPage() {
             title="Rezervacije"
             data={reservations}
             onCancel={handleCancel}
-            onDelete={handleDelete}
+            onDelete={handleDeleteClick}
           />
         );
       case "users":
@@ -173,7 +219,7 @@ export default function AdminPage() {
             title="Korisnici"
             data={users}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            onDelete={handleDeleteClick}
           />
         );
       case "locations":
@@ -182,7 +228,7 @@ export default function AdminPage() {
             title="Lokacije"
             data={locations}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            onDelete={handleDeleteClick}
           />
         );
       default:
@@ -191,7 +237,7 @@ export default function AdminPage() {
             title="Vozila"
             data={vehicles}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            onDelete={handleDeleteClick}
           />
         );
     }
@@ -204,6 +250,16 @@ export default function AdminPage() {
         close={closeModal}
         title={modalInfo.modalTitle}
         text={modalInfo.modalText}
+      />
+      <Modal
+        open={deleteModalInfo.isOpen}
+        close={closeDeleteModal}
+        title={activeSection === "reservations" ? "Potvrda otkazivanja" : "Potvrda brisanja"}
+        text={activeSection === "reservations" 
+          ? "Da li ste sigurni da želite da otkažete ovu rezervaciju?"
+          : "Da li ste sigurni da želite da obrišete ovaj item?"}
+        type="confirm"
+        onConfirm={activeSection === "reservations" ? handleCancelConfirm : handleDeleteConfirm}
       />
       <div className="admin-page-container">
         <nav className={`admin-nav-container ${hamburgerMenu ? "active" : ""}`}>

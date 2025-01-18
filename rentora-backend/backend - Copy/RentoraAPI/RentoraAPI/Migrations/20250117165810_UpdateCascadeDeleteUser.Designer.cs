@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RentoraAPI.Data;
@@ -11,9 +12,11 @@ using RentoraAPI.Data;
 namespace RentoraAPI.Migrations
 {
     [DbContext(typeof(RentoraDBContext))]
-    partial class RentoraDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250117165810_UpdateCascadeDeleteUser")]
+    partial class UpdateCascadeDeleteUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

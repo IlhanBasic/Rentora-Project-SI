@@ -172,7 +172,7 @@ export default function AdminItemDetails() {
     const transmissionTypes = ["Automatik", "Manuelni"];
     const statusTypes = ["Dostupno", "Zauzeto"];
     const fuelTypes = ["Dizel", "Benzin", "Elektricni", "Hibrid"];
-    if (!item.numOfDoors || ![3,5].includes(item.numOfDoors)) {
+    if (!item.numOfDoors || ![3, 5].includes(item.numOfDoors)) {
       throw new Error("Molimo izaberite validan broj vrata");
     }
     if (!item.fuelType || !fuelTypes.includes(item.fuelType.trim())) {
@@ -494,6 +494,12 @@ export default function AdminItemDetails() {
       updateItem();
     }
   };
+  const handleFileSelect = (e, key) => {
+    const fileName =
+      e.target.files.length > 0 ? e.target.files[0].name : "Nije izabran fajl";
+    document.getElementById(`file-name-${key}`).textContent = fileName;
+    handleChangePhoto(e, key); // Ako već koristiš ovu funkciju, ostavi je
+  };
 
   if (loading) {
     return <Loader />;
@@ -614,13 +620,21 @@ export default function AdminItemDetails() {
                       <option value="User">Korisnik</option>
                     </select>
                   ) : key === "picture" ? (
-                    <input
-                      type="file"
-                      name={key}
-                      id={key}
-                      // value={item[key] || ""}
-                      onChange={(e) => handleChangePhoto(e, key)}
-                    />
+                    <>
+                      <label htmlFor={key} className="custom-file-upload">
+                        Odaberite fajl
+                      </label>
+                      <input
+                        type="file"
+                        name={key}
+                        id={key}
+                        onChange={(e) => handleFileSelect(e, key)}
+                        className="file-input"
+                      />
+                      <span id={`file-name-${key}`} className="file-name">
+                        Nije izabran fajl
+                      </span>
+                    </>
                   ) : (
                     <input
                       type={

@@ -10,7 +10,7 @@ import { imageDb } from "../FirebaseImagesUpload/Config.js";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { image } from "framer-motion/client";
-
+import ChooseLocation from "../components/ChooseLocation.jsx";
 export default function AdminItemDetails() {
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
@@ -26,7 +26,8 @@ export default function AdminItemDetails() {
   const [locations, setLocations] = useState([]);
   const navigate = useNavigate();
   const [img, setImg] = useState("");
-
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
   const closeModal = () => {
     setModalInfo((prev) => ({ ...prev, isOpen: false }));
     document.getElementById("root").style.filter = "blur(0)";
@@ -159,6 +160,8 @@ export default function AdminItemDetails() {
           country: "",
           latitude: 0,
           longitude: 0,
+          email:"",
+          phoneNumber:""
         });
         break;
       default:
@@ -277,17 +280,16 @@ export default function AdminItemDetails() {
       );
     }
     if (
-      !item.latitude ||
       isNaN(item.latitude) ||
       item.latitude < -90 ||
       item.latitude > 90
     ) {
+      console.log(item.latitude,item.longitude);
       throw new Error(
         "Molimo unesite validnu geografsku sirinu (min. -90, max. 90)"
       );
     }
     if (
-      !item.longitude ||
       isNaN(item.longitude) ||
       item.longitude < -180 ||
       item.longitude > 180
@@ -364,7 +366,10 @@ export default function AdminItemDetails() {
   const handleChangePhoto = (e, key) => {
     setImg(e.target.files[0]);
   };
-
+  const handleLocationSelect = (lat, lng) => {
+    setLatitude(lat);
+    setLongitude(lng);
+  };
   const createItem = async () => {
     setSuccessfullChange(true);
     try {
@@ -376,11 +381,22 @@ export default function AdminItemDetails() {
           const uploadResult = await uploadBytes(imgRef, img);
           const imageUrl = await getDownloadURL(uploadResult.ref);
           item.picture = imageUrl;
+        } else {
+          throw new Error("Molimo unesite sliku vozila");
         }
       }
 
       if (section === "locations") {
         validateLocation();
+        if (latitude && longitude) {
+          item.latitude = latitude;
+          item.longitude = longitude;
+          console.log("HEJ LEPOTO")
+        } else {
+          throw new Error(
+            "Molimo unesite validnu geografsku sirinu i dubinu (min. -90, max. 90)"
+          );
+        }
       }
       if (section === "users") {
         validateUser();
@@ -440,11 +456,19 @@ export default function AdminItemDetails() {
           const uploadResult = await uploadBytes(imgRef, img);
           const imageUrl = await getDownloadURL(uploadResult.ref);
           item.picture = imageUrl;
+        } else {
+          throw new Error("Molimo unesite sliku");
         }
       }
 
       if (section === "locations") {
         validateLocation();
+        if (latitude && longitude) {
+          item.latitude = latitude;
+          item.longitude = longitude;
+        } else {
+          throw new Error("Molimo unesite lokaciju");
+        }
       }
 
       const endpoint = section === "users" ? "ApplicationUser" : apiPoint;
@@ -498,7 +522,7 @@ export default function AdminItemDetails() {
     const fileName =
       e.target.files.length > 0 ? e.target.files[0].name : "Nije izabran fajl";
     document.getElementById(`file-name-${key}`).textContent = fileName;
-    handleChangePhoto(e, key); // Ako već koristiš ovu funkciju, ostavi je
+    handleChangePhoto(e, key);
   };
 
   if (loading) {
@@ -526,7 +550,9 @@ export default function AdminItemDetails() {
                 item[key] !== null &&
                 !Array.isArray(item[key])) ||
               key === "id" ||
-              key === "location"
+              key === "location" ||
+              key === "latitude" ||
+              key === "longitude"
             ) {
               return null;
             }
@@ -669,6 +695,12 @@ export default function AdminItemDetails() {
               </div>
             );
           })}
+          {section === "locations" && (
+            <>
+              Lokacija
+              <ChooseLocation latitude={item.latitude} longitude={item.longitude} onLocationSelect={handleLocationSelect} />
+            </>
+          )}
 
           <button
             disabled={successfullChange}

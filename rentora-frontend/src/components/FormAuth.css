@@ -1,31 +1,26 @@
-
-
-/* Glavna forma */
 .form-auth {
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   margin: 50px auto;
   padding: 30px;
-  background: rgba(255, 255, 255, 0.15); /* Polu-providna bela pozadina */
-  backdrop-filter: blur(10px); /* Efekat stakla */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
 }
 
-/* Hover efekat na celu formu */
 .form-auth:hover {
   transform: scale(1.02);
 }
 
-/* Input grupe */
 .input-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  position: relative;
 }
 
-/* Labela */
 .input-group label {
   font-weight: 600;
   margin-bottom: 8px;
@@ -33,9 +28,15 @@
   color: #333;
 }
 
-/* Input polja */
+.input-group .input-container {
+  position: relative;
+  width: 100%;
+}
+
 .input-group input {
+  width: 100%;
   padding: 12px;
+  padding-right: 40px;
   border: 2px solid #ddd;
   border-radius: 6px;
   font-size: 1rem;
@@ -43,22 +44,42 @@
   transition: all 0.3s ease;
 }
 
-/* Efekat fokusa na input */
 .input-group input:focus {
   border-color: #007bff;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
 }
 
-/* Dugmad */
-.form-auth .btn-group {
+.input-group .toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.input-group .toggle-password:hover {
+  color: #333;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+.btn-group {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
   margin-top: 20px;
 }
 
-/* Stilizovano dugme */
-.form-auth button {
+.btn-group button {
   flex: 1;
   padding: 12px;
   border: none;
@@ -69,36 +90,31 @@
   transition: all 0.3s ease;
 }
 
-/* Submit dugme - elegantan gradient */
-.form-auth button[type="submit"] {
+.btn-group button[type="submit"] {
   background: linear-gradient(135deg, #007bff, #00d4ff);
   color: white;
   box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
 }
 
-/* Hover efekat na submit dugme */
-.form-auth button[type="submit"]:hover {
+.btn-group button[type="submit"]:hover {
   background: linear-gradient(135deg, #0056b3, #00a3cc);
   box-shadow: 0 6px 15px rgba(0, 123, 255, 0.5);
 }
 
-/* Dugme za otkazivanje */
-.form-auth button[type="button"] {
+.btn-group button[type="button"] {
   background: linear-gradient(135deg, #6c757d, #adb5bd);
   color: white;
   box-shadow: 0 4px 10px rgba(108, 117, 125, 0.4);
 }
 
-/* Hover efekat na otkazivanje */
-.form-auth button[type="button"]:hover {
+.btn-group button[type="button"]:hover {
   background: linear-gradient(135deg, #5a6268, #7d8287);
   box-shadow: 0 6px 15px rgba(108, 117, 125, 0.5);
 }
 
-/* Responsivnost - centriranje */
 @media (max-width: 480px) {
   .form-auth {
-      padding: 20px;
-      max-width: 90%;
+    padding: 20px;
+    max-width: 90%;
   }
 }

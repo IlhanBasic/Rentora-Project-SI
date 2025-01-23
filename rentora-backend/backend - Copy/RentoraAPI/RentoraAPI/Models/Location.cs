@@ -30,5 +30,9 @@ namespace RentoraAPI.Models
 		[Required(ErrorMessage = "Geografska dužina je obavezna.")]
 		[Range(-180, 180, ErrorMessage = "Geografska dužina mora biti između -180 i 180.")]
 		public double Longitude { get; set; }
+		[EmailAddress]
+		public string Email { get; set; }
+		[Phone]
+		public string PhoneNumber { get; set; }
 	}
 }

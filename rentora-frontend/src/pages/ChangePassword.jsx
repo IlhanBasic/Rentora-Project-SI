@@ -102,7 +102,7 @@ export default function ChangePassword() {
               inputName="Ponovljena Lozinka"
               inputType="password"
             />
-            <button type="submit">
+            <button type="submit" className="btn-submit">
               {!isLoading ? "Promeni lozinku" : "Loading..."}
             </button>
           </form>

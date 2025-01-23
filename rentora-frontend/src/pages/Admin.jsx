@@ -22,9 +22,13 @@ export default function AdminPage() {
   
   useEffect(() => {
     if (!token) {
-      navigate("/");
+      navigate("/auth?mode=Login");
     }
-  }, []);
+    if (!isAdmin) {
+      navigate("/auth?mode=Login");
+    }
+  }, [token, isAdmin]);
+  
 
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,

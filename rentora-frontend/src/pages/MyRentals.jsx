@@ -14,9 +14,12 @@ export default function MyRentals() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token || (token && isAdmin)) {
+    if (!token) {
       navigate("/auth?mode=Login");
       return;
+    }
+    if(token && isAdmin){
+      navigate("/unauthorized");
     }
     const fetchReservations = async () => {
       setIsLoading(true);

@@ -71,6 +71,24 @@ export default function Navbar() {
               Uslovi
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/blog"
+              className={({ isActive }) => (isActive ? "active" : undefined)}
+              end
+            >
+              Blog
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/contact"
+              className={({ isActive }) => (isActive ? "active" : undefined)}
+              end
+            >
+              Kontakt
+            </NavLink>
+          </li>
         </ul>
 
         <div className="navbar-btn-group">

@@ -14,6 +14,9 @@ import MyRentals from "./pages/MyRentals.jsx";
 import AdminItemDetails from "./pages/AdminItemDetails.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
+import Unauthorized from "./pages/Unauthorized.jsx";
+import Contact from "./pages/Contact.jsx";
+import Blog from "./pages/Blog.jsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -34,6 +37,9 @@ function App() {
             { path: ":vehicleId", element: <VehicleDetails /> },
           ],
         },
+        {path:"contact",element:<Contact/>},
+        {path:"blog",element:<Blog/>},
+        {path:"unauthorized",element:<Unauthorized/>}
       ],
     },
     {

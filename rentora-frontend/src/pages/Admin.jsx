@@ -10,7 +10,8 @@ export default function AdminPage() {
   const [hamburgerMenu, setHamburgerMenu] = useState(true);
   const [deleteModalInfo, setDeleteModalInfo] = useState({
     isOpen: false,
-    itemId: null
+    itemId: null,
+    actionType: null,
   });
   
   function handleToggle() {
@@ -89,10 +90,19 @@ export default function AdminPage() {
   const handleDeleteClick = (id) => {
     setDeleteModalInfo({
       isOpen: true,
-      itemId: id
+      itemId: id,
+      actionType: "delete", // Postavljamo za brisanje
     });
   };
-
+  
+  const handleCancel = (id) => {
+    setDeleteModalInfo({
+      isOpen: true,
+      itemId: id,
+      actionType: "cancel", // Postavljamo za otkazivanje
+    });
+  };
+  
   const handleDeleteConfirm = async () => {
     const id = deleteModalInfo.itemId;
     const endpoint =
@@ -135,15 +145,7 @@ export default function AdminPage() {
     }
   };
   
-  const handleCancel = async (id) => {
-    const endpoint = "Reservations";
-    const url = `${API_URL}/${endpoint}/${id}`;
-    
-    setDeleteModalInfo({
-      isOpen: true,
-      itemId: id
-    });
-  };
+
 
   const handleCancelConfirm = async () => {
     const id = deleteModalInfo.itemId;
@@ -255,16 +257,23 @@ export default function AdminPage() {
         title={modalInfo.modalTitle}
         text={modalInfo.modalText}
       />
-      <Modal
-        open={deleteModalInfo.isOpen}
-        close={closeDeleteModal}
-        title={activeSection === "reservations" ? "Potvrda otkazivanja" : "Potvrda brisanja"}
-        text={activeSection === "reservations" 
-          ? "Da li ste sigurni da želite da otkažete ovu rezervaciju?"
-          : "Da li ste sigurni da želite da obrišete ovaj item?"}
-        type="confirm"
-        onConfirm={activeSection === "reservations" ? handleCancelConfirm : handleDeleteConfirm}
-      />
+<Modal
+  open={deleteModalInfo.isOpen}
+  close={closeDeleteModal}
+  title={deleteModalInfo.actionType === "cancel" ? "Potvrda otkazivanja" : "Potvrda brisanja"}
+  text={
+    deleteModalInfo.actionType === "cancel"
+      ? "Da li ste sigurni da želite da otkažete rezervaciju?"
+      : "Da li ste sigurni da želite da izvršite brisanje?"
+  }
+  type="confirm"
+  onConfirm={
+    deleteModalInfo.actionType === "cancel"
+      ? handleCancelConfirm
+      : handleDeleteConfirm
+  }
+/>
+
       <div className="admin-page-container">
         <nav className={`admin-nav-container ${hamburgerMenu ? "active" : ""}`}>
           <div className="fixed-navbar">

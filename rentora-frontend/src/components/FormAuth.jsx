@@ -14,7 +14,7 @@ export default function FormAuth({ type }) {
   const loginShow = localStorage.getItem("toastLogin");
   useEffect(() => {
     if (loginShow === "true") {
-      toast.success("Uspešno ste se prijavili 🎉!", {
+      toast.success("Uspešno ste se registrovali 🎉!", {
         position: "bottom-left",
         autoClose: 2000,
         hideProgressBar: false,

@@ -22,7 +22,6 @@
       setFilteredData(data);
     }, [data]);
 
-    // Handle search form submission
     function handleSubmitSearch(e) {
       e.preventDefault();
       const searchValue = e.target[0].value.trim();
@@ -61,7 +60,7 @@
       "reservationStatus",
       "startDateTime",
       "endDateTime",
-      "status",
+      "status"
     ];
 
     function handleShowDetails(item) {
@@ -168,10 +167,10 @@
                 <button onClick={() => handleShowDetails(item)}>Detalji</button>
               </div>
 
-              {item.picture && (
+              {item.picture&& (
                 <div className="table-image-container">
                   <img
-                    src={item.picture}
+                    src={item.picture }
                     alt="Table Image"
                     className="table-image"
                   />
@@ -185,11 +184,9 @@
                 {title === "Rezervacije" &&
                   item.reservationStatus !== "Otkazana" &&
                   item.reservationStatus !== "Istekla" && (
-                    <button onClick={() => onCancel(item.id)}>Otkazi</button>
+                    <button onClick={() => onCancel(item.id)}>Otkaži</button>
                   )}
-                {title !== "Rezervacije" && (
                   <button onClick={() => onDelete(item.id)}>Obriši</button>
-                )}
               </div>
             </div>
           ))

@@ -73,15 +73,6 @@ export default function Navbar() {
           </li>
           <li>
             <NavLink
-              to="/blog"
-              className={({ isActive }) => (isActive ? "active" : undefined)}
-              end
-            >
-              Blog
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
               to="/contact"
               className={({ isActive }) => (isActive ? "active" : undefined)}
               end

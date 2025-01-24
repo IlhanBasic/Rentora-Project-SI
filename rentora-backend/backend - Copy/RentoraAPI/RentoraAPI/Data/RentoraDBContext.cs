@@ -14,33 +14,34 @@ namespace RentoraAPI.Data
 		{
 			base.OnModelCreating(builder);
 
-			// Configure the Reservation entity relationships
+			// Veza između korisnika i rezervacija sa kaskadnim brisanjem
 			builder.Entity<Reservation>()
 				.HasOne(r => r.User)
-				.WithMany(u => u.Reservations) // Koristi ApplicationUser
+				.WithMany(u => u.Reservations)
 				.HasForeignKey(r => r.UserId)
 				.IsRequired()
-				.OnDelete(DeleteBehavior.Cascade);  // Sprečava brisanje korisnika pri brisanju rezervacije
+				.OnDelete(DeleteBehavior.Cascade); // Kaskadno brisanje rezervacija kad se obriše korisnik
 
 			builder.Entity<Reservation>()
 				.HasOne(r => r.Vehicle)
 				.WithMany()
 				.HasForeignKey(r => r.VehicleId)
-				.OnDelete(DeleteBehavior.NoAction); // Sprečava brisanje vozila
+				.OnDelete(DeleteBehavior.NoAction); // Vozilo ne briše rezervaciju
 
 			builder.Entity<Reservation>()
 				.HasOne(r => r.StartLocation)
 				.WithMany()
 				.HasForeignKey(r => r.StartLocationId)
-				.OnDelete(DeleteBehavior.NoAction); // Sprečava brisanje startne lokacije
+				.OnDelete(DeleteBehavior.NoAction); // Lokacija ne briše rezervaciju
 
 			builder.Entity<Reservation>()
 				.HasOne(r => r.EndLocation)
 				.WithMany()
 				.HasForeignKey(r => r.EndLocationId)
-				.OnDelete(DeleteBehavior.NoAction); // Sprečava brisanje krajnje lokacije
-		   // Seed roles
-		   var roles = new List<IdentityRole>
+				.OnDelete(DeleteBehavior.NoAction); // Lokacija ne briše rezervaciju
+
+			// Seed roles
+			var roles = new List<IdentityRole>
 	{
 		new IdentityRole
 		{
@@ -62,6 +63,5 @@ namespace RentoraAPI.Data
 		public DbSet<Vehicle> Vehicle { get; set; } = default!;
 		public DbSet<Location> Location { get; set; } = default!;
 		public DbSet<Reservation> Reservation { get; set; } = default!;
-		public DbSet<Blog> Blog { get; set; } = default!;
 	}
 }

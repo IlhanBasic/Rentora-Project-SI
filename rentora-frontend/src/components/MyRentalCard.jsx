@@ -127,7 +127,7 @@ export default function MyRentalCard({
           {reservationStatus === "Aktivna" && !isCanceled && (
             <button onClick={handleCancelRequest} className="cancel-button">Otkaži rezervaciju</button>
           )}
-          <h3><strong>Total price:</strong> {totalPrice}</h3>
+          <h3><strong>Ukupno:</strong> {totalPrice}</h3>
         </div>
       </div>
     </>

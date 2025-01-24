@@ -70,7 +70,6 @@ export default function AdminItemDetails() {
         break;
       case "users":
         newApiPoint = "ApplicationUser";
-        break;
       default:
         newApiPoint = "Vehicles";
         break;
@@ -160,8 +159,8 @@ export default function AdminItemDetails() {
           country: "",
           latitude: 0,
           longitude: 0,
-          email:"",
-          phoneNumber:""
+          email: "",
+          phoneNumber: "",
         });
         break;
       default:
@@ -279,12 +278,8 @@ export default function AdminItemDetails() {
         "Molimo unesite validnu državu (min. 2 karaktera, max. 20 karaktera)"
       );
     }
-    if (
-      isNaN(item.latitude) ||
-      item.latitude < -90 ||
-      item.latitude > 90
-    ) {
-      console.log(item.latitude,item.longitude);
+    if (isNaN(item.latitude) || item.latitude < -90 || item.latitude > 90) {
+      console.log(item.latitude, item.longitude);
       throw new Error(
         "Molimo unesite validnu geografsku sirinu (min. -90, max. 90)"
       );
@@ -385,13 +380,11 @@ export default function AdminItemDetails() {
           throw new Error("Molimo unesite sliku vozila");
         }
       }
-
       if (section === "locations") {
         validateLocation();
         if (latitude && longitude) {
           item.latitude = latitude;
           item.longitude = longitude;
-          console.log("HEJ LEPOTO")
         } else {
           throw new Error(
             "Molimo unesite validnu geografsku sirinu i dubinu (min. -90, max. 90)"
@@ -401,7 +394,6 @@ export default function AdminItemDetails() {
       if (section === "users") {
         validateUser();
       }
-
       const endpoint = section === "users" ? "Auth/CreateUser" : apiPoint;
       const url = `${API_URL}/${endpoint}`;
 
@@ -409,7 +401,12 @@ export default function AdminItemDetails() {
         item.roles = [item.roles];
       }
 
-      const itemToCreate = img ? { ...item, picture: item.picture } : item;
+      const itemToCreate = img
+        ? {
+            ...item,
+            picture: item.picture,
+          }
+        : item;
 
       const response = await fetch(url, {
         method: "POST",
@@ -698,7 +695,11 @@ export default function AdminItemDetails() {
           {section === "locations" && (
             <>
               Lokacija
-              <ChooseLocation latitude={item.latitude} longitude={item.longitude} onLocationSelect={handleLocationSelect} />
+              <ChooseLocation
+                latitude={item.latitude}
+                longitude={item.longitude}
+                onLocationSelect={handleLocationSelect}
+              />
             </>
           )}
 

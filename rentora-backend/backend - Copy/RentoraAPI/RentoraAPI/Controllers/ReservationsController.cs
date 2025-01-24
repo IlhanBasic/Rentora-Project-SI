@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RentoraAPI.Data;
 using RentoraAPI.Models;
 using RentoraAPI.Models.DTO;
+using RentoraAPI.Services;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
@@ -14,10 +16,11 @@ namespace RentoraAPI.Controllers
 	public class ReservationsController : ControllerBase
 	{
 		private readonly RentoraDBContext _context;
-
-		public ReservationsController(RentoraDBContext context)
+		private readonly Respositories.IEmailSender _emailSender;
+		public ReservationsController(RentoraDBContext context, Respositories.IEmailSender emailSender)
 		{
 			_context = context;
+			_emailSender = emailSender;
 		}
 
 		// GET: api/Reservations
@@ -134,6 +137,27 @@ namespace RentoraAPI.Controllers
 				return BadRequest("Podaci o rezervaciji su neispravni.");
 			}
 
+			var user = await _context.Users.FindAsync(requestDto.UserId);
+			if (user == null)
+			{
+				return NotFound("Korisnik nije pronađen.");
+			}
+
+			var vehicle = await _context.Vehicle.FindAsync(requestDto.VehicleId);
+			if (vehicle == null)
+			{
+				return NotFound("Vozilo nije pronađeno.");
+			}
+
+			// Dohvati lokacije iz baze
+			var startLocation = await _context.Location.FindAsync(requestDto.StartLocationId);
+			var endLocation = await _context.Location.FindAsync(requestDto.EndLocationId);
+
+			if (startLocation == null || endLocation == null)
+			{
+				return NotFound("Jedna ili obe lokacije nisu pronađene.");
+			}
+
 			var reservation = new Reservation
 			{
 				Id = Guid.NewGuid(),
@@ -151,14 +175,94 @@ namespace RentoraAPI.Controllers
 
 			_context.Reservation.Add(reservation);
 
-			var vehicle = await _context.Vehicle.FindAsync(requestDto.VehicleId);
-			if (vehicle != null)
-			{
-				vehicle.LocationId = requestDto.EndLocationId;
-				vehicle.Status = "Zauzeto"; // Update status to Reserved
-			}
+			// Ažuriraj status vozila
+			vehicle.LocationId = requestDto.EndLocationId;
+			vehicle.Status = "Zauzeto";
 
 			await _context.SaveChangesAsync();
+
+			// Slanje e-maila korisniku
+			await _emailSender.SendEmailAsync(user.Email, "Potvrda rezervacije vozila",
+				$@"
+<!DOCTYPE html>
+<html lang='sr'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Potvrda rezervacije</title>
+    <style>
+        body {{
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }}
+        .email-container {{
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }}
+        .header {{
+            text-align: center;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            padding: 25px 20px;
+        }}
+        .header h1 {{
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+        }}
+        .content {{
+            padding: 30px;
+            color: #2c3e50;
+        }}
+        .message {{
+            background-color: #f8f9fa;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }}
+        .footer {{
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }}
+    </style>
+</head>
+<body>
+    <div class='email-container'>
+        <div class='header'>
+            <h1>Potvrda rezervacije</h1>
+        </div>
+        <div class='content'>
+            <p>Poštovani {user.FirstName} {user.LastName},</p>
+            <div class='message'>
+                Vaša rezervacija vozila je uspešno potvrđena!<br>
+                Detalji rezervacije:<br>
+                - Vozilo: {vehicle.Brand} {vehicle.Model}<br>
+                - Datum preuzimanja: {requestDto.StartDateTime:dd.MM.yyyy HH:mm}<br>
+                - Datum vraćanja: {requestDto.EndDateTime:dd.MM.yyyy HH:mm}<br>
+                - Lokacija preuzimanja: {startLocation.Street} {startLocation.StreetNumber}, {startLocation.City}<br>
+                - Lokacija vraćanja: {endLocation.Street} {endLocation.StreetNumber}, {endLocation.City}
+            </div>
+            <p>Hvala što koristite Rentora uslugu!</p>
+        </div>
+        <div class='footer'>
+            &copy; {DateTime.Now.Year} Rentora | Sva prava zadržana
+        </div>
+    </div>
+</body>
+</html>");
+
 			return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservation);
 		}
 

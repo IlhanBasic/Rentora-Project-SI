@@ -1,4 +1,4 @@
-import { section } from "framer-motion/client";
+import { section, title } from "framer-motion/client";
 
 export const translations = [
   {

@@ -183,11 +183,21 @@ export default function ReservationForm({
         return;
       }
       if (!patternCreditCard.test(cardDetails["cardNumber"])) {
-        setErrorMessage("Broj kartice nije u odgovarajućem formatu!");
+        // setErrorMessage("Broj kartice nije u odgovarajućem formatu!");
+        setModalInfo({
+          modalTitle: "Broj kartice nije u odgovarajućem formatu!",
+          modalText: "Kartica mora biti Mastercard ili Visa.",
+          isOpen: true,
+        });
         return;
       }
       if (!patternDateExpire.test(cardDetails.expiryDate)) {
         setErrorMessage("Datum isteka kartice nije u odgovarajućem formatu!");
+        setModalInfo({
+          modalTitle: "Datum isteka kartice nije u odgovarajućem formatu!",
+          modalText: "Format: MM/YY",
+          isOpen: true,
+        });
         return;
       }
 
@@ -199,15 +209,30 @@ export default function ReservationForm({
         currentYear > cardExpireYear ||
         (currentYear == cardExpireYear && currentMonth > cardExpireMonth)
       ) {
-        setErrorMessage("Vaša kartica je istekla!");
+        // setErrorMessage("Vaša kartica je istekla!");
+        setModalInfo({
+          modalTitle: "Vaša kartica je istekla!",
+          modalText: "Morate odabrati karticu koja nije istekla.",
+          isOpen: true,
+        });
         return;
       }
       if (!patternCVV.test(cardDetails.cvv)) {
-        setErrorMessage("CVV nije u odgovarajućem formatu!");
+        // setErrorMessage("CVV nije u odgovarajućem formatu!");
+        setModalInfo({
+          modalTitle: "CVV nije u odgovarajućem formatu!",
+          modalText: "Primer formata: 1234",
+          isOpen: true,
+        });
         return;
       }
       if (!patternCardPin.test(cardDetails.pin)) {
-        setErrorMessage("PIN mora sadržati tačno 4 cifre!");
+        // setErrorMessage("PIN mora sadržati tačno 4 cifre!");
+        setModalInfo({
+          modalTitle: "PIN mora sadržati tačno 4 cifre!",
+          modalText: "Primer pina: 1234",
+          isOpen: true,
+        });
         return;
       }
     }
@@ -241,20 +266,35 @@ export default function ReservationForm({
 
       if (!responseReservation.ok) {
         if (responseReservation.status === 401) {
-          setErrorMessage(
-            "Greška prilikom rezervacije vozila. Niste ulogovani."
-          );
+          // setErrorMessage(
+          //   "Greška prilikom rezervacije vozila. Niste ulogovani."
+          // );
+          setModalInfo({
+            modalTitle: "Greška prilikom rezervacije vozila. Niste ulogovani.",
+            modalText: "Morate se prvo ulogovati kao korisnik da bi rezervisali vozilo!",
+            isOpen: true,
+          });
           return;
         }
         if (responseReservation.status === 403) {
-          setErrorMessage(
-            "Error: Greška prilikom rezervacije vozila. Nema pristup."
-          );
+          // setErrorMessage(
+          //   "Error: Greška prilikom rezervacije vozila. Nema pristup."
+          // );
+          setModalInfo({
+            modalTitle: "Greška prilikom rezervacije vozila. Nema pristup.",
+            modalText: "Nema pristup usluzi rezervacije.",
+            isOpen: true,
+          });
           return;
         }
         setErrorMessage(
           "Error: Greška prilikom rezervacije vozila. Rezervacija nije napravljena."
         );
+        setModalInfo({
+          modalTitle: "Greška prilikom rezervacije vozila. Nema pristup.",
+          modalText: "Nema pristup usluzi rezervacije.",
+          isOpen: true,
+        });
         return;
       }
       setIsClicked(true);
@@ -451,7 +491,7 @@ export default function ReservationForm({
         )}
 
         {!isClicked && <button type="submit">Potvrdi rezervaciju</button>}
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {/* {errorMessage && <p className="error-message">{errorMessage}</p>} */}
       </form>
     </>
   );

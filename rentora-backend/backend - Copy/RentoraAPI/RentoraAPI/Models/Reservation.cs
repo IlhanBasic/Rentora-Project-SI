@@ -9,7 +9,6 @@ public class Reservation
 	[ForeignKey("User")]
 	public string UserId { get; set; }
 
-	[CreditCard]
 	public string? CreditCardNumber { get; set; }
 
 	public Guid VehicleId { get; set; }

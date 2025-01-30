@@ -1,6 +1,6 @@
 import React from 'react';
 import { Lock } from 'lucide-react';
-import './unauthorized.css';
+import './Unauthorized.css';
 
 export default function Unauthorized() {
   return (

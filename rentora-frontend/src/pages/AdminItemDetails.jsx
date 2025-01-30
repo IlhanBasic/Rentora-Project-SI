@@ -619,7 +619,7 @@ export default function AdminItemDetails() {
                   ) : key === "locationId" ? (
                     <select
                       name={key}
-                      value={item[key] || ""}
+                      value={item[key]}
                       onChange={handleChange}
                       required
                       className="admin-form-input"

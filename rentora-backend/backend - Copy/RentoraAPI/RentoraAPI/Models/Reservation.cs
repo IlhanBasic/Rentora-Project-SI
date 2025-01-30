@@ -1,7 +1,7 @@
 ﻿using RentoraAPI.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-
+using Location = RentoraAPI.Models.Location;
 public class Reservation
 {
 	public Guid Id { get; set; }

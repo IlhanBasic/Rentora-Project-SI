@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RentoraAPI.Data;
 using RentoraAPI.Models;
-
+using Location = RentoraAPI.Models.Location;
 namespace RentoraAPI.Controllers
 {
 	[Route("api/[controller]")]

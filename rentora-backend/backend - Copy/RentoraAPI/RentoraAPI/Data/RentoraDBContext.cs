@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RentoraAPI.Models;
 using System.Collections.Generic;
-
+using Location = RentoraAPI.Models.Location;
 namespace RentoraAPI.Data
 {
 	public class RentoraDBContext : IdentityDbContext<ApplicationUser>

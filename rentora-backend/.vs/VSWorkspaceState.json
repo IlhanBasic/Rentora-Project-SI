@@ -4,8 +4,9 @@
     "\\backend - Copy",
     "\\backend - Copy\\RentoraAPI",
     "\\backend - Copy\\RentoraAPI\\RentoraAPI",
-    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\Controllers",
-    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\Models"
+    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\GraphQL",
+    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\GraphQL\\Schema",
+    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\GraphQL\\Schema\\Queries"
   ],
   "SelectedNode": "\\backend - Copy\\RentoraAPI\\RentoraAPI\\RentoraAPI.sln",
   "PreviewInSolutionExplorer": false

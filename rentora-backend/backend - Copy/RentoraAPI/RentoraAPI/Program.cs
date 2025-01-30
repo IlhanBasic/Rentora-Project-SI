@@ -11,6 +11,10 @@ using RentoraAPI.Services;
 using System.Security.Claims;
 using System.Text;
 using System.Configuration;
+using RentoraAPI.GraphQL.Schema.Queries;
+using RentoraAPI.GraphQL.Services.Locations;
+using RentoraAPI.GraphQL.Schema.Mutations;
+using RentoraAPI.GraphQL.Services.Vehicles;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
@@ -19,7 +23,6 @@ builder.Services.AddControllers()
 	{
 		options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 	});
-
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -32,7 +35,19 @@ builder.Services.AddCors(options =>
 	});
 });
 
-// Configure Entity Framework with SQL Server
+builder.Services
+	.AddGraphQLServer()
+	.AddAuthorization()
+	.AddQueryType<Query>()
+	.AddMutationType<Mutation>();
+// Register the Mutation type
+builder.Services.AddScoped<Mutation>();
+
+// Configure Entity Framework with SQL Server and DbContextFactory
+builder.Services.AddPooledDbContextFactory<RentoraDBContext>(options =>
+	options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Also add regular DbContext for Identity and other non-GraphQL parts
 builder.Services.AddDbContext<RentoraDBContext>(options =>
 	options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -41,7 +56,8 @@ builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
 builder.Services.AddSingleton(smtpSettings);
 builder.Services.AddScoped<IEmailSender, EmailSender>();
-
+builder.Services.AddScoped<LocationsRepository>();
+builder.Services.AddScoped<VehicleRepository>();
 builder.Services.AddControllersWithViews();
 
 // Configure Identity with the custom User class and add Default UI
@@ -53,7 +69,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 	options.Password.RequireNonAlphanumeric = false;
 })
 .AddEntityFrameworkStores<RentoraDBContext>()
-.AddDefaultUI() // Ensure Default UI is added
+.AddDefaultUI()
 .AddDefaultTokenProviders();
 
 // Configure JWT authentication
@@ -72,6 +88,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			ValidAudience = builder.Configuration["Jwt:Audience"]
 		};
 	});
+builder.Services.AddAuthorization(options =>
+{
+	options.AddPolicy("AdminPolicy", policy =>
+		policy.RequireRole("Admin")); 
+});
 
 // Configure Cookie settings to prevent redirection on unauthorized access
 builder.Services.ConfigureApplicationCookie(options =>
@@ -131,5 +152,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapGraphQL();
 app.Run();

@@ -53,6 +53,14 @@
               "target": "Package",
               "version": "[1.68.0.3427, )"
             },
+            "HotChocolate.AspNetCore": {
+              "target": "Package",
+              "version": "[14.3.0, )"
+            },
+            "HotChocolate.AspNetCore.Authorization": {
+              "target": "Package",
+              "version": "[14.3.0, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[4.9.0, )"

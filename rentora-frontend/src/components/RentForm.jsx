@@ -194,7 +194,7 @@ export default function RentForm({ locations }) {
         </div>
       </div>
 
-      <button type="submit" disabled={isSubmitted && !errorMessage}>
+      <button type="submit" id="btn-submit" disabled={isSubmitted && !errorMessage}>
         Pronađite vozilo
       </button>
     </form>

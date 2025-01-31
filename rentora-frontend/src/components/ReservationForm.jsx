@@ -490,7 +490,7 @@ export default function ReservationForm({
           </div>
         )}
 
-        {!isClicked && <button type="submit">Potvrdi rezervaciju</button>}
+        {!isClicked && <button id="btn-submit" type="submit">Potvrdi rezervaciju</button>}
         {/* {errorMessage && <p className="error-message">{errorMessage}</p>} */}
       </form>
     </>

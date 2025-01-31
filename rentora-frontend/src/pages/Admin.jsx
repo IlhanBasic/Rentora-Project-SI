@@ -22,12 +22,12 @@ export default function AdminPage() {
   const navigate = useNavigate();
   
   useEffect(() => {
-    if (!token) {
+    if (!token && !isAdmin) {
       navigate("/auth?mode=Login");
     }
-    if (!isAdmin) {
-      navigate("/auth?mode=Login");
-    }
+    // if (!isAdmin) {
+    //   navigate("/auth?mode=Login");
+    // }
   }, [token, isAdmin]);
   
 

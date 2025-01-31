@@ -1,31 +1,62 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using System;
 
 namespace RentoraNUnitTesting.Pages
 {
 	public class ChangePasswordPage
 	{
-		private IWebDriver driver;
+		private readonly IWebDriver driver;
+		private readonly WebDriverWait wait;
+
 		public ChangePasswordPage(IWebDriver driver)
 		{
 			this.driver = driver;
-			Task.Delay(3000);
-			this.driver.Navigate().GoToUrl("https://rentora-project-si.onrender.com/change-password");
+			wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 		}
-		IWebElement oldPassword => driver.FindElement(By.XPath("/html/body/div[3]/div/form/div[1]/div/input"));
-		IWebElement newPassword => driver.FindElement(By.XPath("/html/body/div[3]/div/form/div[2]/div/input"));
-		IWebElement confirmPassword => driver.FindElement(By.XPath("/html/body/div[3]/div/form/div[3]/div/input"));
-		IWebElement submitButton => driver.FindElement(By.ClassName("btn-submit"));
-		IWebElement confirmationText => driver.FindElement(By.ClassName("center"));
+		public void GoToChangePasswordPage()
+		{
+			driver.Navigate().GoToUrlAsync("https://rentora-project-si.onrender.com/change-password");
+		}
+		private IWebElement GetOldPasswordField() => driver.FindElement(By.Id("old-password"));
+		private IWebElement GetNewPasswordField() => driver.FindElement(By.Id("new-password"));
+		private IWebElement GetConfirmPasswordField() => driver.FindElement(By.Id("again-password"));
+		private IWebElement GetSubmitButton() => driver.FindElement(By.Id("btn-submit"));
+
 		public void ChangePassword(string oldPass, string newPass, string confirmPass)
 		{
-			oldPassword.EnterText(oldPass);
-			newPassword.EnterText(newPass);
-			confirmPassword.EnterText(confirmPass);
-			submitButton.Click();
+			GetOldPasswordField().EnterText(oldPass);
+			GetNewPasswordField().EnterText(newPass);
+			GetConfirmPasswordField().EnterText(confirmPass);
+			GetSubmitButton().Click();
 		}
-		public bool isChanged()
+
+		public bool IsChanged()
 		{
-			return confirmationText.Displayed;
+			try
+			{
+				// Čekamo da se prikaže potvrda
+				var confirmationElement = wait.Until(drv =>
+				{
+					try
+					{
+						var element = drv.FindElement(By.Id("confirmation-text"));
+						return element.Displayed ? element : null;
+					}
+					catch (NoSuchElementException)
+					{
+						return null;
+					}
+				});
+
+				// Ako je pronađen element, vraćamo true
+				return confirmationElement != null;
+			}
+			catch (WebDriverTimeoutException)
+			{
+				// Ako istekne vreme čekanja, vraćamo false
+				return false;
+			}
 		}
 	}
 }

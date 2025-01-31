@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RentoraNUnitTesting.Pages
 {
-	internal class FindLocationAndUpdatePage
+	internal class RegisterPage
 	{
 	}
 }

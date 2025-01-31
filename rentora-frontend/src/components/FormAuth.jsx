@@ -193,7 +193,7 @@ export default function FormAuth({ type }) {
           <p className="error-message">{errorMessages.global}</p>
         )}
         <div className="btn-group">
-          <button type="submit" disabled={isLoading}>
+          <button type="submit" id="btn-submit" disabled={isLoading}>
             {isLoading
               ? "Učitavanje..."
               : type === "Register"

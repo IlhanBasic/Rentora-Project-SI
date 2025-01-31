@@ -47,6 +47,7 @@ export default function Navbar() {
           <li>
             <NavLink
               to="/vehicles"
+              id="vehicles"
               className={({ isActive }) => (isActive ? "active" : undefined)}
               end
             >
@@ -85,7 +86,7 @@ export default function Navbar() {
         <div className="navbar-btn-group">
           {!ctx.isLoggedIn && (
             <>
-              <button onClick={() => handleNavigate("/auth/?mode=Login")}>
+              <button id="btn-login" onClick={() => handleNavigate("/auth/?mode=Login")}>
                 Prijavi se
               </button>
               <button onClick={() => handleNavigate("/auth/?mode=Register")}>
@@ -96,11 +97,12 @@ export default function Navbar() {
           {ctx.isLoggedIn && (
             <>
               <button
+                id="btn-logged"
                 onClick={() =>
                   handleNavigate(`${ctx.isAdmin ? "/Admin" : "/my-rentals"}`)
                 }
               >
-                {ctx.isAdmin ? "Admin Stranica  " : "Profil"}
+                {ctx.isAdmin ? "Admin Stranica" : "Profil"}
               </button>
               <button onClick={handleLogout}>Odjavi se</button>
             </>

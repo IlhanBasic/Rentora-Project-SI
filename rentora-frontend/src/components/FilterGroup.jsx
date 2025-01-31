@@ -1,8 +1,8 @@
-export default function FilterGroup({ label, options, value, onChange }) {
+export default function FilterGroup({ label, options, value, onChange,selectId }) {
   return (
     <div className="filter-group">
       <label>{label}:</label>
-      <select onChange={onChange} value={value}>
+      <select id={selectId} onChange={onChange} value={value}>
         <option value="">Sve opcije</option>
         {options.map((option) => (
           <option key={option.value || option} value={option.value || option}>

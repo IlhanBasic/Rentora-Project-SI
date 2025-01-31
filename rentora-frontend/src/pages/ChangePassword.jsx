@@ -174,7 +174,7 @@ export default function ChangePassword() {
               inputName="Ponovljena Lozinka"
               inputType="password"
             />
-            <button type="submit" className="btn-submit">
+            <button type="submit" id="btn-submit" className="btn-submit">
               {!isLoading ? "Promeni lozinku" : "Loading..."}
             </button>
           </form>
@@ -183,7 +183,7 @@ export default function ChangePassword() {
       {successChange && (
         <div>
           <Header title="Uspešna promena lozinke!" />
-          <p className="center">Bićete preusmereni na početnu stranicu.</p>
+          <p id="confirmation-text" className="center">Bićete preusmereni na početnu stranicu.</p>
         </div>
       )}
     </>

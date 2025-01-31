@@ -44,6 +44,7 @@ export default function Filter({ onFilterChange, filterCarType, filterBrands }) 
 
       {filterOptions.map(({ label, options, value, onChange }) => (
         <FilterGroup
+          selectId={label}
           key={label}
           label={label}
           options={options}

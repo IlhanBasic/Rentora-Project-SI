@@ -20,6 +20,7 @@ export default function InputGroup({ inputId, inputName, inputType, authType }) 
         <input
           type={inputType === "password" ? (showPassword ? "text" : "password") : inputType}
           name={inputId}
+          id={inputId}
           ref={inputId === "PasswordHash" ? passwordInput : null}
           autoComplete="new-password"
           onChange={(e) => setPassword(e.target.value)}

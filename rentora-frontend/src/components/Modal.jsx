@@ -35,10 +35,11 @@ export default function Modal({ open, close, title, text, type, onConfirm }) {
               onConfirm(); // Direktno poziva handleCancel
             }}
             type="button"
+            id="yes"
           >
             Da
           </button>
-          <button onClick={close} type="button">
+          <button id="no" onClick={close} type="button">
             Ne
           </button>
         </div>

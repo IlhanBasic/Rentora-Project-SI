@@ -706,6 +706,7 @@ export default function AdminItemDetails() {
           <button
             disabled={successfullChange}
             type="submit"
+            id="btn-submit"
             className="admin-submit-button"
           >
             Sačuvaj

@@ -297,6 +297,7 @@ export default function AdminPage() {
               ].map(({ key, label }) => (
                 <li
                   key={key}
+                  id={key}
                   className={`admin-nav-item ${
                     activeSection === key ? "active" : ""
                   }`}

@@ -88,7 +88,7 @@ namespace RentoraNUnitTesting
 			System.Threading.Thread.Sleep(3000); ChooseCarPage chooseCar = new ChooseCarPage(_driver);
 			chooseCar.GoToVehicles();
 			System.Threading.Thread.Sleep(1000);
-			chooseCar.ChooseCar("3fa85f64-5717-4562-b3fc-2c963f66afa6", "BMW", "Limuzina");
+			chooseCar.ChooseCar("4ba15f74-9825-4121-b9f5-8d5fae8d13be", "BMW", "Limuzina");
 			System.Threading.Thread.Sleep(3000);
 			CreatingReservationPage creatingReservationPage = new CreatingReservationPage(_driver);
 			creatingReservationPage.CreateReservationByCreditCard("jedno","premium","4242424242424242","3333","3333","12/27");
@@ -97,12 +97,22 @@ namespace RentoraNUnitTesting
 		[Test]
 		public void TestRegisterPage()
 		{
-
+			RegisterPage registerPage = new RegisterPage(_driver);
+			registerPage.GoToRegister();
+			registerPage.Register("Adnan", "Jusovic", "0631245670", "adojusovic@gmail.com", "Admin12345@");
+			System.Threading.Thread.Sleep(1000);
 		}
 		[Test]
 		public void TestCreateLocationPage()
 		{
-
+			LoginPage login = new LoginPage(_driver);
+			login.GoToLoginPage();
+			login.Login("ilhanbasic456@gmail.com", "Admin12345@");
+			System.Threading.Thread.Sleep(2000);
+			CreateLocationPage createLocationPage = new CreateLocationPage(_driver);
+			createLocationPage.GoToAdminDashboard();
+			createLocationPage.CreateLocation("Ivo Lola Ribar", "27", "Prijepolje", "Srbija", "admin@gmail.com", "0644344055");
+			System.Threading.Thread.Sleep(1000);
 		}
 		[Test]
 		public void TestCancelReservationPage()
@@ -130,7 +140,14 @@ namespace RentoraNUnitTesting
 		[Test]
 		public void TestDeleteReservationPage()
 		{
-
+			LoginPage login = new LoginPage(_driver);
+			login.GoToLoginPage();
+			login.Login("ilhanbasic456@gmail.com", "Admin12345@");
+			System.Threading.Thread.Sleep(2000);
+			DeleteReservationPage deleteReservationPage = new DeleteReservationPage(_driver);
+			deleteReservationPage.GoToAdminDashboard();
+			deleteReservationPage.DeleteFirstReservation();
+			System.Threading.Thread.Sleep(400);
 		}
 		[TearDown]
 		public void CancelDriver()
@@ -142,7 +159,6 @@ namespace RentoraNUnitTesting
 		{
 			yield return new LoginModel { UserName = "ilhanbasic456@gmail.com", Password = "Admin12345@" };
 			yield return new LoginModel { UserName = "memovicsead95@gmail.com", Password = "Admin12345@" };
-			yield return new LoginModel { UserName = "ilhanbasic456@gmail.com", Password = "Admin123456@" };
 		}
 	}
 }

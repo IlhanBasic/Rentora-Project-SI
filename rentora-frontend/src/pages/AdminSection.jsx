@@ -77,7 +77,7 @@
         <div className="admin-title-container">
           <h1>{title}</h1>
           {title !== "Rezervacije" && (
-            <button onClick={() => onEdit(null)}>Dodaj novi red</button>
+            <button id="add-button" onClick={() => onEdit(null)}>Dodaj novi red</button>
           )}
         </div>
 

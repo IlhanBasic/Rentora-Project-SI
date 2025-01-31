@@ -16,6 +16,7 @@ namespace RentoraNUnitTesting.Pages
 		}
 		public void GoToChangePasswordPage()
 		{
+			//driver.Navigate().GoToUrlAsync("http://localhost:5173/change-password");
 			driver.Navigate().GoToUrlAsync("https://rentora-project-si.onrender.com/change-password");
 		}
 		private IWebElement GetOldPasswordField() => driver.FindElement(By.Id("old-password"));

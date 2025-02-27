@@ -7,6 +7,7 @@ export const AuthContext = createContext({
   userId: null,
   userRole: null,
   token: null,
+  isLoading: true,
   login: () => {},
   logout: () => {},
 });
@@ -18,32 +19,38 @@ export function AuthProvider({ children }) {
   const [userId, setUserId] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [isLoading, setIsLoading] = useState(true);
 
   const updateAuthState = (token) => {
     if (token) {
-      const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      const role =
-        decodedToken[
-          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-        ];
-      const id =
-        decodedToken[
-          "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-        ];
-      const name =
-        decodedToken[
-          "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
-        ];
-      const exp = decodedToken.exp;
-      if (exp * 1000 < Date.now()) {
+      try {
+        const decodedToken = JSON.parse(atob(token.split(".")[1]));
+        const role =
+          decodedToken[
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+          ];
+        const id =
+          decodedToken[
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+          ];
+        const name =
+          decodedToken[
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+          ];
+        const exp = decodedToken.exp;
+        if (exp * 1000 < Date.now()) {
+          logout();
+          return;
+        }
+        setEmail(name);
+        setIsLoggedIn(true);
+        setUserId(id);
+        setUserRole(role);
+        setIsAdmin(role === "Admin");
+      } catch (error) {
+        // Ako dekodiranje tokena ne uspe, resetuj stanje
         logout();
-        return;
       }
-      setEmail(name);
-      setIsLoggedIn(true);
-      setUserId(id);
-      setUserRole(role);
-      setIsAdmin(role === "Admin");
     } else {
       setEmail("");
       setIsLoggedIn(false);
@@ -55,6 +62,8 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     updateAuthState(token);
+    // Nakon inicijalnog učitavanja, postavi loading na false
+    setIsLoading(false);
 
     const handleStorageChange = (event) => {
       if (
@@ -70,7 +79,8 @@ export function AuthProvider({ children }) {
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, []);
+  }, []); // Pokreće se jednom pri mount-u
+
   useEffect(() => {
     updateAuthState(token);
   }, [token]);
@@ -100,6 +110,7 @@ export function AuthProvider({ children }) {
         userRole,
         token,
         email,
+        isLoading,
         login,
         logout,
       }}

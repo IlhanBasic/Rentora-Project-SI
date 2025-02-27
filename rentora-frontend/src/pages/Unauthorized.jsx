@@ -16,10 +16,10 @@ export default function Unauthorized() {
           kontaktirajte administratora za više informacija.
         </p>
         <button 
-          onClick={() => window.history.back()} 
+          onClick={() => window.location.href = "/"} 
           className="back-button"
         >
-          Nazad na prethodnu stranicu
+          Nazad na home stranicu
         </button>
       </div>
     </div>

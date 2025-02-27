@@ -32,22 +32,31 @@ namespace RentoraAPI.Services
 			mimeMessage.Body = new TextPart("html")
 			{
 				Text = message,
-				
 			};
 
+			Console.WriteLine("Creating SMTP client...");
 			using (var client = new SmtpClient())
 			{
 				try
 				{
+					client.CheckCertificateRevocation = false;
+					Console.WriteLine("Checking connection...");
 					if (!client.IsConnected)
 					{
+						Console.WriteLine($"Connecting to SMTP server: {_smtpSettings.Host}:{_smtpSettings.Port}");
+						// Korišćenje StartTls ili Auto, zavisno od konfiguracije
+						//await client.ConnectAsync(_smtpSettings.Host, _smtpSettings.Port, _smtpSettings.EnableSsl ? SecureSocketOptions.StartTls : SecureSocketOptions.Auto);
 						await client.ConnectAsync(_smtpSettings.Host, _smtpSettings.Port, SecureSocketOptions.StartTls);
 					}
 
+					Console.WriteLine("SMTP client connected. Authenticating...");
 					client.CheckCertificateRevocation = true;
 					await client.AuthenticateAsync(_smtpSettings.Username, _smtpSettings.Password);
 
+					Console.WriteLine("Sending email...");
 					await client.SendAsync(mimeMessage);
+
+					Console.WriteLine("Email sent successfully.");
 				}
 				catch (Exception ex)
 				{
@@ -59,6 +68,7 @@ namespace RentoraAPI.Services
 				{
 					if (client.IsConnected)
 					{
+						Console.WriteLine("Disconnecting SMTP client...");
 						await client.DisconnectAsync(true);
 					}
 				}

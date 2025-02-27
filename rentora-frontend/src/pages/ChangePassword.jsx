@@ -131,6 +131,12 @@ export default function ChangePassword() {
         });
 
         setTimeout(() => {
+          setModalInfo({
+            isOpen: false,
+            modalTitle: "",
+            modalText: "",
+          });
+          closeModal();
           navigate("/");
         }, 1500);
       } catch (e) {

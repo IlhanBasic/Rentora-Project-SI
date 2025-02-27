@@ -55,7 +55,7 @@ namespace RentoraAPI.Controllers
 				{
 					if (!await roleManager.RoleExistsAsync(role))
 					{
-						return BadRequest(new { Message = $"Uloga '{role}' ne postoji. Dozvoljene uloge su: Admin i User." });
+						return BadRequest(new { Message = $"Uloga '{role}' ne postoji. Dozvoljene uloge su: Admin,User,Guest." });
 					}
 				}
 			}
@@ -75,7 +75,7 @@ namespace RentoraAPI.Controllers
 				FirstName = registerRequestDto.FirstName,
 				LastName = registerRequestDto.LastName,
 				PhoneNumber = registerRequestDto.PhoneNumber,
-				EmailConfirmed = true  // Automatski potvrđujemo email
+				EmailConfirmed = true 
 			};
 
 			try
@@ -91,13 +91,11 @@ namespace RentoraAPI.Controllers
 					});
 				}
 
-				// Add roles to the user
 				if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
 				{
 					var roleResult = await userManager.AddToRolesAsync(identityUser, registerRequestDto.Roles);
 					if (!roleResult.Succeeded)
 					{
-						// If role assignment fails, delete the created user to maintain data integrity
 						await userManager.DeleteAsync(identityUser);
 						return BadRequest(new { Message = "Došlo je do greške prilikom dodele uloga." });
 					}
@@ -116,7 +114,6 @@ namespace RentoraAPI.Controllers
 		[Route("Register")]
 		public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
 		{
-			// Validate input data
 			if (registerRequestDto == null)
 			{
 				return BadRequest(new { Message = "Podaci za registraciju nisu poslati." });
@@ -137,7 +134,7 @@ namespace RentoraAPI.Controllers
 				{
 					if (!await roleManager.RoleExistsAsync(role))
 					{
-						return BadRequest(new { Message = $"Uloga '{role}' ne postoji. Dozvoljene uloge su: Admin i User." });
+						return BadRequest(new { Message = $"Uloga '{role}' ne postoji. Dozvoljene uloge su: Admin,User,Guest." });
 					}
 				}
 			}
@@ -172,22 +169,18 @@ namespace RentoraAPI.Controllers
 					});
 				}
 
-				// Add roles to the user
 				if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
 				{
 					var roleResult = await userManager.AddToRolesAsync(identityUser, registerRequestDto.Roles);
 					if (!roleResult.Succeeded)
 					{
-						// If role assignment fails, delete the created user to maintain data integrity
 						await userManager.DeleteAsync(identityUser);
 						return BadRequest(new { Message = "Došlo je do greške prilikom dodele uloga." });
 					}
 				}
 
-				// Generate email confirmation token
 				var token = await userManager.GenerateEmailConfirmationTokenAsync(identityUser);
 
-				// Use the token directly without re-encoding it
 				var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth",
 					new { userId = identityUser.Id, token }, Request.Scheme);
 
@@ -321,7 +314,6 @@ namespace RentoraAPI.Controllers
 			}
 			catch (Exception ex)
 			{
-				// If any error occurs during user creation, delete the user to maintain data integrity
 				if (identityUser != null)
 				{
 					await userManager.DeleteAsync(identityUser);
@@ -348,6 +340,13 @@ namespace RentoraAPI.Controllers
 			var result = await userManager.ConfirmEmailAsync(user, token);
 			if (result.Succeeded)
 			{
+				await userManager.RemoveFromRolesAsync(user, ["Guest"]);
+				var roleResult = await userManager.AddToRolesAsync(user, ["User"]);
+				if (!roleResult.Succeeded)
+				{
+					await userManager.DeleteAsync(user);
+					return BadRequest(new { Message = "Došlo je do greške prilikom dodele uloga." });
+				}
 				user.EmailConfirmed = true;
 				await userManager.UpdateAsync(user);
 				return new ContentResult
@@ -439,11 +438,9 @@ namespace RentoraAPI.Controllers
 		[Route("Login")]
 		public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
 		{
-			// Find the user by email
 			var user = await userManager.FindByEmailAsync(loginRequestDto.Username);
 			if (user != null)
 			{
-				// Check if the email is confirmed
 				if (!await userManager.IsEmailConfirmedAsync(user))
 				{
 					return BadRequest(new { Message = "Email nije potvrđen. Molimo vas da potvrdite svoj email pre nego što se prijavite." });

@@ -12,13 +12,14 @@ import { v4 } from "uuid";
 import { image } from "framer-motion/client";
 import ChooseLocation from "../components/ChooseLocation.jsx";
 export default function AdminItemDetails() {
+  
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
     modalTitle: "",
     modalText: "",
   });
   const [successfullChange, setSuccessfullChange] = useState(false);
-  const { token } = useContext(AuthContext);
+  const { token, isAdmin,isLoading } = useContext(AuthContext);
   const { section, id } = useParams();
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,16 @@ export default function AdminItemDetails() {
   const [img, setImg] = useState("");
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (!token) {
+      navigate("/auth?mode=Login");
+    }
+    else if (!isAdmin) {
+      navigate("/unauthorized");
+    }
+  }, [token, isAdmin, isLoading, navigate]);
   const closeModal = () => {
     setModalInfo((prev) => ({ ...prev, isOpen: false }));
     document.getElementById("root").style.filter = "blur(0)";
@@ -453,9 +464,7 @@ export default function AdminItemDetails() {
           const uploadResult = await uploadBytes(imgRef, img);
           const imageUrl = await getDownloadURL(uploadResult.ref);
           item.picture = imageUrl;
-        } else {
-          throw new Error("Molimo unesite sliku");
-        }
+        } 
       }
 
       if (section === "locations") {
@@ -644,20 +653,26 @@ export default function AdminItemDetails() {
                     </select>
                   ) : key === "picture" ? (
                     <>
-                      <label htmlFor={key} className="custom-file-upload">
-                        Odaberite fajl
-                      </label>
-                      <input
-                        type="file"
-                        name={key}
-                        id={key}
-                        onChange={(e) => handleFileSelect(e, key)}
-                        className="file-input"
-                      />
-                      <span id={`file-name-${key}`} className="file-name">
-                        Nije izabran fajl
-                      </span>
-                    </>
+                    <label htmlFor={key} className="custom-file-upload">
+                      Odaberite fajl
+                    </label>
+                    <input
+                      type="file"
+                      name={key}
+                      id={key}
+                      onChange={(e) => handleFileSelect(e, key)}
+                      className="file-input"
+                    />
+                    <span id={`file-name-${key}`} className="file-name">
+                      {item?.picture ? "Trenutna slika je učitana" : "Nije izabran fajl"}
+                    </span>
+                    {item?.picture && (
+                      <div className="image-preview">
+                        <p>Trenutna slika:</p>
+                        <img src={item.picture} alt="Trenutna slika vozila" style={{ maxWidth: "200px", height: "auto" }} />
+                      </div>
+                    )}
+                  </>
                   ) : (
                     <input
                       type={

@@ -1349,10 +1349,10 @@
           }
         }
       },
-      "MailKit/4.9.0": {
+      "MailKit/4.10.0": {
         "type": "package",
         "dependencies": {
-          "MimeKit": "4.9.0",
+          "MimeKit": "4.10.0",
           "System.Formats.Asn1": "8.0.1"
         },
         "compile": {
@@ -2828,7 +2828,7 @@
           }
         }
       },
-      "MimeKit/4.9.0": {
+      "MimeKit/4.10.0": {
         "type": "package",
         "dependencies": {
           "BouncyCastle.Cryptography": "2.5.0",
@@ -5598,10 +5598,10 @@
         "logo.png"
       ]
     },
-    "MailKit/4.9.0": {
-      "sha512": "wRUVzYXRWbjdUixwtSp7ivVHPhWw17h+BvwIVaouBike68B56Xk9b5+QRT39EK/QN8XF7MtOgt9caHvUaCvhIQ==",
+    "MailKit/4.10.0": {
+      "sha512": "C6gwHQGHru2x/g1pzk0NXn5BIv0qoeKbSgb4BIFfWl4OjTZOEajSIR+O6i4WElsuJI8Z77LGr4rH5nVjypyvDQ==",
       "type": "package",
-      "path": "mailkit/4.9.0",
+      "path": "mailkit/4.10.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5634,7 +5634,7 @@
         "lib/netstandard2.1/MailKit.dll.config",
         "lib/netstandard2.1/MailKit.pdb",
         "lib/netstandard2.1/MailKit.xml",
-        "mailkit.4.9.0.nupkg.sha512",
+        "mailkit.4.10.0.nupkg.sha512",
         "mailkit.nuspec"
       ]
     },
@@ -8813,10 +8813,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "MimeKit/4.9.0": {
-      "sha512": "DZXXMZzmAABDxFhOSMb6SE8KKxcRd/sk1E6aJTUE5ys2FWOQhznYV2Gl3klaaSfqKn27hQ32haqquH1J8Z6kJw==",
+    "MimeKit/4.10.0": {
+      "sha512": "GQofI17cH55XSh109hJmHaYMtSFqTX/eUek3UcV7hTnYayAIXZ6eHlv345tfdc+bQ/BrEnYOSZVzx9I3wpvvpg==",
       "type": "package",
-      "path": "mimekit/4.9.0",
+      "path": "mimekit/4.10.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -8844,7 +8844,7 @@
         "lib/netstandard2.1/MimeKit.dll.config",
         "lib/netstandard2.1/MimeKit.pdb",
         "lib/netstandard2.1/MimeKit.xml",
-        "mimekit.4.9.0.nupkg.sha512",
+        "mimekit.4.10.0.nupkg.sha512",
         "mimekit.nuspec"
       ]
     },
@@ -10464,7 +10464,7 @@
       "Google.Apis.Gmail.v1 >= 1.68.0.3427",
       "HotChocolate.AspNetCore >= 14.3.0",
       "HotChocolate.AspNetCore.Authorization >= 14.3.0",
-      "MailKit >= 4.9.0",
+      "MailKit >= 4.10.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.10",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.10",
       "Microsoft.AspNetCore.Identity.UI >= 8.0.0",
@@ -10473,7 +10473,7 @@
       "Microsoft.IdentityModel.Tokens >= 8.1.2",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.19.6",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.7",
-      "MimeKit >= 4.9.0",
+      "MimeKit >= 4.10.0",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.0",
       "Swashbuckle.AspNetCore >= 6.4.0",
       "System.IdentityModel.Tokens.Jwt >= 8.1.2"
@@ -10541,7 +10541,7 @@
           },
           "MailKit": {
             "target": "Package",
-            "version": "[4.9.0, )"
+            "version": "[4.10.0, )"
           },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
@@ -10579,7 +10579,7 @@
           },
           "MimeKit": {
             "target": "Package",
-            "version": "[4.9.0, )"
+            "version": "[4.10.0, )"
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",

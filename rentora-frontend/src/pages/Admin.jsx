@@ -13,23 +13,24 @@ export default function AdminPage() {
     itemId: null,
     actionType: null,
   });
-  
+
   function handleToggle() {
     setHamburgerMenu((prev) => !prev);
   }
-  
-  const { token, isAdmin } = useContext(AuthContext);
+
+  const { token, isAdmin,isLoading } = useContext(AuthContext);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    if (!token && !isAdmin) {
+    if (isLoading) return;
+    if (!token) {
       navigate("/auth?mode=Login");
     }
-    // if (!isAdmin) {
-    //   navigate("/auth?mode=Login");
-    // }
-  }, [token, isAdmin]);
-  
+    else if (!isAdmin) {
+      navigate("/unauthorized");
+    }
+  }, [token, isAdmin, isLoading, navigate]);
+
 
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
@@ -94,7 +95,7 @@ export default function AdminPage() {
       actionType: "delete", // Postavljamo za brisanje
     });
   };
-  
+
   const handleCancel = (id) => {
     setDeleteModalInfo({
       isOpen: true,
@@ -102,13 +103,13 @@ export default function AdminPage() {
       actionType: "cancel", // Postavljamo za otkazivanje
     });
   };
-  
+
   const handleDeleteConfirm = async () => {
     const id = deleteModalInfo.itemId;
     const endpoint =
       activeSection === "users" ? "ApplicationUser" : activeSection;
     const url = `${API_URL}/${endpoint}/${id}`;
-    
+
     try {
       const response = await fetch(url, {
         method: "DELETE",
@@ -116,8 +117,8 @@ export default function AdminPage() {
           Authorization: `Bearer ${token}`,
         },
       });
-      
-      if(!response.ok){
+
+      if (!response.ok) {
         setModalInfo({
           modalTitle: "Došlo je do greške prilikom brisanja 🙁!",
           modalText: `Pokušajte opet kasnije.`,
@@ -144,14 +145,12 @@ export default function AdminPage() {
       setDeleteModalInfo({ isOpen: false, itemId: null });
     }
   };
-  
-
 
   const handleCancelConfirm = async () => {
     const id = deleteModalInfo.itemId;
     const endpoint = "Reservations";
     const url = `${API_URL}/${endpoint}/${id}`;
-    
+
     try {
       const response = await fetch(url, {
         method: "PATCH",
@@ -174,8 +173,7 @@ export default function AdminPage() {
       });
     } catch (error) {
       setModalInfo({
-        modalTitle:
-          "Došlo je do greške prilikom otkazivanja rezervacije 🙁!",
+        modalTitle: "Došlo je do greške prilikom otkazivanja rezervacije 🙁!",
         modalText: `Pokušajte opet kasnije.`,
         isOpen: true,
       });
@@ -257,22 +255,26 @@ export default function AdminPage() {
         title={modalInfo.modalTitle}
         text={modalInfo.modalText}
       />
-<Modal
-  open={deleteModalInfo.isOpen}
-  close={closeDeleteModal}
-  title={deleteModalInfo.actionType === "cancel" ? "Potvrda otkazivanja" : "Potvrda brisanja"}
-  text={
-    deleteModalInfo.actionType === "cancel"
-      ? "Da li ste sigurni da želite da otkažete rezervaciju?"
-      : "Da li ste sigurni da želite da izvršite brisanje?"
-  }
-  type="confirm"
-  onConfirm={
-    deleteModalInfo.actionType === "cancel"
-      ? handleCancelConfirm
-      : handleDeleteConfirm
-  }
-/>
+      <Modal
+        open={deleteModalInfo.isOpen}
+        close={closeDeleteModal}
+        title={
+          deleteModalInfo.actionType === "cancel"
+            ? "Potvrda otkazivanja"
+            : "Potvrda brisanja"
+        }
+        text={
+          deleteModalInfo.actionType === "cancel"
+            ? "Da li ste sigurni da želite da otkažete rezervaciju?"
+            : "Da li ste sigurni da želite da izvršite brisanje?"
+        }
+        type="confirm"
+        onConfirm={
+          deleteModalInfo.actionType === "cancel"
+            ? handleCancelConfirm
+            : handleDeleteConfirm
+        }
+      />
 
       <div className="admin-page-container">
         <nav className={`admin-nav-container ${hamburgerMenu ? "active" : ""}`}>
@@ -306,7 +308,10 @@ export default function AdminPage() {
                   {label}
                 </li>
               ))}
-              <button className="change-password" onClick={() => navigate("../change-password")}>
+              <button
+                className="change-password"
+                onClick={() => navigate("../change-password")}
+              >
                 Promena lozinke
               </button>
             </ul>

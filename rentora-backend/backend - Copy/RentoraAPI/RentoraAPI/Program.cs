@@ -55,7 +55,8 @@ builder.Services.AddDbContext<RentoraDBContext>(options =>
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
 builder.Services.AddSingleton(smtpSettings);
-builder.Services.AddScoped<IEmailSender, EmailSender>();
+//builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();	
 builder.Services.AddScoped<LocationsRepository>();
 builder.Services.AddScoped<VehicleRepository>();
 builder.Services.AddControllersWithViews();

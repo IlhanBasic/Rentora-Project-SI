@@ -148,7 +148,7 @@ export default function FormAuth({ type }) {
           firstName: data.FirstName,
           lastName: data.LastName,
           phoneNumber: data.PhoneNumber,
-          roles: ["User"],
+          roles: ["Guest"],
         }
       : { username: data.Email, password: data.PasswordHash };
 

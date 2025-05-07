@@ -86,10 +86,10 @@ export default function Navbar() {
         <div className={`navbar-btn-group`}>
           {!ctx.isLoggedIn && (
             <>
-              <button id="btn-login" onClick={() => handleNavigate("/auth/?mode=Login")}>
+              <button id="btn-login" onClick={() => handleNavigate("/login")}>
                 Prijavi se
               </button>
-              <button onClick={() => handleNavigate("/auth/?mode=Register")}>
+              <button onClick={() => handleNavigate("/register")}>
                 Registruj se
               </button>
             </>

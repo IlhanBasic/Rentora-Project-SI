@@ -13,9 +13,13 @@ import Admin from "./pages/Admin.jsx";
 import MyRentals from "./pages/MyRentals.jsx";
 import AdminItemDetails from "./pages/AdminItemDetails.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { EmailProvider } from "./context/EmailContext.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
 import Unauthorized from "./pages/Unauthorized.jsx";
 import Contact from "./pages/Contact.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -24,7 +28,9 @@ function App() {
       errorElement: <Error />,
       children: [
         { index: true, element: <Home /> },
-        { path: "auth", element: <AuthenticationPage /> },
+        // { path: "auth", element: <AuthenticationPage /> },
+        { path: "login", element: <Login /> },
+        { path: "register", element: <Register /> },
         { path: "conditions", element: <Conditions /> },
         { path: "about", element: <About /> },
         { path: "my-rentals", element: <MyRentals /> },
@@ -36,8 +42,8 @@ function App() {
             { path: ":vehicleId", element: <VehicleDetails /> },
           ],
         },
-        {path:"contact",element:<Contact/>},
-        {path:"unauthorized",element:<Unauthorized/>}
+        { path: "contact", element: <Contact /> },
+        { path: "unauthorized", element: <Unauthorized /> },
       ],
     },
     {
@@ -47,20 +53,29 @@ function App() {
       children: [
         { index: true, element: <Admin /> },
         {
-          path: ":section/:id", 
+          path: ":section/:id",
           element: <AdminItemDetails />,
-        }
+        },
       ],
     },
     {
-      path:"change-password",element:<ChangePassword/>,errorElement:<Error/>
-    }
+      path: "change-password",
+      element: <ChangePassword />,
+      errorElement: <Error />,
+    },
+    {
+      path: "reset-password",
+      element: <ResetPassword />,
+      errorElement: <Error />,
+    },
   ]);
-  
+
   return (
     <>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <EmailProvider>
+          <RouterProvider router={router} />
+        </EmailProvider>
       </AuthProvider>
     </>
   );

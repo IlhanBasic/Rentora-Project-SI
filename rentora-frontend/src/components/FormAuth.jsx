@@ -31,6 +31,10 @@ export default function FormAuth({ type }) {
     setErrorMessages({});
     navigate(`/auth?mode=${type === "Register" ? "Login" : "Register"}`);
   }
+  function handleResetPassword() {
+    setErrorMessages({});
+    window.location.href = "/reset-password";
+  }
 
   async function authenticate(data, endpoint) {
     setIsLoading(true);
@@ -200,11 +204,16 @@ export default function FormAuth({ type }) {
               ? "Registruj se"
               : "Prijavi se"}
           </button>
-          <button type="button" onClick={handleNavigate}>
+          <button type="button" onClick={() => handleNavigate()}>
             {type === "Register"
               ? "Već imate nalog?"
               : "Nemate nalog? Registrujte se"}
           </button>
+          {type === "Login" && (
+            <button type="button" onClick={() => handleResetPassword()}>
+              Zaboravili ste lozinku ? Restartujte lozinku
+            </button>
+          )}
         </div>
       </form>
       <ToastContainer />

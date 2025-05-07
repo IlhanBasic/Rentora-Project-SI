@@ -1,7 +1,7 @@
 .main-navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: 1rem 2rem;
   background-color: #1a1a2e;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
@@ -9,6 +9,7 @@
   top: 0;
   z-index: 1000;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .main-navbar img {

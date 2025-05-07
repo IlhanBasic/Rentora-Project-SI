@@ -1,8 +1,14 @@
 import { useRef, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import "./InputGroup.css"; 
+import "./InputGroup.css";
 
-export default function InputGroup({ inputId, inputName, inputType, authType }) {
+export default function InputGroup({
+  emailRef,
+  inputId,
+  inputName,
+  inputType,
+  authType,
+}) {
   const passwordInput = useRef(null);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -18,10 +24,22 @@ export default function InputGroup({ inputId, inputName, inputType, authType }) 
       <label htmlFor={inputId}>{inputName}</label>
       <div className="input-wrapper">
         <input
-          type={inputType === "password" ? (showPassword ? "text" : "password") : inputType}
+          type={
+            inputType === "password"
+              ? showPassword
+                ? "text"
+                : "password"
+              : inputType
+          }
           name={inputId}
           id={inputId}
-          ref={inputId === "PasswordHash" ? passwordInput : null}
+          ref={
+            inputId === "PasswordHash"
+              ? passwordInput
+              : inputId === "Email"
+              ? emailRef
+              : null
+          }
           autoComplete="new-password"
           onChange={(e) => setPassword(e.target.value)}
           className="input-field"
@@ -36,9 +54,14 @@ export default function InputGroup({ inputId, inputName, inputType, authType }) 
           </button>
         )}
       </div>
-      {authType === "Register" && inputId === "PasswordHash" && (password.length > 0 && !passwordRegex.test(password)) && (
-        <p className="error-message">Lozinka: min 6 znakova, jedno veliko slovo i jedan broj</p>
-      )}
+      {authType === "Register" &&
+        inputId === "PasswordHash" &&
+        password.length > 0 &&
+        !passwordRegex.test(password) && (
+          <p className="error-message">
+            Lozinka: min 6 znakova, jedno veliko slovo i jedan broj
+          </p>
+        )}
     </div>
   );
 }

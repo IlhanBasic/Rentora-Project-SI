@@ -7,19 +7,39 @@ import API_URL from "../API_URL.js";
 import "./Admin.css";
 
 export default function AdminPage() {
-  const [hamburgerMenu, setHamburgerMenu] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [deleteModalInfo, setDeleteModalInfo] = useState({
     isOpen: false,
     itemId: null,
     actionType: null,
   });
 
-  function handleToggle() {
-    setHamburgerMenu((prev) => !prev);
+  function toggleSidebar() {
+    setSidebarOpen(prev => !prev);
   }
 
-  const { token, isAdmin,isLoading } = useContext(AuthContext);
+  const { token, isAdmin, isLoading } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Check screen size on initial load and window resize
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 992) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    }
+    
+    // Initial check
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (isLoading) return;
@@ -44,8 +64,28 @@ export default function AdminPage() {
   };
 
   const closeDeleteModal = () => {
-    setDeleteModalInfo({ isOpen: false, itemId: null });
+    setDeleteModalInfo({ isOpen: false, itemId: null, actionType: null });
   };
+
+  // Handle clicks outside the sidebar to close it on mobile
+  useEffect(() => {
+    function handleClickOutside(event) {
+      const sidebar = document.querySelector('.admin-nav-container');
+      const hamburger = document.querySelector('.hamburger-admin');
+      
+      if (sidebarOpen && window.innerWidth < 992 && 
+          sidebar && !sidebar.contains(event.target) &&
+          hamburger && !hamburger.contains(event.target)) {
+        setSidebarOpen(false);
+      }
+    }
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [sidebarOpen]);
 
   const [activeSection, setActiveSection] = useState("vehicles");
   const [vehicles, setVehicles] = useState([]);
@@ -92,7 +132,7 @@ export default function AdminPage() {
     setDeleteModalInfo({
       isOpen: true,
       itemId: id,
-      actionType: "delete", // Postavljamo za brisanje
+      actionType: "delete",
     });
   };
 
@@ -100,7 +140,7 @@ export default function AdminPage() {
     setDeleteModalInfo({
       isOpen: true,
       itemId: id,
-      actionType: "cancel", // Postavljamo za otkazivanje
+      actionType: "cancel",
     });
   };
 
@@ -142,7 +182,7 @@ export default function AdminPage() {
         isOpen: true,
       });
     } finally {
-      setDeleteModalInfo({ isOpen: false, itemId: null });
+      setDeleteModalInfo({ isOpen: false, itemId: null, actionType: null });
     }
   };
 
@@ -178,7 +218,7 @@ export default function AdminPage() {
         isOpen: true,
       });
     } finally {
-      setDeleteModalInfo({ isOpen: false, itemId: null });
+      setDeleteModalInfo({ isOpen: false, itemId: null, actionType: null });
     }
   };
 
@@ -277,7 +317,13 @@ export default function AdminPage() {
       />
 
       <div className="admin-page-container">
-        <nav className={`admin-nav-container ${hamburgerMenu ? "active" : ""}`}>
+        <button
+          className={`hamburger-admin ${sidebarOpen ? "active" : ""}`}
+          aria-label="Toggle menu"
+          onClick={toggleSidebar}
+        ></button>
+        
+        <nav className={`admin-nav-container ${sidebarOpen ? "active" : ""}`}>
           <div className="fixed-navbar">
             <div className="admin-nav-title">
               <h1>Admin Panel</h1>
@@ -303,26 +349,33 @@ export default function AdminPage() {
                   className={`admin-nav-item ${
                     activeSection === key ? "active" : ""
                   }`}
-                  onClick={() => setActiveSection(key)}
+                  onClick={() => {
+                    setActiveSection(key);
+                    if (window.innerWidth < 992) {
+                      setSidebarOpen(false);
+                    }
+                  }}
                 >
                   {label}
                 </li>
               ))}
               <button
-                className="change-password"
-                onClick={() => navigate("../change-password")}
-              >
-                Promena lozinke
-              </button>
+              className="change-password"
+              onClick={() => navigate("../change-password")}
+            >
+              Promena lozinke
+            </button>
             </ul>
-            <button
-              className={`hamburger-admin ${hamburgerMenu ? "active" : ""} `}
-              aria-label="Toggle menu"
-              onClick={handleToggle}
-            ></button>
+            
           </div>
         </nav>
-        <div className="admin-content-container">{RenderSection()}</div>
+        
+        {/* Overlay for mobile */}
+        <div className={`admin-overlay ${sidebarOpen ? "active" : ""}`} onClick={toggleSidebar}></div>
+        
+        <div className="admin-content-container">
+          {RenderSection()}
+        </div>
       </div>
     </>
   );

@@ -1,0 +1,343 @@
+/* Admin Section Styles */
+.admin-header {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 1.5rem;
+  }
+  
+  .admin-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .admin-title-container h1 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 600;
+  }
+  
+  #add-button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  #add-button:hover {
+    background: #3e8e41;
+    transform: translateY(-2px);
+  }
+  
+  .admin-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .search-wrapper {
+    display: flex;
+    align-items: center;
+    background: #f5f7fa;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .search-wrapper i {
+    padding: 0 1rem;
+    color: #7f8c8d;
+  }
+  
+  .search-input {
+    flex: 1;
+    border: none;
+    padding: 0.8rem 0;
+    background: transparent;
+    font-size: 0.95rem;
+  }
+  
+  .search-input:focus {
+    outline: none;
+  }
+  
+  .search-button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .search-button:hover {
+    background: #2980b9;
+  }
+  
+  .filter-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .results-count {
+    background: #f8f9fa;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .results-count strong {
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  .filter-buttons {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  
+  .filter-button {
+    background: #ecf0f1;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .filter-button:hover {
+    background: #d5dbdb;
+  }
+  
+  .filter-button.active {
+    background: #3498db;
+    color: white;
+  }
+  
+  .filter-button i {
+    font-size: 0.9rem;
+  }
+  
+  .table-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .table-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .table-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .card-main {
+    display: flex;
+    padding: 1.5rem;
+  }
+  
+  .card-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+  }
+  
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .card-details {
+    flex: 1;
+  }
+  
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.8rem;
+  }
+  
+  .detail-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .detail-item label {
+    display: block;
+    font-size: 0.75rem;
+    color: #7f8c8d;
+    margin-bottom: 0.2rem;
+  }
+  
+  .detail-item span {
+    font-size: 0.9rem;
+    color: #2c3e50;
+    font-weight: 500;
+    word-break: break-word;
+  }
+  
+  .card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #eee;
+  }
+  
+  .action-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+  }
+  
+  .action-button i {
+    font-size: 0.9rem;
+  }
+  
+  .action-button.details {
+    background: #f8f9fa;
+    color: #3498db;
+  }
+  
+  .action-button.details:hover {
+    background: #e3f2fd;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .action-button.edit {
+    background: #e3f2fd;
+    color: #1976d2;
+  }
+  
+  .action-button.edit:hover {
+    background: #bbdefb;
+  }
+  
+  .action-button.cancel {
+    background: #fff3e0;
+    color: #ff6d00;
+  }
+  
+  .action-button.cancel:hover {
+    background: #ffe0b2;
+  }
+  
+  .action-button.delete {
+    background: #ffebee !important;
+    color: #d32f2f;
+  }
+  
+  .action-button.delete:hover {
+    background: #ffcdd2 !important;
+  }
+  
+  .no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  
+  .no-results i {
+    font-size: 3rem;
+    color: #bdc3c7;
+    margin-bottom: 1rem;
+  }
+  
+  .no-results p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .admin-title-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .card-main {
+      flex-direction: column;
+    }
+    
+    .card-image {
+      width: 100%;
+      height: auto;
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+    
+    .card-actions {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+    
+    .action-buttons {
+      width: 100%;
+      justify-content: flex-end;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .filter-section {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .filter-buttons {
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+    
+    .detail-grid {
+      grid-template-columns: 1fr;
+    }
+  }

@@ -27,7 +27,7 @@ export default function Modal({ open, close, title, text, type, onConfirm }) {
     >
       <h1>{title}</h1>
       <p>{text}</p>
-      {type !== "confirm" && <button onClick={close}>Close</button>}
+      {type !== "confirm" && <button className="close" onClick={close}>Close</button>}
       {type === "confirm" && (
         <div className="btn-modal-group">
           <button

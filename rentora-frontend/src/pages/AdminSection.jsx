@@ -1,6 +1,7 @@
   import { useState, useEffect } from "react";
   import { getTranslation } from "../data/translation.js";
   import AdminModal from "../components/AdminModal.jsx";
+  import "./AdminSection.css";
   function AdminSection({ title, data, onEdit, onDelete, onCancel }) {
     const [modalInfo, setModalInfo] = useState({ isOpen: false, data: {} });
     const closeModal = () => {
@@ -68,132 +69,165 @@
     }
 
     return (
-      <>
-        <AdminModal
-          open={modalInfo.isOpen}
-          close={closeModal}
-          data={modalInfo.data}
-        />
-        <div className="admin-title-container">
-          <h1>{title}</h1>
-          {title !== "Rezervacije" && (
-            <button id="add-button" onClick={() => onEdit(null)}>Dodaj novi red</button>
-          )}
+<>
+  <AdminModal
+    open={modalInfo.isOpen}
+    close={closeModal}
+    data={modalInfo.data}
+  />
+  
+  <div className="admin-header">
+    <div className="admin-title-container">
+      <h1>{title}</h1>
+      {title !== "Rezervacije" && (
+        <button id="add-button" onClick={() => onEdit(null)}>
+          <i className="fas fa-plus"></i> Dodaj novi red
+        </button>
+      )}
+    </div>
+
+    <div className="admin-controls">
+      <form className="search-form" onSubmit={handleSubmitSearch}>
+        <div className="search-wrapper">
+          <i className="fas fa-search"></i>
+          <input 
+            className="search-input" 
+            type="text" 
+            placeholder="Pretraži..." 
+          />
+          <button className="search-button" type="submit">Pretraži</button>
         </div>
+      </form>
 
-        <form className="search-form" onSubmit={handleSubmitSearch}>
-          <input className="search-input" type="text" placeholder="Pretraga" />
-          <button className="search-button">Pretraži</button>
-        </form>
-
+      <div className="filter-section">
         <div className="results-count">
-          <p>Ukupno pronađeno: {filteredData.length}</p>
+          <span>Rezultati: </span>
+          <strong>{filteredData.length}</strong>
         </div>
-        {title === "Vozila" && (
+
+        {(title === "Vozila" || title === "Rezervacije") && (
           <div className="filter-buttons">
+            {title === "Vozila" ? (
+              <>
+                <button
+                  className="filter-button"
+                  onClick={() => setFilteredData(filterVehiclesAvailability(data, "Dostupno"))}
+                >
+                  <i className="fas fa-check-circle"></i> Dostupna
+                </button>
+                <button
+                  className="filter-button"
+                  onClick={() => setFilteredData(filterVehiclesAvailability(data, "Zauzeto"))}
+                >
+                  <i className="fas fa-times-circle"></i> Zauzeta
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="filter-button"
+                  onClick={() => setFilteredData(filterReservationsAvailability(data, "Aktivna"))}
+                >
+                  <i className="fas fa-hourglass-half"></i> Aktivne
+                </button>
+                <button
+                  className="filter-button"
+                  onClick={() => setFilteredData(filterReservationsAvailability(data, "Otkazana"))}
+                >
+                  <i className="fas fa-ban"></i> Otkazane
+                </button>
+              </>
+            )}
             <button
-              className="filter-button"
-              onClick={() =>
-                setFilteredData(filterVehiclesAvailability(data, "Dostupno"))
-              }
+              className="filter-button active"
+              onClick={() => setFilteredData(title === "Vozila" ? 
+                filterVehiclesAvailability(data, "Sve") : 
+                filterReservationsAvailability(data, "Sve"))}
             >
-              Prikaži samo dostupna vozila
-            </button>
-            <button
-              className="filter-button"
-              onClick={() =>
-                setFilteredData(filterVehiclesAvailability(data, "Zauzeto"))
-              }
-            >
-              Prikaži samo zauzeta vozila
-            </button>
-            <button
-              className="filter-button"
-              onClick={() =>
-                setFilteredData(filterVehiclesAvailability(data, "Sve"))
-              }
-            >
-              Prikaži sva vozila
+              <i className="fas fa-list"></i> Sve
             </button>
           </div>
         )}
+      </div>
+    </div>
+  </div>
 
-        {title === "Rezervacije" && (
-          <>
-            <div className="filter-buttons">
-              <button
-                className="filter-button"
-                onClick={() =>
-                  setFilteredData(filterReservationsAvailability(data, "Aktivna"))
-                }
-              >
-                Prikaži samo aktivne rezervacije
-              </button>
-              <button
-                className="filter-button"
-                onClick={() =>
-                  setFilteredData(
-                    filterReservationsAvailability(data, "Otkazana")
-                  )
-                }
-              >
-                Prikaži samo otkazane rezervacije
-              </button>
-              <button
-                className="filter-button"
-                onClick={() =>
-                  setFilteredData(filterReservationsAvailability(data, "Sve"))
-                }
-              >
-                Prikaži sve rezervacije
-              </button>
-            </div>
-          </>
-        )}
-        {filteredData && filteredData.length > 0 ? (
-          filteredData.map((item) => (
-            <div key={item.id} className="table-row">
-              <div className="table-info">
-                {Object.entries(item)
-                  .filter(([key]) => basicFields.includes(key))
-                  .map(([key, value], index) => (
-                    <div key={index} className="vertical-table-row">
-                      <strong>{getTranslation(key)}:</strong>
-                      <span>
-                        {value} {key === "reservationAmount" && "RSD"}
-                      </span>
-                    </div>
-                  ))}
-                <button onClick={() => handleShowDetails(item)}>Detalji</button>
-              </div>
-
-              {item.picture&& (
-                <div className="table-image-container">
-                  <img
-                    src={item.picture }
-                    alt="Table Image"
-                    className="table-image"
-                  />
+  <div className="admin-content">
+    {filteredData && filteredData.length > 0 ? (
+      <div className="table-container">
+        {filteredData.map((item) => (
+          <div key={item.id} className="table-card">
+            <div className="card-main">
+              {item.picture && (
+                <div className="card-image">
+                  <img src={item.picture} alt="Item" />
                 </div>
               )}
+              
+              <div className="card-details">
+                <div className="detail-grid">
+                  {Object.entries(item)
+                    .filter(([key]) => basicFields.includes(key))
+                    .map(([key, value], index) => (
+                      <div key={index} className="detail-item">
+                        <label>{getTranslation(key)}:</label>
+                        <span>
+                          {value} {key === "reservationAmount" && "RSD"}
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
 
-              <div className="edit-buttons">
+            <div className="card-actions">
+              <button 
+                className="action-button details"
+                onClick={() => handleShowDetails(item)}
+              >
+                <i className="fas fa-info-circle"></i> Detalji
+              </button>
+              
+              <div className="action-buttons">
                 {title !== "Korisnici" && title !== "Rezervacije" && (
-                  <button onClick={() => onEdit(item)}>Izmeni</button>
+                  <button 
+                    className="action-button edit"
+                    onClick={() => onEdit(item)}
+                  >
+                    <i className="fas fa-edit"></i> Izmeni
+                  </button>
                 )}
+                
                 {title === "Rezervacije" &&
                   item.reservationStatus !== "Otkazana" &&
                   item.reservationStatus !== "Istekla" && (
-                    <button onClick={() => onCancel(item.id)}>Otkaži</button>
+                    <button 
+                      className="action-button cancel"
+                      onClick={() => onCancel(item.id)}
+                    >
+                      <i className="fas fa-times"></i> Otkaži
+                    </button>
                   )}
-                  <button onClick={() => onDelete(item.id)}>Obriši</button>
+                
+                <button 
+                  className="action-button delete"
+                  onClick={() => onDelete(item.id)}
+                >
+                  <i className="fas fa-trash-alt"></i> Obriši
+                </button>
               </div>
             </div>
-          ))
-        ) : (
-          <p>Nema podataka</p>
-        )}
-      </>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div className="no-results">
+        <i className="fas fa-database"></i>
+        <p>Nema pronađenih podataka</p>
+      </div>
+    )}
+  </div>
+</>
     );
   }
 

@@ -83,7 +83,7 @@ export default function Navbar() {
           </li>
         </ul>
 
-        <div className="navbar-btn-group">
+        <div className={`navbar-btn-group`}>
           {!ctx.isLoggedIn && (
             <>
               <button id="btn-login" onClick={() => handleNavigate("/auth/?mode=Login")}>

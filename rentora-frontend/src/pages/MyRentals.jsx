@@ -67,7 +67,7 @@ export default function MyRentals() {
     <>
       <div className="profile-control">
         <p>Profil:{email}</p>
-        <button onClick={() => navigate("/change-password")}>
+        <button className="change-password-button" onClick={() => navigate("/change-password")}>
           Promeni lozinku
         </button>
       </div>

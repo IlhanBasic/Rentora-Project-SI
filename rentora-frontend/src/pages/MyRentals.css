@@ -19,6 +19,9 @@
   margin: 10px;
   animation: rentalAnime 1s ease-in-out;
 }
+.profile-control button {
+  background-color: #27548A !important;
+}
 @keyframes rentalAnime {
   0% {
     opacity: 0;

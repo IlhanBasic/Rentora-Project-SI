@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity.Data;
 
 namespace RentoraAPI.Controllers
 {
@@ -466,6 +467,6 @@ namespace RentoraAPI.Controllers
 			}
 			return BadRequest(new { Message = "Uneta email adresa ne postoji." });
 		}
-
+		
 	}
 }

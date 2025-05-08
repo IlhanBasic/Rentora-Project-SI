@@ -285,6 +285,33 @@ namespace RentoraAPI.Migrations
                     b.ToTable("Location");
                 });
 
+            modelBuilder.Entity("RentoraAPI.Models.PasswordResetPIN", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PIN")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PasswordResetPIN");
+                });
+
             modelBuilder.Entity("RentoraAPI.Models.Vehicle", b =>
                 {
                     b.Property<Guid>("Id")

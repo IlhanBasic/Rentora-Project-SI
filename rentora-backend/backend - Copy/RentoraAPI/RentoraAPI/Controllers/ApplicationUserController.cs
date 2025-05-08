@@ -1,23 +1,207 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using RentoraAPI.Models.DTO;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using RentoraAPI.Data;
+using RentoraAPI.Models;
+using RentoraAPI.Models.DTO;
 
 namespace RentoraAPI.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class ApplicationUserController : ControllerBase
 	{
 		private readonly UserManager<ApplicationUser> userManager;
-
-		public ApplicationUserController(UserManager<ApplicationUser> userManager)
+		private readonly RentoraDBContext context;
+		private readonly Respositories.IEmailSender emailSender;
+		public ApplicationUserController(UserManager<ApplicationUser> userManager, RentoraDBContext _context, Respositories.IEmailSender emailSender)
 		{
 			this.userManager = userManager;
+			this.context = _context;
+			this.emailSender = emailSender;
+		}
+		[HttpPost("forgot-password")]
+		public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest model)
+		{
+			var user = await userManager.FindByEmailAsync(model.Email);
+			if (user == null)
+			{
+				return BadRequest(new { Message = "Korisnik ne postoji u bazi !" });
+			}
+
+			var token = new Random().Next(100000, 999999).ToString();
+			var resetToken = new PasswordResetPIN
+			{
+				Email = model.Email,
+				PIN = token,
+				CreatedAt = DateTime.UtcNow,
+				IsUsed = false
+			};
+			context.PasswordResetPIN.Add(resetToken);
+			await context.SaveChangesAsync();
+
+			// Pošalji email
+			emailSender.SendEmailAsync(model.Email, "Restartovanje lozinke", $@"
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Verifikacija Profila</title>
+    <style>
+        body {{
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }}
+        .email-container {{
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }}
+        .header {{
+            text-align: center;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            padding: 25px 20px;
+        }}
+        .header h1 {{
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+        }}
+        .content {{
+            padding: 30px;
+            color: #2c3e50;
+        }}
+        .greeting {{
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }}
+        .button {{
+            display: inline-block;
+            width: auto;
+            min-width: 200px;
+            margin: 25px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(33, 150, 243, 0.2);
+        }}
+        .button:hover {{
+            background: linear-gradient(135deg, #1976D2, #1565C0);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px rgba(33, 150, 243, 0.3);
+        }}
+        .message {{
+            background-color: #f8f9fa;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }}
+        .footer {{
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }}
+        .signature {{
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }}
+        @media (max-width: 600px) {{
+            body {{
+                padding: 10px;
+            }}
+            .content {{
+                padding: 20px;
+            }}
+            .button {{
+                width: 100%;
+                box-sizing: border-box;
+            }}
+        }}
+    </style>
+</head>
+<body>
+    <div class='email-container'>
+        <div class='header'>
+            <h1>Restartovanje zaboravljene lozinke</h1>
+        </div>
+        <div class='content'>
+            <div class='greeting'>
+                Poštovani,
+            </div>
+            <div class='message'>
+                Vaš pin za promenu lozinke je {token}
+            </div>
+            <p>Ako niste vi kreirali ovaj nalog, možete ignorisati ovu poruku.</p>
+            <div class='signature'>
+                <p>Srdačan pozdrav,</p>
+                <p><strong>Rentora tim za podršku</strong></p>
+            </div>
+        </div>
+        <div class='footer'>
+            &copy; {DateTime.Now.Year} Rentora | Sva prava zadržana
+        </div>
+    </div>
+</body>
+</html>");
+
+			return Ok();
+		}
+		[HttpPost("reset-password")]
+		public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto model)
+		{
+			var resetToken = await context.PasswordResetPIN
+				.FirstOrDefaultAsync(t =>
+					t.Email == model.Email &&
+					t.PIN == model.PIN &&
+					!t.IsUsed &&
+					t.CreatedAt > DateTime.UtcNow.AddMinutes(-15));
+
+			if (resetToken == null)
+			{
+				return BadRequest(new { Message = "Pogrešan ili istekao PIN." });
+			}
+
+			var user = await userManager.FindByEmailAsync(model.Email);
+			if (user == null)
+			{
+				return BadRequest( new { Message = "Korisnik nije pronađen." });
+			}
+
+			// Resetuj lozinku
+			var token = await userManager.GeneratePasswordResetTokenAsync(user);
+			var result = await userManager.ResetPasswordAsync(user, token, model.NewPassword);
+
+			if (!result.Succeeded)
+			{
+				return BadRequest(result.Errors);
+			}
+
+			// Oznaci token kao iskorišćen
+			resetToken.IsUsed = true;
+			await context.SaveChangesAsync();
+
+			return Ok();
 		}
 		[HttpPatch]
 		[Route("{id}/ChangePassword")]

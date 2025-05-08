@@ -63,5 +63,6 @@ namespace RentoraAPI.Data
 		public DbSet<Vehicle> Vehicle { get; set; } = default!;
 		public DbSet<Location> Location { get; set; } = default!;
 		public DbSet<Reservation> Reservation { get; set; } = default!;
+		public DbSet<PasswordResetPIN> PasswordResetPIN { get; set; } = default!;
 	}
 }

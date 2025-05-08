@@ -12,14 +12,13 @@ import { v4 } from "uuid";
 import { image } from "framer-motion/client";
 import ChooseLocation from "../components/ChooseLocation.jsx";
 export default function AdminItemDetails() {
-  
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
     modalTitle: "",
     modalText: "",
   });
   const [successfullChange, setSuccessfullChange] = useState(false);
-  const { token, isAdmin,isLoading } = useContext(AuthContext);
+  const { token, isAdmin, isLoading } = useContext(AuthContext);
   const { section, id } = useParams();
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
@@ -34,8 +33,7 @@ export default function AdminItemDetails() {
     if (isLoading) return;
     if (!token) {
       navigate("/auth?mode=Login");
-    }
-    else if (!isAdmin) {
+    } else if (!isAdmin) {
       navigate("/unauthorized");
     }
   }, [token, isAdmin, isLoading, navigate]);
@@ -351,8 +349,8 @@ export default function AdminItemDetails() {
         "Molimo unesite validan broj mobilnog telefona (koji pružaju mobilni operateri republike srbije)"
       );
     }
-    if (!item.roles || !["Admin", "User"].includes(item.roles)) {
-      throw new Error("Molimo unesite validnu ulogu (Admin ili User)");
+    if (!item.roles || !["Admin", "User"].includes(item.roles[0])) {
+      throw new Error("Molimo odaberite ulogu (Admin ili User)");
     }
   };
   const handleChange = (e) => {
@@ -360,11 +358,15 @@ export default function AdminItemDetails() {
     setItem((prevItem) => ({
       ...prevItem,
       [name]:
-        name === "numOfDoors" ||
-        name === "pricePerDay" ||
-        name === "yearOfManufacture" ||
-        name === "latitude" ||
-        name === "longitude"
+        name === "roles"
+          ? [value]
+          : [
+              "numOfDoors",
+              "pricePerDay",
+              "yearOfManufacture",
+              "latitude",
+              "longitude",
+            ].includes(name)
           ? parseFloat(value)
           : value,
     }));
@@ -464,7 +466,7 @@ export default function AdminItemDetails() {
           const uploadResult = await uploadBytes(imgRef, img);
           const imageUrl = await getDownloadURL(uploadResult.ref);
           item.picture = imageUrl;
-        } 
+        }
       }
 
       if (section === "locations") {
@@ -643,7 +645,7 @@ export default function AdminItemDetails() {
                   ) : key === "roles" ? (
                     <select
                       name={key}
-                      value={item[key] || ["Admin"]}
+                      value={item[key]?.[0] || "User"}
                       onChange={handleChange}
                       required
                       className="admin-form-input"
@@ -653,26 +655,32 @@ export default function AdminItemDetails() {
                     </select>
                   ) : key === "picture" ? (
                     <>
-                    <label htmlFor={key} className="custom-file-upload">
-                      Odaberite fajl
-                    </label>
-                    <input
-                      type="file"
-                      name={key}
-                      id={key}
-                      onChange={(e) => handleFileSelect(e, key)}
-                      className="file-input"
-                    />
-                    <span id={`file-name-${key}`} className="file-name">
-                      {item?.picture ? "Trenutna slika je učitana" : "Nije izabran fajl"}
-                    </span>
-                    {item?.picture && (
-                      <div className="image-preview">
-                        <p>Trenutna slika:</p>
-                        <img src={item.picture} alt="Trenutna slika vozila" style={{ maxWidth: "200px", height: "auto" }} />
-                      </div>
-                    )}
-                  </>
+                      <label htmlFor={key} className="custom-file-upload">
+                        Odaberite fajl
+                      </label>
+                      <input
+                        type="file"
+                        name={key}
+                        id={key}
+                        onChange={(e) => handleFileSelect(e, key)}
+                        className="file-input"
+                      />
+                      <span id={`file-name-${key}`} className="file-name">
+                        {item?.picture
+                          ? "Trenutna slika je učitana"
+                          : "Nije izabran fajl"}
+                      </span>
+                      {item?.picture && (
+                        <div className="image-preview">
+                          <p>Trenutna slika:</p>
+                          <img
+                            src={item.picture}
+                            alt="Trenutna slika vozila"
+                            style={{ maxWidth: "200px", height: "auto" }}
+                          />
+                        </div>
+                      )}
+                    </>
                   ) : (
                     <input
                       type={

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RentoraNUnitTesting")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fecf86ca4a34903d73a0452dfff65536aeec45bb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb77735b958cfe13d8490376e6c7c517f9e3c49e")]
 [assembly: System.Reflection.AssemblyProductAttribute("RentoraNUnitTesting")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RentoraNUnitTesting")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -63,7 +63,7 @@ namespace RentoraNUnitTesting
 		{
 			RentFormHomePage rentForm = new RentFormHomePage(_driver);
 			System.Threading.Thread.Sleep(2000);
-			rentForm.SubmitForm("3fa85f64-5717-4562-b3fc-2c963f66afa6", "8d6a745d-62b5-4503-9b74-c1a72d0423a1", "2/5/2025", "2/5/2025", "13:00", "13:00");
+			rentForm.SubmitForm("3fa85f64-5717-4562-b3fc-2c963f66afa6", "8d6a745d-62b5-4503-9b74-c1a72d0423a1", "5/5/2025", "6/5/2025", "13:00", "13:00");
 			System.Threading.Thread.Sleep(1000);
 		}
 		[Test]
@@ -76,7 +76,7 @@ namespace RentoraNUnitTesting
 			ChooseCarPage chooseCar = new ChooseCarPage(_driver);
 			chooseCar.GoToVehicles();
 			System.Threading.Thread.Sleep(1000);
-			chooseCar.ChooseCar("3fa85f64-5717-4562-b3fc-2c963f66afa6", "BMW","Limuzina");
+			chooseCar.ChooseCar("4ba15f74-9825-4121-b9f5-8d5fae8d13be", "Mercedes","Limuzina");
 			System.Threading.Thread.Sleep(1000);
 		}
 		[Test]
@@ -88,7 +88,7 @@ namespace RentoraNUnitTesting
 			System.Threading.Thread.Sleep(3000); ChooseCarPage chooseCar = new ChooseCarPage(_driver);
 			chooseCar.GoToVehicles();
 			System.Threading.Thread.Sleep(1000);
-			chooseCar.ChooseCar("4ba15f74-9825-4121-b9f5-8d5fae8d13be", "BMW", "Limuzina");
+			chooseCar.ChooseCar("4ba15f74-9825-4121-b9f5-8d5fae8d13be", "Mercedes", "Limuzina");
 			System.Threading.Thread.Sleep(3000);
 			CreatingReservationPage creatingReservationPage = new CreatingReservationPage(_driver);
 			creatingReservationPage.CreateReservationByCreditCard("jedno","premium","4242424242424242","3333","3333","12/27");
@@ -100,18 +100,6 @@ namespace RentoraNUnitTesting
 			RegisterPage registerPage = new RegisterPage(_driver);
 			registerPage.GoToRegister();
 			registerPage.Register("Adnan", "Jusovic", "0631245670", "adojusovic@gmail.com", "Admin12345@");
-			System.Threading.Thread.Sleep(1000);
-		}
-		[Test]
-		public void TestCreateLocationPage()
-		{
-			LoginPage login = new LoginPage(_driver);
-			login.GoToLoginPage();
-			login.Login("ilhanbasic456@gmail.com", "Admin12345@");
-			System.Threading.Thread.Sleep(2000);
-			CreateLocationPage createLocationPage = new CreateLocationPage(_driver);
-			createLocationPage.GoToAdminDashboard();
-			createLocationPage.CreateLocation("Ivo Lola Ribar", "27", "Prijepolje", "Srbija", "admin@gmail.com", "0644344055");
 			System.Threading.Thread.Sleep(1000);
 		}
 		[Test]

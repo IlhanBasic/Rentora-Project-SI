@@ -3,8 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\AllTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:RentoraNUnitTesting\\AllTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\alltests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\alltests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\pages\\deletereservationpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\pages\\deletereservationpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\pages\\changepasswordpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\pages\\changepasswordpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\pages\\registerpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\pages\\registerpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\pages\\creatingreservationpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\pages\\creatingreservationpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\pages\\choosecarpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\pages\\choosecarpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\pages\\rentformhomepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\pages\\rentformhomepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\pages\\loginpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\pages\\loginpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\seleniumcustommethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\seleniumcustommethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\models\\changepasswordmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\models\\changepasswordmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|c:\\users\\pc\\documents\\rentora\\rentora-projekat\\rentoranunittesting\\rentoranunittesting\\models\\loginmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86DD3241-7C5F-4EAE-BF01-87FB913E8F7D}|RentoraNUnitTesting\\RentoraNUnitTesting.csproj|solutionrelative:rentoranunittesting\\models\\loginmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,11 +54,67 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DeleteReservationPage.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\DeleteReservationPage.cs",
+              "RelativeDocumentMoniker": "RentoraNUnitTesting\\Pages\\DeleteReservationPage.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\DeleteReservationPage.cs",
+              "RelativeToolTip": "RentoraNUnitTesting\\Pages\\DeleteReservationPage.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAowB4AAABbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T12:50:37.253Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RegisterPage.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\RegisterPage.cs",
+              "RelativeDocumentMoniker": "RentoraNUnitTesting\\Pages\\RegisterPage.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\RegisterPage.cs",
+              "RelativeToolTip": "RentoraNUnitTesting\\Pages\\RegisterPage.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAwwBwAAABXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T12:32:52.316Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CreatingReservationPage.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\CreatingReservationPage.cs",
+              "RelativeDocumentMoniker": "RentoraNUnitTesting\\Pages\\CreatingReservationPage.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\CreatingReservationPage.cs",
+              "RelativeToolTip": "RentoraNUnitTesting\\Pages\\CreatingReservationPage.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAwwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T12:28:40.974Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ChooseCarPage.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\ChooseCarPage.cs",
+              "RelativeDocumentMoniker": "RentoraNUnitTesting\\Pages\\ChooseCarPage.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\ChooseCarPage.cs",
+              "RelativeToolTip": "RentoraNUnitTesting\\Pages\\ChooseCarPage.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABkAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T12:24:36.702Z"
             },
             {
               "$type": "Document",
@@ -28,18 +124,82 @@
               "RelativeDocumentMoniker": "RentoraNUnitTesting\\AllTests.cs",
               "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\AllTests.cs",
               "RelativeToolTip": "RentoraNUnitTesting\\AllTests.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAfAAAA",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAACQAAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-31T20:15:28.112Z",
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ChangePasswordPage.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\ChangePasswordPage.cs",
+              "RelativeDocumentMoniker": "RentoraNUnitTesting\\Pages\\ChangePasswordPage.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\ChangePasswordPage.cs",
+              "RelativeToolTip": "RentoraNUnitTesting\\Pages\\ChangePasswordPage.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAwCsAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T12:17:47.122Z"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RentFormHomePage.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\RentFormHomePage.cs",
+              "RelativeDocumentMoniker": "RentoraNUnitTesting\\Pages\\RentFormHomePage.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\RentFormHomePage.cs",
+              "RelativeToolTip": "RentoraNUnitTesting\\Pages\\RentFormHomePage.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAACIAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T12:22:06.226Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ChangePasswordModel.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Models\\ChangePasswordModel.cs",
+              "RelativeDocumentMoniker": "RentoraNUnitTesting\\Models\\ChangePasswordModel.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Models\\ChangePasswordModel.cs",
+              "RelativeToolTip": "RentoraNUnitTesting\\Models\\ChangePasswordModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T12:10:26.204Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LoginPage.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\LoginPage.cs",
+              "RelativeDocumentMoniker": "RentoraNUnitTesting\\Pages\\LoginPage.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Pages\\LoginPage.cs",
+              "RelativeToolTip": "RentoraNUnitTesting\\Pages\\LoginPage.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAQwCEAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T12:06:47.401Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LoginModel.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Models\\LoginModel.cs",
+              "RelativeDocumentMoniker": "RentoraNUnitTesting\\Models\\LoginModel.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\Models\\LoginModel.cs",
+              "RelativeToolTip": "RentoraNUnitTesting\\Models\\LoginModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T12:06:44.049Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SeleniumCustomMethods.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\SeleniumCustomMethods.cs",
+              "RelativeDocumentMoniker": "RentoraNUnitTesting\\SeleniumCustomMethods.cs",
+              "ToolTip": "C:\\Users\\PC\\Documents\\Rentora\\Rentora-projekat\\RentoraNUnitTesting\\RentoraNUnitTesting\\SeleniumCustomMethods.cs",
+              "RelativeToolTip": "RentoraNUnitTesting\\SeleniumCustomMethods.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABAAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T12:06:29.372Z"
             }
           ]
         }

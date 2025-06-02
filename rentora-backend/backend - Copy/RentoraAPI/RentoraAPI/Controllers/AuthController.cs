@@ -427,7 +427,7 @@ namespace RentoraAPI.Controllers
             <div class='icon'>{(status == "success" ? "✔" : "✖")}</div>
             <div class='message'>{message}</div>
             <div class='footer'>
-                <p>Vratite se na <a href='https://rentora-project-si.onrender.com/auth?mode=Login'>početnu stranicu</a>.</p>
+                <p>Vratite se na <a href='https://rentora-project-si.onrender.com/login'>početnu stranicu</a>.</p>
             </div>
         </div>
     </body>

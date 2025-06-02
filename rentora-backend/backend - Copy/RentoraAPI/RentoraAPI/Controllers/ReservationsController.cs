@@ -8,6 +8,7 @@ using RentoraAPI.Models.DTO;
 using RentoraAPI.Services;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 namespace RentoraAPI.Controllers
 {
@@ -276,13 +277,201 @@ namespace RentoraAPI.Controllers
 			{
 				return BadRequest("Neispravni podaci u zahtevu.");
 			}
+			var admins = from ur in _context.UserRoles
+						 join r in _context.Roles on ur.RoleId equals r.Id
+						 join u in _context.Users on ur.UserId equals u.Id
+						 where r.Name == "Admin"
+						 select new
+						 {
+							 UserId = u.Id,
+                             FirstName = u.FirstName,
+                             LastName = u.LastName,
+							 Email = u.Email
+						 };
 
-			var reservation = await _context.Reservation.FindAsync(id);
+			var adminList = admins.ToList();
+
+			var reservation = await _context.Reservation
+				.Include(r => r.User)
+                .Include(r=>r.Vehicle)
+                .Include(r=>r.StartLocation)
+                .Include(r=>r.EndLocation)
+				.FirstOrDefaultAsync(r => r.Id == id);
 			if (reservation == null)
 			{
 				return NotFound("Rezervacija sa zadatim ID-jem nije pronađena.");
 			}
-
+			if(reservationPatchDto.ReservationStatus == "Otkazana")
+			{
+				try
+				{
+					await _emailSender.SendEmailAsync(reservation.User.Email, "Otkazivanje rezervacije vozila",
+						$@"
+<!DOCTYPE html>
+<html lang='sr'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Potvrda rezervacije</title>
+    <style>
+        body {{
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }}
+        .email-container {{
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }}
+        .header {{
+            text-align: center;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            padding: 25px 20px;
+        }}
+        .header h1 {{
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+        }}
+        .content {{
+            padding: 30px;
+            color: #2c3e50;
+        }}
+        .message {{
+            background-color: #f8f9fa;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }}
+        .footer {{
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }}
+    </style>
+</head>
+<body>
+    <div class='email-container'>
+        <div class='header'>
+            <h1>Otkazivanje rezervacije</h1>
+        </div>
+        <div class='content'>
+            <p>Poštovani {reservation.User.FirstName} {reservation.User.LastName},</p>
+            <div class='message'>
+                Vaša rezervacija vozila je otkazana.
+            </div>
+            <p>Ukoliko niste vi otkazali moguće da su to učinili Administratori na Vaš zahtev.</p>
+			<p>Hvala što koristite Rentora uslugu!</p>
+        </div>
+        <div class='footer'>
+            &copy; {DateTime.Now.Year} Rentora | Sva prava zadržana
+        </div>
+    </div>
+</body>
+</html>");
+					foreach(var a in adminList)
+					{
+						await _emailSender.SendEmailAsync(a.Email, "Otkazivanje rezervacije vozila",
+						$@"
+<!DOCTYPE html>
+<html lang='sr'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Potvrda rezervacije</title>
+    <style>
+        body {{
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }}
+        .email-container {{
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }}
+        .header {{
+            text-align: center;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            padding: 25px 20px;
+        }}
+        .header h1 {{
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+        }}
+        .content {{
+            padding: 30px;
+            color: #2c3e50;
+        }}
+        .message {{
+            background-color: #f8f9fa;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }}
+        .footer {{
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }}
+    </style>
+</head>
+<body>
+    <div class='email-container'>
+        <div class='header'>
+            <h1>Otkazivanje rezervacije - {reservation.User.Email}</h1>
+        </div>
+        <div class='content'>
+            <p>Poštovani {a.FirstName} {a.LastName},</p>
+            <div class='message'>
+               Korisnik {reservation.User.Email} je otkazao rezervaciju.
+            </div>
+            <p>Proverite Dashboard.</p>
+            <p>
+            Detalji rezervacije:<br>
+                - Id: {reservation.Id}<br>
+                - Vozilo: {reservation.Vehicle.Brand} {reservation.Vehicle.Model}<br>
+                - Datum preuzimanja: {reservation.StartDateTime:dd.MM.yyyy HH:mm}<br>
+                - Datum vraćanja: {reservation.EndDateTime:dd.MM.yyyy HH:mm}<br>
+                - Lokacija preuzimanja: {reservation.StartLocation.Street} {reservation.StartLocation.StreetNumber}, {reservation.StartLocation.City}<br>
+                - Lokacija vraćanja: {reservation.EndLocation.Street} {reservation.EndLocation.StreetNumber}, {reservation.EndLocation.City}
+            </p>
+        </div>
+        <div class='footer'>
+            &copy; {DateTime.Now.Year} Rentora | Sva prava zadržana
+        </div>
+    </div>
+</body>
+</html>");
+					}
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.ToString());
+				}
+			}
 			reservation.ReservationStatus = reservationPatchDto.ReservationStatus;
 			var vehicle = await _context.Vehicle.FindAsync(reservation.VehicleId);
 			if (vehicle != null)
@@ -301,10 +490,95 @@ namespace RentoraAPI.Controllers
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeleteReservation(Guid id)
 		{
-			var reservation = await _context.Reservation.FindAsync(id);
+			var reservation = await _context.Reservation
+				.Include(r => r.User)
+				.FirstOrDefaultAsync(r => r.Id == id);
+
 			if (reservation == null)
 			{
 				return NotFound("Rezervacija sa zadatim ID-jem nije pronađena.");
+			}
+
+			try
+			{
+				await _emailSender.SendEmailAsync(reservation.User.Email, "Brisanje rezervacije vozila",
+					$@"
+<!DOCTYPE html>
+<html lang='sr'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Potvrda rezervacije</title>
+    <style>
+        body {{
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }}
+        .email-container {{
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }}
+        .header {{
+            text-align: center;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            padding: 25px 20px;
+        }}
+        .header h1 {{
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+        }}
+        .content {{
+            padding: 30px;
+            color: #2c3e50;
+        }}
+        .message {{
+            background-color: #f8f9fa;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }}
+        .footer {{
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }}
+    </style>
+</head>
+<body>
+    <div class='email-container'>
+        <div class='header'>
+            <h1>Brisanje rezervacije</h1>
+        </div>
+        <div class='content'>
+            <p>Poštovani {reservation.User.FirstName} {reservation.User.LastName},</p>
+            <div class='message'>
+                Vaša rezervacija vozila je obrisana od strane Administratora
+            </div>
+            <p>Hvala što koristite Rentora uslugu!</p>
+        </div>
+        <div class='footer'>
+            &copy; {DateTime.Now.Year} Rentora | Sva prava zadržana
+        </div>
+    </div>
+</body>
+</html>");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
 			}
 
 			_context.Reservation.Remove(reservation);
@@ -317,6 +591,7 @@ namespace RentoraAPI.Controllers
 			await _context.SaveChangesAsync();
 			return NoContent();
 		}
+
 
 		private bool ReservationExists(Guid id)
 		{

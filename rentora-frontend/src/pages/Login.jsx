@@ -40,13 +40,14 @@ export default function Login() {
     authenticate({ username: data.Email, password: data.PasswordHash });
   }
   async function handleResetPassword(){
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if(userEmail.current.value === "" || !emailRegex.test(userEmail.current.value)){
-      setErrorMessages({Email: "Unesite ispravan email pre resetovanja lozinke"}); 
-    }
-    else{
-      await sendResetPasswordEmail(userEmail.current.value);
-    }
+    // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    // if(userEmail.current.value === "" || !emailRegex.test(userEmail.current.value)){
+    //   setErrorMessages({Email: "Unesite ispravan email pre resetovanja lozinke"}); 
+    // }
+    // else{
+    //   await sendResetPasswordEmail(userEmail.current.value);
+    // }
+    navigate(`/reset-password`); 
   }
   async function sendResetPasswordEmail(email) {
     setIsLoading(true);

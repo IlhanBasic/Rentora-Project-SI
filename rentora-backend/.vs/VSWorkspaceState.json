@@ -7,8 +7,9 @@
     "\\backend - Copy\\RentoraAPI\\RentoraAPI\\Controllers",
     "\\backend - Copy\\RentoraAPI\\RentoraAPI\\GraphQL",
     "\\backend - Copy\\RentoraAPI\\RentoraAPI\\GraphQL\\Schema",
-    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\GraphQL\\Schema\\Queries"
+    "\\backend - Copy\\RentoraAPI\\RentoraAPI\\GraphQL\\Schema\\Queries",
+    "\\backend - Copy\\RentoraAPI\\RentoraXUnitTest"
   ],
-  "SelectedNode": "\\backend - Copy\\RentoraAPI\\RentoraAPI\\Controllers\\ApplicationUserController.cs",
+  "SelectedNode": "\\backend - Copy\\RentoraAPI\\RentoraXUnitTest\\UnitTest1.cs",
   "PreviewInSolutionExplorer": false
 }

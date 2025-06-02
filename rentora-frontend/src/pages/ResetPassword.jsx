@@ -5,10 +5,9 @@ import { AuthContext } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../API_URL.js";
 import Modal from "../components/Modal.jsx";
-// import "./ChangePassword.css";
-import { EmailContext } from "../context/EmailContext.jsx";
 export default function ResetPassword() {
-  const {email} = useContext(EmailContext);
+  const [emailSent, setEmailSent] = useState(false);
+  const [email, setEmail] = useState("");
   const [modalInfo, setModalInfo] = useState({
     isOpen: false,
     modalTitle: "",
@@ -68,10 +67,9 @@ export default function ResetPassword() {
     async function getPassword() {
       const changePasswordData = {
         email: email,
-        pin:data["pin"],
+        pin: data["pin"],
         newPassword: data["newPassword"],
       };
-      console.log(changePasswordData);
       setIsLoading(true);
       try {
         const response = await fetch(
@@ -121,7 +119,53 @@ export default function ResetPassword() {
     }
     getPassword();
   }
+  async function emailSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    if (!data) {
+      setModalInfo({
+        isOpen: true,
+        modalTitle: "Greška",
+        modalText: "Izgleda da forma nije ispravno popunjena",
+      });
+      return;
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (data["email"] === "" || !emailRegex.test(data["email"])) {
+      setModalInfo({
+        isOpen: true,
+        modalTitle: "Greška",
+        modalText: "Email nije ispravno popunjen!",
+      });
+    } else {
+      setEmailSent(true);
+      await sendResetPasswordEmail(email);
+    }
+  }
+  async function sendResetPasswordEmail(email) {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${API_URL}/ApplicationUser/forgot-password`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
 
+      if (!response.ok) {
+        const error = await response.json();
+        setErrorMessages({ global: "Greška: " + error.message });
+        return;
+      }
+    } catch (e) {
+      setErrorMessages({ global: e.message });
+    } finally {
+      setIsLoading(false);
+    }
+  }
   return (
     <>
       <Modal
@@ -132,7 +176,20 @@ export default function ResetPassword() {
       />
 
       <Header title="Restartovanje lozinke" />
-      {!successChange && (
+      {!emailSent && (
+        <form onSubmit={emailSubmit} className="form-auth" method="post">
+          <input
+            placeholder="Email"
+            type="email"
+            name="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button className="btn-submit">Potvrdi</button>
+        </form>
+      )}
+      {emailSent && !successChange && (
         <div className="center-div">
           <form method="post" className="form-auth" onSubmit={handleSubmit}>
             <InputGroup inputId="pin" inputName="PIN" inputType="text" />
@@ -152,7 +209,7 @@ export default function ResetPassword() {
           </form>
         </div>
       )}
-      {successChange && (
+      {email && successChange && (
         <div>
           <Header title="Uspešna promena lozinke!" />
           <p id="confirmation-text" className="center">
